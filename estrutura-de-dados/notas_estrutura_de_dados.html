@@ -1,0 +1,276 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;}
+.root{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;padding:1.5rem;min-height:100vh;}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.nav button{background:#3c3836;border:1px solid #504945;color:#a89984;font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:monospace;}
+.nav button.active{background:#504945;color:#fabd2f;border-color:#fabd2f;}
+.page{display:none;}
+.page.active{display:block;}
+.mod-title{color:#fabd2f;font-size:17px;font-weight:700;border-bottom:2px solid #fabd2f;padding-bottom:6px;margin-bottom:1rem;letter-spacing:.5px;}
+.unit-title{color:#fe8019;font-size:14px;font-weight:700;margin:1.2rem 0 .6rem;letter-spacing:.3px;}
+.body-text{color:#ebdbb2;font-size:13px;line-height:1.7;margin-bottom:.4rem;}
+.example{background:#32302f;border-left:3px solid #b8bb26;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#ebdbb2;font-size:13px;line-height:1.6;}
+.example .label{color:#b8bb26;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.important{background:#3c2b2b;border-left:3px solid #fb4934;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#fabd2f;font-size:13px;line-height:1.6;}
+.important .label{color:#fb4934;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.ex-block{background:#2d3b3b;border-left:3px solid #8ec07c;border-radius:0 4px 4px 0;padding:10px 14px;margin:.6rem 0;}
+.ex-block .q{color:#8ec07c;font-size:13px;font-weight:700;margin-bottom:4px;}
+.ex-block .ans{color:#fabd2f;font-size:13px;margin-bottom:3px;}
+.ex-block .why{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{border-collapse:collapse;width:100%;font-size:12px;}
+th{background:#3c3836;color:#fabd2f;padding:6px 10px;border:1px solid #504945;text-align:left;}
+td{padding:5px 10px;border:1px solid #504945;color:#ebdbb2;}
+tr:nth-child(even) td{background:#32302f;}
+.badge{display:inline-block;background:#3c3836;border:1px solid #504945;color:#a89984;font-size:11px;padding:2px 8px;border-radius:3px;margin:2px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.6rem 0;}
+.card{background:#32302f;border:1px solid #504945;border-radius:6px;padding:12px;}
+.card .ctitle{color:#fe8019;font-size:12px;font-weight:700;margin-bottom:6px;}
+.card .cbody{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.highlight{color:#fabd2f;font-weight:700;}
+.green{color:#b8bb26;}
+.red{color:#fb4934;}
+.orange{color:#fe8019;}
+.aqua{color:#8ec07c;}
+.section-sep{border:0;border-top:1px solid #504945;margin:1.2rem 0;}
+@media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+</style>
+<div class="root">
+<h2 style="color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem;">📚 Estrutura de Dados — Notas de Aula</h2>
+<div class="nav">
+  <button class="active" onclick="show('hash')">Módulo 1: Hash</button>
+  <button onclick="show('heap')">Módulo 1: Heap</button>
+  <button onclick="show('bst1')">Módulo 2: BST Inserção</button>
+  <button onclick="show('bst2')">Módulo 2: BST Percurso</button>
+  <button onclick="show('avl1')">Módulo 3: AVL Rotações</button>
+  <button onclick="show('avl2')">Módulo 3: AVL Ins/Rem</button>
+  <button onclick="show('apps')">Módulo 4: Aplicações</button>
+  <button onclick="show('cola')">🗒 Cola de Prova</button>
+</div>
+
+<!-- HASH -->
+<div id="hash" class="page active">
+  <div class="mod-title">Módulo 1 — Hash e Heap</div>
+  <div class="unit-title">Unidade 1 · Tabelas de Dispersão (Hash)</div>
+  <p class="body-text">Uma tabela hash transforma uma chave em um índice de vetor usando uma <span class="highlight">função de dispersão</span>. O objetivo é buscar, inserir e remover elementos em tempo médio <span class="green">O(1)</span>, sem percorrer toda a estrutura.</p>
+  <p class="body-text">A função mais comum é <span class="highlight">h(k) = k mod m</span>, onde <em>k</em> é a chave e <em>m</em> é o tamanho da tabela. O resultado é sempre um número entre 0 e m−1.</p>
+  <div class="example"><div class="label">Exemplo</div>h(23) com m=7 → 7×3=21, 23−21=2 → posição <span class="highlight">2</span></div>
+  <div class="example"><div class="label">Exemplo</div>h(58) com m=11 → 11×5=55, 58−55=3 → posição <span class="highlight">3</span></div>
+  <div class="example"><div class="label">Exemplo</div>Dicionário Python (dict) é internamente uma tabela hash: {nome: Ana, idade: 20}. Acesso direto por chave em O(1).</div>
+  <hr class="section-sep">
+  <div class="important"><div class="label">⚠ Importante</div><span class="highlight">Colisão</span> ocorre quando duas chaves diferentes geram o mesmo índice. Ex: h(7)=0 e h(14)=0 com m=7 — ambas vão para posição 0.</div>
+  <div class="important"><div class="label">⚠ Importante</div><span class="highlight">Encadeamento:</span> cada posição vira uma lista ligada. Elementos que colidem ficam na mesma posição: [7→14→21].</div>
+  <div class="important"><div class="label">⚠ Importante</div><span class="highlight">Sondagem linear:</span> quando há colisão, procura a próxima posição livre. Fórmula: h(k,i) = (h(k)+i) mod m, onde i=0,1,2…</div>
+  <div class="important"><div class="label">⚠ Importante</div><span class="highlight">Fator de carga</span> λ = n/m. Ideal manter λ &lt; 0,75 para evitar muitas colisões.</div>
+  <div class="important"><div class="label">⚠ Importante</div>Se a tabela encher com sondagem linear, o algoritmo entra em <span class="highlight">loop infinito</span>. Por isso λ &lt; 0,75 é crítico!</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos — Hash</div>
+  <div class="ex-block"><div class="q">Exercício 1: Com h(k)=k mod 11, em qual posição a chave k=58 é armazenada?</div><div class="ans">→ Posição <span class="highlight">3</span></div><div class="why">11×5=55. 58−55=3. Portanto h(58)=3.</div></div>
+  <div class="ex-block"><div class="q">Exercício 2: Tabela tam 7, posições 0 e 1 ocupadas. Inserindo k=14 com sondagem linear. Onde vai?</div><div class="ans">→ Posição <span class="highlight">2</span></div><div class="why">h(14)=0 (ocup) → i=1: pos 1 (ocup) → i=2: pos 2 (livre!).</div></div>
+  <div class="ex-block"><div class="q">Exercício 3: m=5, posições 0,1,2,4 ocupadas. Inserindo k=10 com sondagem linear. Onde vai?</div><div class="ans">→ Posição <span class="highlight">3</span></div><div class="why">h(10)=0 (ocup) → 1 (ocup) → 2 (ocup) → 3 (livre!).</div></div>
+  <div class="ex-block"><div class="q">Exercício 4: Com m=7, as chaves 7, 14 e 21 colidem. Como o encadeamento resolve?</div><div class="ans">→ Todas vão para posição <span class="highlight">0</span>. Lista [7→14→21].</div><div class="why">7 mod 7=0, 14 mod 7=0, 21 mod 7=0. Todos múltiplos de 7 têm resto 0.</div></div>
+</div>
+
+<!-- HEAP -->
+<div id="heap" class="page">
+  <div class="mod-title">Módulo 1 — Hash e Heap</div>
+  <div class="unit-title">Unidade 2 · Lista de Prioridades (Heap)</div>
+  <p class="body-text">Um heap é uma árvore binária <span class="highlight">quase completa</span> (todos os níveis cheios exceto o último, preenchido da esquerda para a direita). É armazenado como vetor — não precisa de ponteiros.</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Max-Heap</div><div class="cbody">Todo pai é <span class="highlight">maior ou igual</span> aos filhos. O maior elemento <span class="green">sempre</span> fica na raiz — disponível em O(1).</div></div>
+    <div class="card"><div class="ctitle">Min-Heap</div><div class="cbody">Todo pai é <span class="highlight">menor ou igual</span> aos filhos. O menor elemento <span class="green">sempre</span> fica na raiz — disponível em O(1).</div></div>
+  </div>
+  <p class="body-text" style="margin-top:.8rem;"><span class="orange">Índices no array</span> (começa em 1): Pai = ⌊i/2⌋ | Filho esq = 2×i | Filho dir = 2×i+1</p>
+  <div class="example"><div class="label">Exemplo</div>Max-heap [90,75,60,40,55,30,25]: índice 3 (valor 60) → pai=índice 1 (90), filho esq=índice 6 (30), filho dir=índice 7 (25).</div>
+  <div class="example"><div class="label">Exemplo</div>Inserindo 80 no max-heap: coloca no índice 8. Pai=índice 4 (40). 80&gt;40, troca. Pai=índice 2 (75). 80&gt;75, troca. Pai=índice 1 (90). 80&lt;90, para. 80 fica no índice 2.</div>
+  <div class="example"><div class="label">Exemplo</div>Fila de prioridade em hospitais: o paciente mais grave (maior prioridade) sempre sai primeiro — está sempre na raiz do max-heap.</div>
+  <div class="important"><div class="label">⚠ Importante</div>Após inserir ou remover, é preciso restaurar com <span class="highlight">heapify</span> (sobe ou desce o elemento). Custo: <span class="green">O(log n)</span>.</div>
+  <div class="important"><div class="label">⚠ Importante</div>Heap <span class="red">NÃO</span> é uma árvore binária de busca. A propriedade esquerda &lt; raiz &lt; direita <span class="red">não</span> vale aqui.</div>
+  <div class="important"><div class="label">⚠ Importante</div>Heap é a estrutura ideal para fila de prioridade: acesso ao maior/menor em <span class="green">O(1)</span> e inserção/remoção em <span class="green">O(log n)</span>.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos — Heap</div>
+  <div class="ex-block"><div class="q">Exercício 5: No max-heap [90,75,60,40,55,30,25], qual é o pai e os filhos do índice 3 (valor 60)?</div><div class="ans">→ Pai=índice 1 (valor <span class="highlight">90</span>). Filho esq=índice 6 (valor <span class="highlight">30</span>). Filho dir=índice 7 (valor <span class="highlight">25</span>).</div><div class="why">Pai = ⌊3/2⌋ = 1. Filho esq = 2×3 = 6. Filho dir = 2×3+1 = 7.</div></div>
+  <div class="ex-block"><div class="q">Exercício 6: V ou F — no max-heap, o menor elemento está sempre na raiz.</div><div class="ans">→ <span class="red">Falso</span></div><div class="why">No MAX-heap o MAIOR elemento está na raiz. O menor está em alguma folha.</div></div>
+  <div class="ex-block"><div class="q">Exercício 7: Por que heap é melhor que array simples para fila de prioridade?</div><div class="ans">→ Heap: acesso ao maior em <span class="green">O(1)</span>, inserção/remoção em <span class="green">O(log n)</span>. Array: <span class="red">O(n)</span> para achar o maior.</div><div class="why">No array simples é preciso varrer todos os elementos. No max-heap, o maior está SEMPRE na raiz.</div></div>
+</div>
+
+<!-- BST INSERÇÃO -->
+<div id="bst1" class="page">
+  <div class="mod-title">Módulo 2 — Árvore Binária de Busca (BST)</div>
+  <div class="unit-title">Unidade 1 · Inserção e Busca</div>
+  <p class="body-text"><span class="highlight">Regra fundamental:</span> todos os valores à <span class="green">ESQUERDA</span> de um nó são <span class="green">MENORES</span> que ele. Todos à <span class="orange">DIREITA</span> são <span class="orange">MAIORES</span>.</p>
+  <p class="body-text"><span class="highlight">Busca:</span> começa na raiz. Se o valor é menor → esquerda. Se maior → direita. Repete até encontrar ou posição vazia.</p>
+  <p class="body-text"><span class="highlight">Inserção:</span> segue o mesmo caminho da busca até posição vazia. Insere como folha.</p>
+  <p class="body-text"><span class="highlight">Complexidade:</span> O(h). Árvore balanceada: <span class="green">O(log n)</span>. Árvore degenerada: <span class="red">O(n)</span>.</p>
+  <div class="example"><div class="label">Exemplo — Inserindo 5,3,8,1,4</div>raiz=5. 3&lt;5 → esq. 8&gt;5 → dir. 1&lt;5&lt;3 → esq de 3. 4&gt;3&lt;5 → dir de 3.</div>
+  <div class="example"><div class="label">Exemplo — Buscando 4</div>Compara com 5 (4&lt;5, esq) → compara com 3 (4&gt;3, dir) → compara com 4 (encontrado!). Apenas 3 comparações.</div>
+  <div class="example"><div class="label">Exemplo — Inserindo 45 na BST raiz=50</div>45&lt;50 → esq. 45&gt;30 → dir. 45&gt;40 → dir de 40. O 45 vira filho direito do 40.</div>
+  <div class="important"><div class="label">⚠ Importante</div>Se inserir elementos já ordenados (1,2,3,4,5…) a árvore vira uma lista ligada → <span class="red">O(n)</span> — caso degenerado!</div>
+  <div class="important"><div class="label">⚠ Importante</div>O caso degenerado é o maior problema da BST simples. A <span class="highlight">AVL</span> resolve isso com balanceamento automático.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos — Inserção e Busca</div>
+  <div class="ex-block"><div class="q">Exercício 8: Na BST raiz=50 (filhos 30,70; netos 20,40,60,80), onde é inserido o valor 45?</div><div class="ans">→ Filho direito do nó <span class="highlight">40</span>.</div><div class="why">45&lt;50 → esq. 45&gt;30 → dir. 45&gt;40 → dir do 40.</div></div>
+  <div class="ex-block"><div class="q">Exercício 9: Na mesma BST, quantas comparações para buscar o valor 20?</div><div class="ans">→ <span class="highlight">3</span> comparações.</div><div class="why">Compara com 50 (esq) → compara com 30 (esq) → compara com 20 (encontrado!).</div></div>
+</div>
+
+<!-- BST PERCURSO -->
+<div id="bst2" class="page">
+  <div class="mod-title">Módulo 2 — Árvore Binária de Busca (BST)</div>
+  <div class="unit-title">Unidade 2 · Percurso e Remoção</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Pré-ordem</div><div class="cbody"><span class="highlight">raiz → esq → dir</span><br>Útil para copiar ou serializar a árvore.</div></div>
+    <div class="card"><div class="ctitle">Em-ordem</div><div class="cbody"><span class="highlight">esq → raiz → dir</span><br><span class="green">Sempre resulta em ordem crescente em BST!</span></div></div>
+    <div class="card"><div class="ctitle">Pós-ordem</div><div class="cbody"><span class="highlight">esq → dir → raiz</span><br>Útil para deletar a árvore (filhos antes do pai).</div></div>
+    <div class="card"><div class="ctitle">Remoção — 3 casos</div><div class="cbody"><span class="orange">Caso 1:</span> folha → remove direto.<br><span class="orange">Caso 2:</span> 1 filho → pai aponta pro filho.<br><span class="orange">Caso 3:</span> 2 filhos → substitui pelo sucessor em-ordem.</div></div>
+  </div>
+  <div class="example"><div class="label">Exemplo — Em-ordem raiz=50</div>Resultado: <span class="green">20, 30, 40, 50, 60, 70, 80</span> — sempre ordem crescente!</div>
+  <div class="example"><div class="label">Exemplo — Pré-ordem raiz=50</div>Resultado: <span class="highlight">50, 30, 20, 40, 70, 60, 80</span> — raiz primeiro.</div>
+  <div class="example"><div class="label">Exemplo — Removendo 30 (filhos 20 e 40)</div>Caso 3: dois filhos. Sucessor em-ordem = menor da subárvore direita = 40. O 40 sobe. O 20 fica como filho esq do 40.</div>
+  <div class="example"><div class="label">Exemplo — Removendo 70 (filho dir=80)</div>Caso 2: um filho. O 80 sobe e ocupa o lugar do 70.</div>
+  <div class="important"><div class="label">⚠ Importante</div><span class="highlight">Sucessor em-ordem</span> = menor elemento da subárvore <span class="orange">direita</span> do nó removido.</div>
+  <div class="important"><div class="label">⚠ Importante</div>O percurso <span class="highlight">em-ordem em BST SEMPRE</span> gera a sequência em ordem crescente. Propriedade fundamental!</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos — Percurso e Remoção</div>
+  <div class="ex-block"><div class="q">Exercício 10: Resultado do percurso em-ordem na BST raiz=50 (filhos 30,70; netos 20,40,60,80)?</div><div class="ans">→ <span class="green">20, 30, 40, 50, 60, 70, 80</span></div><div class="why">Em-ordem (esq→raiz→dir) em BST SEMPRE resulta em ordem crescente.</div></div>
+  <div class="ex-block"><div class="q">Exercício 11: Resultado do percurso pré-ordem na mesma BST?</div><div class="ans">→ <span class="highlight">50, 30, 20, 40, 70, 60, 80</span></div><div class="why">Pré-ordem (raiz→esq→dir): começa pela raiz 50, percorre subárvore esq, depois dir.</div></div>
+  <div class="ex-block"><div class="q">Exercício 12: Removendo o nó 30 (filhos 20 e 40). Quem ocupa o lugar?</div><div class="ans">→ O nó <span class="highlight">40</span> ocupa o lugar do 30. O 20 fica como filho esquerdo do 40.</div><div class="why">Caso 3 — dois filhos. Sucessor em-ordem = menor da subárvore direita = 40.</div></div>
+</div>
+
+<!-- AVL ROTAÇÕES -->
+<div id="avl1" class="page">
+  <div class="mod-title">Módulo 3 — Árvores Balanceadas (AVL)</div>
+  <div class="unit-title">Unidade 1 · Conceitos e Rotações</div>
+  <p class="body-text">A AVL é uma BST que <span class="highlight">se auto-balanceia</span> após cada inserção ou remoção. Resolve o problema da BST degenerada.</p>
+  <p class="body-text"><span class="highlight">Fator de Balanceamento (FB)</span> = altura(esq) − altura(dir). Folha = 0. Nó vazio = −1.</p>
+  <p class="body-text">A AVL mantém FB ∈ {−1, 0, +1} em <span class="highlight">todos</span> os nós. FB = ±2 → desbalanceado → rotação!</p>
+  <div class="unit-title" style="margin-top:1rem;">Como identificar a rotação:</div>
+  <p class="body-text"><span class="orange">Pergunta 1:</span> FB do nó desbalanceado é +2 (desequilíbrio à esquerda) ou −2 (à direita)?</p>
+  <p class="body-text"><span class="orange">Pergunta 2:</span> FB do filho tem o mesmo sinal → 1 rotação (caminho reto). Sinal oposto → 2 rotações (zigue-zague).</p>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Caso</th><th>FB do nó</th><th>FB do filho</th><th>Tipo</th><th>Rotação</th><th>Qtd</th></tr>
+      <tr><td class="green">LL</td><td>+2</td><td>+1</td><td>Reto (esq-esq)</td><td>Simples à direita</td><td class="green">1</td></tr>
+      <tr><td class="green">RR</td><td>−2</td><td>−1</td><td>Reto (dir-dir)</td><td>Simples à esquerda</td><td class="green">1</td></tr>
+      <tr><td class="orange">LR</td><td>+2</td><td>−1</td><td>Zigue-zague</td><td>Esq no filho + Dir na raiz</td><td class="red">2</td></tr>
+      <tr><td class="orange">RL</td><td>−2</td><td>+1</td><td>Zigue-zague</td><td>Dir no filho + Esq na raiz</td><td class="red">2</td></tr>
+    </table>
+  </div>
+  <div class="example"><div class="label">Exemplo — LL: inserindo 30,20,10</div>Nó 30: FB=+2. Filho 20: FB=+1. Mesmo sinal → LL → 1 rotação à direita. O 20 vira raiz: [10 ← 20 → 30].</div>
+  <div class="example"><div class="label">Exemplo — RR: inserindo 10,20,30</div>Nó 10: FB=−2. Filho 20: FB=−1. Mesmo sinal → RR → 1 rotação à esquerda. O 20 vira raiz: [10 ← 20 → 30].</div>
+  <div class="example"><div class="label">Exemplo — LR: inserindo 30,10,20</div>Nó 30: FB=+2. Filho 10: FB=−1. Sinais opostos → LR → 2 rotações. O 20 vira raiz: [10 ← 20 → 30].</div>
+  <div class="example"><div class="label">Exemplo — RL: inserindo 10,30,20</div>Nó 10: FB=−2. Filho 30: FB=+1. Sinais opostos → RL → 2 rotações. O 20 vira raiz: [10 ← 20 → 30].</div>
+  <div class="important"><div class="label">⚠ Importante</div>O nó do <span class="highlight">MEIO sempre vira a nova raiz</span> em qualquer rotação AVL (LL, RR, LR, RL)!</div>
+  <div class="important"><div class="label">⚠ Importante</div>LR e RL precisam de 2 rotações (zigue-zague). LL e RR precisam de apenas 1 rotação (caminho reto).</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos — Rotações</div>
+  <div class="ex-block"><div class="q">Exercício 13: Inserindo 50,30,10. Nó 50 tem FB=+2, filho 30 com FB=+1. Qual caso, quantas rotações e quem vira raiz?</div><div class="ans">→ Caso <span class="green">LL</span> — 1 rotação à direita — o <span class="highlight">30</span> vira raiz: [10 ← 30 → 50].</div><div class="why">FB=+2 → esquerda. Filho esq (30) FB=+1 → mesmo sinal → caminho reto → LL.</div></div>
+  <div class="ex-block"><div class="q">Exercício 14: Inserindo 10,30,20. Nó 10 tem FB=−2, filho 30 com FB=+1. Qual caso e resultado?</div><div class="ans">→ Caso <span class="orange">RL</span> — 2 rotações — o <span class="highlight">20</span> vira raiz: [10 ← 20 → 30].</div><div class="why">FB=−2 → direita. Filho dir (30) FB=+1 → sinal oposto → zigue-zague → RL.</div></div>
+  <div class="ex-block"><div class="q">Exercício 15: Inserindo 30,10,20. Nó 30 tem FB=+2, filho 10 com FB=−1. Qual caso e resultado?</div><div class="ans">→ Caso <span class="orange">LR</span> — 2 rotações — o <span class="highlight">20</span> vira raiz: [10 ← 20 → 30].</div><div class="why">FB=+2 → esquerda. Filho esq (10) FB=−1 → sinal oposto → zigue-zague → LR.</div></div>
+</div>
+
+<!-- AVL INS/REM -->
+<div id="avl2" class="page">
+  <div class="mod-title">Módulo 3 — Árvores Balanceadas (AVL)</div>
+  <div class="unit-title">Unidade 2 · Inserção e Remoção na AVL</div>
+  <p class="body-text"><span class="highlight">Inserção na AVL:</span> insere igual à BST normal. Depois sobe pelo caminho verificando o FB de cada nó. Se algum tiver FB=±2, aplica a rotação adequada.</p>
+  <p class="body-text"><span class="highlight">Remoção na AVL:</span> remove igual à BST normal (3 casos). Depois sobe verificando FB e aplicando rotações. Pode precisar de rotações em mais de um nó.</p>
+  <div class="example"><div class="label">Exemplo — inserindo 10,20,30</div>Após inserir 30: FB da raiz 10 = −2, filho 20 FB=−1 → RR → rotação esquerda → 20 vira raiz, 10 esq, 30 dir.</div>
+  <div class="example"><div class="label">Exemplo — inserindo 10,20,30,40,50</div>Após inserir 40: nó 20 FB=−2, filho 30 FB=−1 → RR → rotação. Após inserir 50: nó 30 FB=−2 → nova rotação. AVL rebalanceia a cada inserção.</div>
+  <div class="important"><div class="label">⚠ Importante</div>AVL garante <span class="green">SEMPRE O(log n)</span> para busca, inserção e remoção — ao contrário da BST simples, nunca degenera em lista.</div>
+  <div class="important"><div class="label">⚠ Importante</div>O custo extra das rotações é O(log n) no pior caso — vale a pena para garantir buscas rápidas em qualquer situação.</div>
+  <div class="important"><div class="label">⚠ Importante</div>A altura de uma AVL com n nós é sempre <span class="green">O(log n)</span>. Isso garante que todas as operações sejam eficientes.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 16: Um nó tem subárvore esq altura 2 e subárvore dir altura 0. FB=? Está balanceado?</div><div class="ans">→ FB = 2−0 = <span class="red">+2</span>, <span class="red">DESBALANCEADO</span>. Filho esq FB=+1 → LL (1 rotação). Filho esq FB=−1 → LR (2 rotações).</div><div class="why">FB = altura(esq)−altura(dir) = 2−0 = +2. Como |FB| &gt; 1, está desbalanceado.</div></div>
+  <div class="ex-block"><div class="q">Exercício 17: V ou F — após cada inserção em AVL, todos os nós precisam ser rotacionados.</div><div class="ans">→ <span class="red">Falso</span></div><div class="why">Apenas os nós com FB=±2 são rotacionados. Na maioria dos casos, apenas 1 ou 2 rotações bastam para rebalancear.</div></div>
+</div>
+
+<!-- APPS -->
+<div id="apps" class="page">
+  <div class="mod-title">Módulo 4 — Desafios de Programação</div>
+  <div class="unit-title">Unidade 1 · Aplicações com Hash</div>
+  <p class="body-text">Tabela hash é ideal quando precisamos de acesso rápido por uma chave e a <span class="highlight">ordem dos elementos não importa</span>.</p>
+  <p class="body-text"><span class="highlight">Hash criptográfico</span> é diferente do hash de tabela: foi projetado para ser <span class="red">irreversível</span> e resistente a colisões intencionais.</p>
+  <div class="example"><div class="label">Exemplo</div>Contar frequência de palavras: cada palavra é a chave, a contagem é o valor. Atualização em O(1).</div>
+  <div class="example"><div class="label">Exemplo</div>Verificar duplicatas: inserir cada elemento no hash. Se já existe → é duplicata. O(n) total, vs O(n²) da força bruta.</div>
+  <div class="example"><div class="label">Exemplo</div>Hash criptográfico SHA-256: "senha123" → sempre o mesmo hash. Dado o hash, <span class="red">impossível</span> descobrir "senha123". Usado em bancos de dados de senhas.</div>
+  <div class="important"><div class="label">⚠ Importante</div>Hash criptográfico é <span class="red">IRREVERSÍVEL</span> — dado o hash, não dá para descobrir o valor original. Por isso é usado para proteger senhas.</div>
+  <div class="important"><div class="label">⚠ Importante</div>Escolha hash quando: busca por chave em O(1), não precisa de ordem, chave única por elemento.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Unidade 2 · Aplicações com Árvores</div>
+  <p class="body-text"><span class="highlight">Código de Huffman:</span> compressão sem perda. Símbolos mais frequentes ficam mais perto da raiz e recebem códigos menores.</p>
+  <div class="example"><div class="label">Exemplo — Huffman: "aabbbcccc"</div>Frequências: a=2, b=3, c=4. Na árvore: c → código menor (ex: 0), b → médio (ex: 10), a → maior (ex: 11). Letras frequentes usam menos bits.</div>
+  <div class="example"><div class="label">Exemplo — Dijkstra</div>Usa min-heap: sempre processa o vértice com menor distância acumulada. Heap garante O(log n) por operação.</div>
+  <div class="important"><div class="label">⚠ Importante</div>Huffman: compressão ótima quando a frequência dos símbolos é conhecida. Muito usado em JPEG, MP3 e ZIP.</div>
+  <div class="important"><div class="label">⚠ Importante</div>Use <span class="highlight">BST/AVL</span> para buscar qualquer elemento. Use <span class="highlight">Heap</span> para maior/menor. Use <span class="highlight">Hash</span> para buscar por chave específica.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos — Aplicações</div>
+  <div class="ex-block"><div class="q">Exercício 18: Por que sistemas guardam o HASH da senha e não a senha em texto puro?</div><div class="ans">→ Hash criptográfico é <span class="red">irreversível</span> — protege usuários mesmo se o banco de dados vazar.</div><div class="why">O sistema calcula h(senha) no login e compara com o hash armazenado. Quem rouba o banco só vê hashes — não consegue reverter para descobrir as senhas originais.</div></div>
+  <div class="ex-block"><div class="q">Exercício 19: No código de Huffman, a letra que aparece 100 vezes terá código binário maior ou menor que a que aparece 2 vezes?</div><div class="ans">→ <span class="green">Menor</span> — letras mais frequentes têm códigos MENORES (menos bits).</div><div class="why">Huffman coloca símbolos mais frequentes mais perto da raiz. Quanto mais perto da raiz, menor o caminho e menor o código binário gerado.</div></div>
+  <div class="ex-block"><div class="q">Exercício 20: Por que o heap é melhor que a BST simples para fila de prioridade?</div><div class="ans">→ Heap garante <span class="green">O(log n) sempre</span>. BST simples pode degenerar para <span class="red">O(n)</span> com inserções ordenadas.</div><div class="why">No heap a estrutura NUNCA degenera — sempre árvore quase completa com altura O(log n). Na BST simples, inserir em ordem cria lista ligada.</div></div>
+</div>
+
+<!-- COLA -->
+<div id="cola" class="page">
+  <div class="mod-title">🗒 Cola de Prova — Resumo Geral</div>
+  <div class="unit-title">Comparativo de Estruturas</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Estrutura</th><th>Para que serve</th><th>Complexidade principal</th></tr>
+      <tr><td class="highlight">Hash</td><td>Busca rápida por chave específica</td><td><span class="green">O(1)</span> médio, <span class="red">O(n)</span> pior caso</td></tr>
+      <tr><td class="highlight">Heap</td><td>Achar maior/menor sempre disponível</td><td><span class="green">O(1)</span> raiz, <span class="green">O(log n)</span> ins/rem</td></tr>
+      <tr><td class="highlight">BST</td><td>Busca ordenada e dinâmica</td><td>O(h): <span class="green">O(log n)</span> bal., <span class="red">O(n)</span> deg.</td></tr>
+      <tr><td class="highlight">AVL</td><td>BST sempre balanceada</td><td><span class="green">O(log n)</span> garantido sempre</td></tr>
+    </table>
+  </div>
+  <div class="unit-title">Tabela de Rotações AVL</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Caso</th><th>FB nó</th><th>FB filho</th><th>Tipo</th><th>Rotações</th></tr>
+      <tr><td class="green">LL → direita</td><td>+2</td><td>+1</td><td>Reto</td><td class="green">1</td></tr>
+      <tr><td class="green">RR → esquerda</td><td>−2</td><td>−1</td><td>Reto</td><td class="green">1</td></tr>
+      <tr><td class="orange">LR → esq+dir</td><td>+2</td><td>−1</td><td>Zigue-zague</td><td class="red">2</td></tr>
+      <tr><td class="orange">RL → dir+esq</td><td>−2</td><td>+1</td><td>Zigue-zague</td><td class="red">2</td></tr>
+    </table>
+  </div>
+  <div class="unit-title">Percursos BST</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Percurso</th><th>Ordem de visita</th><th>Resultado (raiz=50)</th></tr>
+      <tr><td class="green">Em-ordem</td><td>esq → raiz → dir</td><td class="green">20,30,40,50,60,70,80 (SEMPRE crescente!)</td></tr>
+      <tr><td class="highlight">Pré-ordem</td><td>raiz → esq → dir</td><td>50,30,20,40,70,60,80</td></tr>
+      <tr><td class="orange">Pós-ordem</td><td>esq → dir → raiz</td><td>20,40,30,60,80,70,50</td></tr>
+    </table>
+  </div>
+  <div class="unit-title">Remoção BST — 3 Casos</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Caso</th><th>Quando ocorre</th><th>Como resolver</th></tr>
+      <tr><td class="green">Caso 1: folha</td><td>Nó sem filhos</td><td>Remove direto, sem reorganizar</td></tr>
+      <tr><td class="orange">Caso 2: 1 filho</td><td>Nó com apenas um filho</td><td>Conecta o pai diretamente ao filho do removido</td></tr>
+      <tr><td class="red">Caso 3: 2 filhos</td><td>Nó com filho esq e dir</td><td>Substitui pelo sucessor em-ordem (menor da subárvore dir)</td></tr>
+    </table>
+  </div>
+  <div class="unit-title" style="margin-top:1.2rem;">⭐ Regras de Ouro para a Prova</div>
+  <div style="display:grid;gap:8px;margin-top:.5rem;">
+    <div class="important"><div class="label">Regra</div>O nó do <span class="highlight">MEIO sempre vira a nova raiz</span> nas rotações AVL (LL, RR, LR e RL)</div>
+    <div class="important"><div class="label">Regra</div>Em-ordem em BST = <span class="highlight">SEMPRE ordem crescente</span> (propriedade fundamental)</div>
+    <div class="important"><div class="label">Regra</div>λ = n/m ideal <span class="highlight">&lt; 0,75</span> para tabela hash (evita colisões excessivas)</div>
+    <div class="important"><div class="label">Regra</div>Heap: pai ≥ filhos (max-heap) | pai ≤ filhos (min-heap)</div>
+    <div class="important"><div class="label">Regra</div>Hash criptográfico é <span class="red">IRREVERSÍVEL</span> — hash de tabela não necessariamente</div>
+    <div class="important"><div class="label">Regra</div>BST pode degenerar em lista O(n) — <span class="highlight">AVL</span> resolve com rotações automáticas</div>
+    <div class="important"><div class="label">Regra</div><span class="green">Mesmo sinal</span> nos FBs = 1 rotação (caminho reto). <span class="red">Sinais opostos</span> = 2 rotações (zigue-zague)</div>
+  </div>
+</div>
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const btns=document.querySelectorAll('.nav button');
+  btns.forEach(b=>{if(b.getAttribute('onclick')===`show('${id}')`){b.classList.add('active');}});
+}
+</script>
