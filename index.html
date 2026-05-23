@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anotacoes da Faculdade</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;}
+h1{color:#fabd2f;font-size:22px;margin-bottom:.5rem;letter-spacing:1px;}
+p{color:#a89984;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:2rem;}
+.cards{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;}
+.card{background:#32302f;border:1px solid #504945;border-radius:8px;padding:24px 32px;text-decoration:none;color:#ebdbb2;transition:border-color .2s;}
+.card:hover{border-color:#fabd2f;}
+.card .icon{font-size:32px;margin-bottom:8px;}
+.card .title{color:#fabd2f;font-size:14px;font-weight:700;margin-bottom:4px;}
+.card .sub{color:#a89984;font-size:11px;}
+</style>
+</head>
+<body>
+<h1>Anotacoes da Faculdade</h1>
+<p>Selecione a disciplina</p>
+<div class="cards">
+  <a class="card" href="estrutura-de-dados/notas_estrutura_de_dados.html">
+    <div class="icon">&#127795;</div>
+    <div class="title">Estrutura de Dados</div>
+    <div class="sub">Hash - Heap - BST - AVL</div>
+  </a>
+  <a class="card" href="banco-de-dados/notas_banco_de_dados.html">
+    <div class="icon">&#128451;</div>
+    <div class="title">Banco de Dados</div>
+    <div class="sub">SQL - Transacoes - NoSQL</div>
+  </a>
+</div>
+</body>
+</html>
