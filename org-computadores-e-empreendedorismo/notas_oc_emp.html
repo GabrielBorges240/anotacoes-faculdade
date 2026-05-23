@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Org. Computadores & Empreendedorismo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;}
+.root{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;padding:1.5rem;min-height:100vh;}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.nav button{background:#3c3836;border:1px solid #504945;color:#a89984;font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:monospace;}
+.nav button.active{background:#504945;color:#fabd2f;border-color:#fabd2f;}
+.page{display:none;}.page.active{display:block;}
+.mod-title{color:#fabd2f;font-size:17px;font-weight:700;border-bottom:2px solid #fabd2f;padding-bottom:6px;margin-bottom:1rem;letter-spacing:.5px;}
+.unit-title{color:#fe8019;font-size:14px;font-weight:700;margin:1.2rem 0 .6rem;letter-spacing:.3px;}
+.body-text{color:#ebdbb2;font-size:13px;line-height:1.7;margin-bottom:.4rem;}
+.example{background:#32302f;border-left:3px solid #b8bb26;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#ebdbb2;font-size:13px;line-height:1.6;}
+.example .label{color:#b8bb26;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.important{background:#3c2b2b;border-left:3px solid #fb4934;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#fabd2f;font-size:13px;line-height:1.6;}
+.important .label{color:#fb4934;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.ex-block{background:#2d3b3b;border-left:3px solid #8ec07c;border-radius:0 4px 4px 0;padding:10px 14px;margin:.6rem 0;}
+.ex-block .q{color:#8ec07c;font-size:13px;font-weight:700;margin-bottom:4px;}
+.ex-block .ans{color:#fabd2f;font-size:13px;margin-bottom:3px;}
+.ex-block .why{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{border-collapse:collapse;width:100%;font-size:12px;}
+th{background:#3c3836;color:#fabd2f;padding:6px 10px;border:1px solid #504945;text-align:left;}
+td{padding:5px 10px;border:1px solid #504945;color:#ebdbb2;}
+tr:nth-child(even) td{background:#32302f;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.6rem 0;}
+.card{background:#32302f;border:1px solid #504945;border-radius:6px;padding:12px;}
+.card .ctitle{color:#fe8019;font-size:12px;font-weight:700;margin-bottom:6px;}
+.card .cbody{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.highlight{color:#fabd2f;font-weight:700;}
+.green{color:#b8bb26;}.red{color:#fb4934;}.orange{color:#fe8019;}.aqua{color:#8ec07c;}
+.section-sep{border:0;border-top:1px solid #504945;margin:1.2rem 0;}
+.code{background:#1d2021;border:1px solid #504945;border-radius:4px;padding:8px 12px;font-family:monospace;font-size:12px;color:#b8bb26;margin:.4rem 0;white-space:pre-wrap;}
+@media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="root">
+<h2 style="color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;">&#128218; Org. Computadores & Empreendedorismo — Notas de Aula</h2>
+<p style="color:#665c54;font-size:10px;margin-bottom:1rem;">Organizacao de Computadores &nbsp;|&nbsp; Empreendedorismo e Inovacao</p>
+<div class="nav">
+  <button class="active" onclick="show('oc1')">OC M1: Processador e Memória</button>
+  <button onclick="show('oc2')">OC M2: ISA e Assembly</button>
+  <button onclick="show('oc3')">OC M3: E/S e Arquiteturas</button>
+  <button onclick="show('oc4')">OC M4: Sistemas Operacionais</button>
+  <button onclick="show('emp1')">Emp M1: Ideias e Prototipagem</button>
+  <button onclick="show('emp2')">Emp M2: Startups e Mercado</button>
+  <button onclick="show('cola')">&#128221; Cola de Prova</button>
+</div>
+
+<!-- OC M1 -->
+<div id="oc1" class="page active">
+  <div class="mod-title">Organização de Computadores — Módulo 1</div>
+  <div class="unit-title">Unidade 1 · Organização do Computador, Processador e Execução de Instruções</div>
+  <p class="body-text">Um computador moderno segue a <span class="highlight">Arquitetura de Von Neumann</span>: CPU, memória, dispositivos de E/S e barramento interligados. Programa e dados ficam na mesma memória.</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">CPU — Componentes principais</div><div class="cbody"><span class="highlight">ULA</span> — Unidade Lógica e Aritmética: faz operações (+, -, AND, OR…)<br><span class="highlight">UC</span> — Unidade de Controle: busca, decodifica e executa instruções<br><span class="highlight">Registradores</span> — memória ultrarrápida interna (PC, IR, ACC…)</div></div>
+    <div class="card"><div class="ctitle">Registradores importantes</div><div class="cbody"><span class="highlight">PC</span> — Program Counter: endereço da próxima instrução<br><span class="highlight">IR</span> — Instruction Register: instrução atual<br><span class="highlight">MAR</span> — Memory Address Register<br><span class="highlight">MDR</span> — Memory Data Register<br><span class="highlight">ACC</span> — Acumulador: resultado da ULA</div></div>
+  </div>
+  <div class="unit-title">Ciclo de Instrução (Fetch-Decode-Execute)</div>
+  <div class="code">1. FETCH     — PC → MAR → Memória → MDR → IR  (busca a instrução)
+2. DECODE    — UC decodifica o opcode do IR       (entende a instrução)
+3. EXECUTE   — UC aciona ULA/registradores         (executa a instrução)
+4. PC = PC+1 — aponta para a próxima instrução     (incrementa PC)
+               (repete infinitamente enquanto o computador estiver ligado)</code></div>
+  <div class="example"><div class="label">Exemplo — Executando ADD R1, R2</div>1. Fetch: busca instrução da memória no endereço do PC.<br>2. Decode: UC identifica opcode ADD, operandos R1 e R2.<br>3. Execute: ULA soma R1 + R2, resultado vai para R1.<br>4. PC aponta para próxima instrução.</div>
+  <div class="important"><div class="label">⚠ Pipeline</div>Técnica que executa várias instruções em paralelo, cada uma em fase diferente. Ex: enquanto instrução 2 é decodificada, instrução 3 já está sendo buscada. Aumenta throughput mas não reduz latência individual.</div>
+  <div class="important"><div class="label">⚠ RISC vs CISC</div><span class="highlight">RISC</span> (ARM, MIPS): instruções simples, tamanho fixo, execução em 1 ciclo. Mais fácil de fazer pipeline. <span class="highlight">CISC</span> (x86): instruções complexas, tamanho variável, mais próximas da linguagem de alto nível.</div>
+
+  <hr class="section-sep">
+  <div class="unit-title">Unidade 2 · Hierarquia de Memórias</div>
+  <p class="body-text">As memórias são organizadas em uma hierarquia: quanto mais rápida, menor e mais cara. O objetivo é equilibrar velocidade e custo.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Nível</th><th>Tipo</th><th>Velocidade</th><th>Tamanho</th><th>Custo</th></tr>
+    <tr><td class="green">1 — Registradores</td><td>Flip-flops na CPU</td><td class="green">~0,3 ns</td><td>Bytes</td><td class="red">Altíssimo</td></tr>
+    <tr><td class="orange">2 — Cache L1/L2/L3</td><td>SRAM</td><td class="green">1–10 ns</td><td>KB–MB</td><td class="red">Alto</td></tr>
+    <tr><td class="highlight">3 — RAM Principal</td><td>DRAM</td><td class="orange">~60 ns</td><td>GB</td><td class="orange">Médio</td></tr>
+    <tr><td class="aqua">4 — SSD/HD</td><td>Flash/Magnético</td><td class="red">μs–ms</td><td>TB</td><td class="green">Baixo</td></tr>
+    <tr><td>5 — Fita/Nuvem</td><td>Magnético/Rede</td><td class="red">Segundos</td><td>PB</td><td class="green">Muito baixo</td></tr>
+  </table></div>
+  <div class="unit-title">Memória Cache</div>
+  <p class="body-text">A cache guarda cópias de dados frequentemente usados da RAM. Baseia-se em dois princípios de localidade:</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Localidade Temporal</div><div class="cbody">Dado usado recentemente tende a ser usado novamente em breve. Ex: variável de loop — <code>i</code> é acessada muitas vezes.</div></div>
+    <div class="card"><div class="ctitle">Localidade Espacial</div><div class="cbody">Dado próximo ao que foi acessado tende a ser acessado logo. Ex: elementos consecutivos de um array.</div></div>
+  </div>
+  <div class="important"><div class="label">⚠ Cache Hit vs Miss</div><span class="green">Hit:</span> dado encontrado na cache → rápido. <span class="red">Miss:</span> dado não está na cache → busca na RAM (lento) e traz para cache. Taxa de hit ≈ 95% em programas bem escritos.</div>
+
+  <div class="unit-title">Memória Virtual</div>
+  <p class="body-text">Permite que processos usem mais memória do que a RAM física disponível, usando o disco como extensão. O SO gerencia a <span class="highlight">tabela de páginas</span> para mapear endereços virtuais em físicos.</p>
+  <div class="example"><div class="label">Exemplo — Paginação</div>Processo de 1GB em sistema com 512MB de RAM: SO mantém as páginas mais usadas na RAM e o restante no disco (swap). Quando uma página ausente é acessada → <span class="highlight">page fault</span> → SO carrega do disco.</div>
+  <div class="important"><div class="label">⚠ Page Fault</div>Ocorre quando a página acessada não está na RAM. O SO interrompe o processo, carrega a página do disco para a RAM e retoma. Muito frequente = <span class="red">thrashing</span> — sistema passa mais tempo trocando páginas do que processando.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 1: Qual é o papel do PC (Program Counter)?</div><div class="ans">→ Guardar o <span class="highlight">endereço da próxima instrução</span> a ser executada.</div><div class="why">Após cada fetch, PC é incrementado automaticamente. Em desvios (if/for), PC recebe o endereço de destino do salto.</div></div>
+  <div class="ex-block"><div class="q">Exercício 2: Por que a cache funciona bem na prática?</div><div class="ans">→ Porque programas exibem <span class="highlight">localidade temporal e espacial</span> — acessam repetidamente os mesmos dados e dados próximos.</div><div class="why">Loops acessam a mesma variável várias vezes (temporal). Arrays são acessados sequencialmente (espacial). Isso garante alta taxa de hit na cache.</div></div>
+</div>
+
+<!-- OC M2 -->
+<div id="oc2" class="page">
+  <div class="mod-title">Organização de Computadores — Módulo 2 · Interface Hardware/Software</div>
+  <div class="unit-title">Unidade 1 · Conjunto de Instruções (ISA) e Assembly</div>
+  <p class="body-text">O <span class="highlight">ISA</span> (Instruction Set Architecture) é a interface entre hardware e software — define quais instruções o processador entende, os registradores disponíveis e os modos de endereçamento.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Tipo de Instrução</th><th>O que faz</th><th>Exemplo MIPS/Assembly</th></tr>
+    <tr><td class="green">Aritmética/Lógica</td><td>Operações na ULA</td><td>ADD R1, R2, R3 → R1 = R2+R3</td></tr>
+    <tr><td class="orange">Transferência</td><td>Move dados entre registradores e memória</td><td>LOAD R1, 100 → R1 = MEM[100]</td></tr>
+    <tr><td class="highlight">Desvio (Branch)</td><td>Altera o fluxo de execução</td><td>BEQ R1, R2, label → if R1==R2 pula</td></tr>
+    <tr><td class="aqua">Comparação</td><td>Compara valores, seta flags</td><td>CMP R1, R2</td></tr>
+    <tr><td class="red">E/S</td><td>Comunica com dispositivos</td><td>IN/OUT porta, registrador</td></tr>
+  </table></div>
+  <div class="unit-title">Modos de Endereçamento</div>
+  <div class="table-wrap"><table>
+    <tr><th>Modo</th><th>Como o operando é obtido</th><th>Exemplo</th></tr>
+    <tr><td class="green">Imediato</td><td>Valor está na própria instrução</td><td>ADD R1, #5 → R1 = R1 + 5</td></tr>
+    <tr><td class="orange">Direto</td><td>Endereço de memória na instrução</td><td>LOAD R1, 200 → R1 = MEM[200]</td></tr>
+    <tr><td class="highlight">Indireto por Registrador</td><td>Registrador guarda o endereço</td><td>LOAD R1, (R2) → R1 = MEM[R2]</td></tr>
+    <tr><td class="aqua">Indexado</td><td>Base + deslocamento</td><td>LOAD R1, 4(R2) → MEM[R2+4]</td></tr>
+  </table></div>
+  <div class="unit-title">Linguagem Assembly</div>
+  <p class="body-text">Assembly é a representação simbólica do código de máquina — cada instrução assembly corresponde a uma instrução de máquina. É convertido para binário pelo <span class="highlight">montador (assembler)</span>.</p>
+  <div class="code">; Exemplo: soma de dois números em Assembly x86
+section .data
+    a dd 10          ; variável a = 10
+    b dd 20          ; variável b = 20
+    resultado dd 0
+
+section .text
+    mov eax, [a]     ; carrega a em EAX
+    add eax, [b]     ; EAX = EAX + b
+    mov [resultado], eax  ; salva resultado
+    
+; if (a > b) em Assembly
+    cmp eax, ebx     ; compara a e b
+    jg maior         ; jump if greater → vai para 'maior'
+    ; ... bloco else
+maior:
+    ; ... bloco then</div>
+  <div class="important"><div class="label">⚠ Importante</div>Assembly é dependente de arquitetura — código x86 não roda em ARM sem recompilação. C e Java abstraem isso: o compilador/JVM gera o código de máquina correto para cada arquitetura.</div>
+
+  <div class="unit-title">Unidade 2 · Tradução de Alto Nível para Máquina</div>
+  <div class="code">Código-fonte (C/Java)
+      ↓ Compilador / Interpretador
+Assembly / Bytecode
+      ↓ Montador / JVM
+Código de Máquina (binário)
+      ↓ Linker
+Executável final (.exe / processo)</div>
+  <div class="table-wrap"><table>
+    <tr><th>Ferramenta</th><th>O que faz</th><th>Entrada → Saída</th></tr>
+    <tr><td class="green">Compilador</td><td>Traduz código-fonte para assembly/objeto</td><td>.c → .s / .o</td></tr>
+    <tr><td class="orange">Montador (Assembler)</td><td>Converte assembly para código de máquina</td><td>.s → .o</td></tr>
+    <tr><td class="highlight">Linker</td><td>Une módulos objeto e bibliotecas</td><td>.o → executável</td></tr>
+    <tr><td class="aqua">Loader</td><td>Carrega executável na memória e inicia</td><td>executável → processo</td></tr>
+    <tr><td class="red">Interpretador</td><td>Executa linha a linha sem compilar antes</td><td>.py → executa direto</td></tr>
+  </table></div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 3: Qual a diferença entre compilador e interpretador?</div><div class="ans">→ Compilador traduz <span class="highlight">tudo antes</span> de executar (mais rápido na execução). Interpretador traduz e executa <span class="highlight">linha a linha</span> (mais flexível, mais lento).</div><div class="why">C é compilado: gcc gera executável binário otimizado. Python é interpretado: cada linha é traduzida e executada em tempo real. Java é híbrido: compila para bytecode, que a JVM interpreta/JIT-compila.</div></div>
+  <div class="ex-block"><div class="q">Exercício 4: No modo imediato, onde está o operando?</div><div class="ans">→ O valor está <span class="highlight">embutido na própria instrução</span> — não precisa de acesso à memória.</div><div class="why">ADD R1, #5 — o 5 vem direto da instrução. É o modo mais rápido pois evita acesso à memória, mas limita o tamanho do valor (cabe em poucos bits da instrução).</div></div>
+</div>
+
+<!-- OC M3 -->
+<div id="oc3" class="page">
+  <div class="mod-title">Organização de Computadores — Módulo 3 · Entrada/Saída e Arquiteturas Atuais</div>
+  <div class="unit-title">Unidade 1 · Dispositivos e Operações de E/S</div>
+  <p class="body-text">A comunicação entre CPU e dispositivos de E/S é muito mais lenta que a CPU. Há três técnicas principais para gerenciar essa diferença:</p>
+  <div class="table-wrap"><table>
+    <tr><th>Técnica E/S</th><th>Como funciona</th><th>CPU fica bloqueada?</th><th>Uso</th></tr>
+    <tr><td class="green">E/S Programada (Polling)</td><td>CPU fica em loop verificando se dispositivo terminou</td><td class="red">Sim — fica em busy-wait</td><td>Sistemas simples/embarcados</td></tr>
+    <tr><td class="orange">E/S por Interrupção</td><td>Dispositivo avisa a CPU via IRQ quando termina</td><td class="green">Não — CPU trabalha em outra coisa</td><td>Teclado, mouse, rede</td></tr>
+    <tr><td class="highlight">DMA (Direct Memory Access)</td><td>Controlador DMA transfere dados sem envolver a CPU</td><td class="green">Quase não — só no início/fim</td><td>Disco, placa de vídeo, áudio</td></tr>
+  </table></div>
+  <div class="example"><div class="label">Exemplo — Interrupção de Teclado</div>1. Usuário pressiona tecla. 2. Controlador de teclado gera IRQ. 3. CPU termina instrução atual e salva contexto. 4. CPU executa ISR (Interrupt Service Routine) — lê o dado do teclado. 5. CPU restaura contexto e continua o programa anterior.</div>
+  <div class="example"><div class="label">Exemplo — DMA para leitura de disco</div>1. CPU configura DMA: endereço da memória destino, quantidade de bytes, endereço no disco. 2. DMA assume o barramento e transfere os dados diretamente para a RAM. 3. Ao terminar, DMA gera interrupção para avisar a CPU. CPU não ficou parada!</div>
+  <div class="important"><div class="label">⚠ Barramento (Bus)</div>Canal compartilhado de comunicação. <span class="highlight">Barramento de dados</span>: transporta os dados. <span class="highlight">Barramento de endereços</span>: indica onde ler/escrever. <span class="highlight">Barramento de controle</span>: sinais de leitura, escrita, interrupção. Largura do barramento de endereços define o espaço máximo endereçável.</div>
+
+  <div class="unit-title">Unidade 2 · Arquiteturas de Computadores Atuais</div>
+  <div class="table-wrap"><table>
+    <tr><th>Arquitetura</th><th>Característica</th><th>Exemplos</th><th>Uso</th></tr>
+    <tr><td class="green">x86-64</td><td>CISC, legado, alto desempenho</td><td>Intel Core, AMD Ryzen</td><td>Desktops, servidores</td></tr>
+    <tr><td class="orange">ARM</td><td>RISC, eficiência energética</td><td>Apple M1/M2, Snapdragon</td><td>Mobile, notebooks, embarcados</td></tr>
+    <tr><td class="highlight">RISC-V</td><td>RISC open-source, modular</td><td>SiFive, chips IoT</td><td>Pesquisa, IoT, embarcados</td></tr>
+    <tr><td class="aqua">GPU</td><td>Milhares de núcleos simples paralelos</td><td>NVIDIA, AMD Radeon</td><td>IA, gráficos, computação paralela</td></tr>
+    <tr><td class="red">Multicore</td><td>Vários núcleos no mesmo chip</td><td>Todos os modernos</td><td>Paralelismo de tarefas</td></tr>
+  </table></div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">SISD → SIMD → MIMD</div><div class="cbody"><span class="highlight">SISD:</span> 1 instrução, 1 dado (clássico)<br><span class="highlight">SIMD:</span> 1 instrução, múltiplos dados (GPU, vetorização)<br><span class="highlight">MIMD:</span> múltiplas instruções, múltiplos dados (multicore)</div></div>
+    <div class="card"><div class="ctitle">Lei de Amdahl</div><div class="cbody">O ganho de paralelismo é limitado pela fração serial do programa. Se 20% do código é serial, o máximo de speedup é 5× (1/0,2), independente de quantos núcleos você adicionar.</div></div>
+  </div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 5: Por que DMA é preferível à E/S programada para transferência de grandes volumes de dados?</div><div class="ans">→ DMA libera a <span class="highlight">CPU para outras tarefas</span> durante a transferência. Polling desperdiça 100% da CPU esperando.</div><div class="why">Numa leitura de 1GB do disco com polling, a CPU ficaria presa em loop por segundos. Com DMA, ela executa outros processos e recebe interrupção ao final da transferência.</div></div>
+  <div class="ex-block"><div class="q">Exercício 6: Por que ARM domina smartphones e x86 domina desktops?</div><div class="ans">→ ARM é <span class="highlight">mais eficiente energeticamente</span> (bateria). x86 tem <span class="highlight">maior desempenho bruto</span> com energia ilimitada.</div><div class="why">RISC (ARM) executa instruções simples com menos transistores e menos calor. CISC (x86) tem instruções complexas que fazem mais por ciclo mas consomem mais energia.</div></div>
+</div>
+
+<!-- OC M4 -->
+<div id="oc4" class="page">
+  <div class="mod-title">Organização de Computadores — Módulo 4 · Sistemas Operacionais</div>
+  <div class="unit-title">Unidade 1 · Gerência de Processos: Processos, Threads, Multiprogramação e Escalonamento</div>
+  <p class="body-text">O <span class="highlight">Sistema Operacional (SO)</span> gerencia os recursos do hardware (CPU, memória, E/S) e fornece uma interface para os programas. Atua como intermediário entre hardware e aplicações.</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Processo</div><div class="cbody">Programa em execução com seu próprio espaço de memória, registradores e contexto. Processos são <span class="highlight">isolados</span> entre si. Troca de contexto entre processos é custosa.</div></div>
+    <div class="card"><div class="ctitle">Thread</div><div class="cbody">Linha de execução dentro de um processo. Threads do mesmo processo <span class="highlight">compartilham memória</span>. Troca de contexto entre threads é mais leve. Ex: aba do Chrome = thread.</div></div>
+  </div>
+  <div class="unit-title">Estados de um Processo</div>
+  <div class="code">Novo → Pronto → Executando → Bloqueado → Pronto → ... → Terminado
+
+Novo:       processo criado, aguardando admissão
+Pronto:     na fila, aguardando CPU
+Executando: com a CPU (só 1 por núcleo por vez)
+Bloqueado:  aguardando E/S ou evento (libera a CPU)
+Terminado:  encerrou a execução</div>
+  <div class="unit-title">Algoritmos de Escalonamento</div>
+  <div class="table-wrap"><table>
+    <tr><th>Algoritmo</th><th>Como funciona</th><th>Problema</th></tr>
+    <tr><td class="green">FCFS (First Come First Served)</td><td>Ordem de chegada, sem preempção</td><td>Convoy effect: processo longo bloqueia todos</td></tr>
+    <tr><td class="orange">SJF (Shortest Job First)</td><td>Menor burst de CPU primeiro</td><td>Starvation: processos longos nunca executam</td></tr>
+    <tr><td class="highlight">Round Robin</td><td>Cada processo ganha um quantum de CPU, depois vai para o fim da fila</td><td>Muita troca de contexto se quantum pequeno</td></tr>
+    <tr><td class="aqua">Prioridade</td><td>Processo com maior prioridade executa primeiro</td><td>Starvation de baixa prioridade</td></tr>
+    <tr><td class="red">Multilevel Queue</td><td>Filas separadas por tipo de processo</td><td>Complexidade de configuração</td></tr>
+  </table></div>
+  <div class="example"><div class="label">Exemplo — Round Robin quantum=4</div>Processos P1(burst=8), P2(burst=4), P3(burst=6). Execução: P1(4ms)→P2(4ms)→P3(4ms)→P1(4ms)→P3(2ms). Total: 18ms. P1 e P3 não ficam presos esperando P2 terminar.</div>
+  <div class="important"><div class="label">⚠ Preempção</div>Algoritmos <span class="highlight">preemptivos</span> (Round Robin, Prioridade preemptiva) podem interromper um processo no meio da execução. <span class="highlight">Não-preemptivos</span> (FCFS, SJF) esperam o processo liberar a CPU voluntariamente.</div>
+
+  <div class="unit-title">Unidade 2 · Gerência de Memória</div>
+  <div class="table-wrap"><table>
+    <tr><th>Técnica</th><th>Como funciona</th><th>Problema</th></tr>
+    <tr><td class="green">Partição fixa</td><td>RAM dividida em blocos fixos. Processo ocupa um bloco.</td><td>Fragmentação interna (espaço desperdiçado dentro do bloco)</td></tr>
+    <tr><td class="orange">Partição variável</td><td>Blocos do tamanho exato do processo</td><td>Fragmentação externa (buracos espalhados)</td></tr>
+    <tr><td class="highlight">Paginação</td><td>Processo dividido em páginas, RAM em frames. Mapeamento por tabela de páginas.</td><td>Overhead da tabela de páginas</td></tr>
+    <tr><td class="aqua">Segmentação</td><td>Processo dividido em segmentos lógicos (código, dados, pilha)</td><td>Fragmentação externa</td></tr>
+    <tr><td class="red">Paginação + Segmentação</td><td>Combina os dois</td><td>Complexidade</td></tr>
+  </table></div>
+  <div class="important"><div class="label">⚠ Fragmentação</div><span class="highlight">Interna:</span> espaço desperdiçado DENTRO do bloco alocado (bloco de 4KB para processo de 3KB → 1KB desperdiçado). <span class="highlight">Externa:</span> espaço livre espalhado em pequenos fragmentos não contíguos — soma total seria suficiente, mas não contíguo.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 7: Qual a diferença entre processo e thread?</div><div class="ans">→ Processo tem <span class="highlight">memória própria e isolada</span>. Threads compartilham a memória do processo pai.</div><div class="why">Criar um processo é mais custoso (novo espaço de endereçamento). Thread é mais leve — ideal para paralelismo dentro do mesmo programa. Ex: servidor web cria uma thread por requisição, não um processo.</div></div>
+  <div class="ex-block"><div class="q">Exercício 8: Por que o Round Robin é mais justo que o FCFS?</div><div class="ans">→ Round Robin divide a CPU igualmente entre todos. FCFS pode deixar processos curtos esperando um <span class="highlight">processo longo terminar</span>.</div><div class="why">Com quantum de 100ms, cada processo tem no máximo 100ms por vez. No FCFS, se P1 tem burst de 10 segundos, P2 e P3 esperarão 10s mesmo que durem 1ms cada.</div></div>
+</div>
+
+<!-- EMP M1 -->
+<div id="emp1" class="page">
+  <div class="mod-title">Empreendedorismo — Módulo 1 · Projetos, Ferramentas e Análises de Negócios</div>
+  <div class="unit-title">Unidade 1 · Levantamento de Ideias e Descoberta de Oportunidades</div>
+  <p class="body-text"><span class="highlight">Empreendedorismo</span> é o processo de identificar oportunidades, desenvolver ideias e criar valor — seja em uma startup ou dentro de uma empresa (intraempreendedorismo).</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Design Thinking</div><div class="cbody">Abordagem centrada no humano para resolver problemas. Etapas: <span class="highlight">Empatizar → Definir → Idear → Prototipar → Testar</span>. Foco em entender o usuário antes de criar a solução.</div></div>
+    <div class="card"><div class="ctitle">Brainstorming</div><div class="cbody">Geração livre de ideias em grupo sem julgamento inicial. Regras: <span class="highlight">quantidade sobre qualidade</span>, nenhuma ideia é ruim, construa sobre ideias dos outros.</div></div>
+    <div class="card"><div class="ctitle">Análise SWOT</div><div class="cbody"><span class="green">S</span>trengths — Forças internas<br><span class="green">W</span>eaknesses — Fraquezas internas<br><span class="orange">O</span>pportunities — Oportunidades externas<br><span class="red">T</span>hreats — Ameaças externas</div></div>
+    <div class="card"><div class="ctitle">Pesquisa de Mercado</div><div class="cbody">Coleta e análise de dados sobre clientes, concorrentes e mercado. <span class="highlight">Primária:</span> pesquisa própria (entrevistas, surveys). <span class="highlight">Secundária:</span> dados já existentes (relatórios, IBGE).</div></div>
+  </div>
+  <div class="example"><div class="label">Exemplo — SWOT de um App de Delivery</div><span class="green">Forças:</span> equipe técnica, tecnologia própria. <span class="red">Fraquezas:</span> sem capital para marketing, marca desconhecida. <span class="orange">Oportunidades:</span> crescimento do delivery pós-pandemia. <span class="red">Ameaças:</span> iFood e Rappi consolidados no mercado.</div>
+
+  <div class="unit-title">Oportunidade vs Ideia</div>
+  <div class="important"><div class="label">⚠ Diferença crucial</div><span class="highlight">Ideia</span> = pensamento criativo sem validação. <span class="highlight">Oportunidade</span> = ideia que resolve um problema real para um mercado disposto a pagar. Empreendedor de sucesso valida se há oportunidade real antes de investir tempo e dinheiro.</div>
+
+  <div class="unit-title">Unidade 2 · Prototipagem de Ideias</div>
+  <p class="body-text">Prototipar significa criar versões simplificadas do produto para testar hipóteses com o menor custo possível antes de desenvolver o produto completo.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Tipo de Protótipo</th><th>Fidelidade</th><th>Custo</th><th>Objetivo</th></tr>
+    <tr><td class="green">Papel/Wireframe</td><td>Baixíssima</td><td class="green">Quase zero</td><td>Testar fluxo e conceito</td></tr>
+    <tr><td class="orange">Mockup Digital</td><td>Média</td><td class="green">Baixo</td><td>Testar interface visual</td></tr>
+    <tr><td class="highlight">MVP</td><td>Funcional mínimo</td><td class="orange">Médio</td><td>Validar valor com usuários reais</td></tr>
+    <tr><td class="aqua">Protótipo Funcional</td><td>Alta</td><td class="red">Alto</td><td>Teste completo antes do lançamento</td></tr>
+  </table></div>
+  <div class="important"><div class="label">⚠ MVP — Minimum Viable Product</div>Produto com o <span class="highlight">mínimo de funcionalidades</span> que entrega valor real ao cliente. Objetivo: aprender o máximo com o mínimo de esforço. <span class="green">Lean Startup:</span> Build → Measure → Learn. Evita construir algo que ninguém quer.</div>
+  <div class="example"><div class="label">Exemplo — MVP do Airbnb</div>Os fundadores não construíram a plataforma inteira. Criaram um site simples, fotografaram o próprio apartamento e anunciaram. Ao conseguir hóspedes reais, validaram que havia demanda antes de investir no desenvolvimento completo.</div>
+
+  <div class="unit-title">Unidade 3 · Riscos de Negócios e Fontes de Financiamento</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Tipos de Risco</div><div class="cbody"><span class="red">Mercado:</span> produto não tem demanda suficiente<br><span class="red">Técnico:</span> tecnologia não funciona como esperado<br><span class="red">Financeiro:</span> sem capital para operar<br><span class="red">Regulatório:</span> leis/regulações impedem o negócio<br><span class="red">Competitivo:</span> concorrente lança produto melhor</div></div>
+    <div class="card"><div class="ctitle">Fontes de Financiamento</div><div class="cbody"><span class="green">Bootstrapping:</span> recursos próprios, sem dívida<br><span class="green">FFF:</span> Family, Friends, Fools<br><span class="orange">Angel Investor:</span> investidor individual<br><span class="orange">Aceleradoras:</span> capital + mentoria<br><span class="highlight">Venture Capital (VC):</span> fundo de investimento<br><span class="aqua">Crowdfunding:</span> financiamento coletivo<br><span class="red">IPO:</span> abertura de capital na bolsa</div></div>
+  </div>
+  <div class="important"><div class="label">⚠ Equity vs Dívida</div><span class="highlight">Equity:</span> investidor recebe % da empresa (Angel, VC). Não precisa devolver dinheiro, mas perde parte do controle. <span class="highlight">Dívida:</span> empréstimo bancário — mantém controle total, mas precisa pagar juros e parcelas.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 9: Qual a diferença entre ideia e oportunidade de negócio?</div><div class="ans">→ Ideia é criativa mas não validada. Oportunidade é ideia que resolve problema real para <span class="highlight">mercado disposto a pagar</span>.</div><div class="why">"Aplicativo para passeios de unicórnio" é ideia. "Aplicativo que conecta donos de cães com passeadores" é oportunidade — problema real, mercado existente, disposição a pagar.</div></div>
+  <div class="ex-block"><div class="q">Exercício 10: O que é MVP e por que é importante?</div><div class="ans">→ Produto mínimo que entrega valor real. Valida hipóteses com <span class="highlight">mínimo investimento</span> antes de construir tudo.</div><div class="why">Startups falham porque constroem produtos completos sem validar demanda. O MVP permite aprender com usuários reais gastando pouco, e pivotar se necessário.</div></div>
+</div>
+
+<!-- EMP M2 -->
+<div id="emp2" class="page">
+  <div class="mod-title">Empreendedorismo — Módulo 2 · Planejamento de Negócios, Inovação e Produto</div>
+  <div class="unit-title">Unidade 1 · Criação de Startups e Plano de Negócios</div>
+  <p class="body-text">Uma <span class="highlight">startup</span> é uma empresa jovem em busca de um modelo de negócios escalável e repetível. Diferente de pequenas empresas tradicionais, startups buscam crescimento rápido e disrupção de mercado.</p>
+  <div class="unit-title">Business Model Canvas (BMC)</div>
+  <div class="table-wrap"><table>
+    <tr><th>Bloco</th><th>Pergunta</th><th>Exemplo (Netflix)</th></tr>
+    <tr><td class="green">Proposta de Valor</td><td>Que valor entregamos ao cliente?</td><td>Entretenimento ilimitado, sem comerciais, sob demanda</td></tr>
+    <tr><td class="orange">Segmento de Clientes</td><td>Para quem criamos valor?</td><td>Famílias com TV/internet, classes A-C</td></tr>
+    <tr><td class="highlight">Canais</td><td>Como chegamos ao cliente?</td><td>App, site, SmartTV, parceiros</td></tr>
+    <tr><td class="aqua">Relacionamento</td><td>Como interagimos com o cliente?</td><td>Self-service, recomendações personalizadas</td></tr>
+    <tr><td class="green">Fontes de Receita</td><td>Como geramos receita?</td><td>Assinatura mensal por plano</td></tr>
+    <tr><td class="red">Recursos-chave</td><td>Quais recursos são essenciais?</td><td>Conteúdo, infraestrutura, algoritmo</td></tr>
+    <tr><td class="orange">Atividades-chave</td><td>O que fazemos de mais importante?</td><td>Produção de conteúdo, recomendação</td></tr>
+    <tr><td class="highlight">Parcerias-chave</td><td>De quem dependemos?</td><td>Estúdios, provedores de internet</td></tr>
+    <tr><td class="red">Estrutura de Custos</td><td>Quais são os custos mais relevantes?</td><td>Licenças, servidores, marketing</td></tr>
+  </table></div>
+  <div class="important"><div class="label">⚠ Plano de Negócios vs Canvas</div><span class="highlight">Plano de negócios:</span> documento detalhado (30-50 páginas), exigido por bancos. <span class="highlight">Canvas:</span> 1 página visual e flexível — ideal para startups em fase de descoberta. Canvas primeiro, plano depois se necessário.</div>
+
+  <div class="unit-title">Unidade 2 · Inovação e Desenvolvimento de Produtos</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Tipos de Inovação</div><div class="cbody"><span class="green">Incremental:</span> melhora produto existente (iPhone 15→16)<br><span class="orange">Radical:</span> novo produto que muda o mercado (iPhone 1º)<br><span class="highlight">Disruptiva:</span> começa simples/barato, derruba líderes (Netflix vs Blockbuster)<br><span class="aqua">De processo:</span> nova forma de fazer o mesmo</div></div>
+    <div class="card"><div class="ctitle">Produto × Mercado Fit (PMF)</div><div class="cbody">Momento em que o produto resolve muito bem um problema de um segmento de mercado. Indicadores: <span class="green">crescimento orgânico, retenção alta, NPS alto, clientes indicam outros</span>. Antes do PMF: iterar. Após PMF: escalar.</div></div>
+  </div>
+  <div class="example"><div class="label">Exemplo — Inovação Disruptiva: Uber</div>Começou com carros executivos (UberBLACK), não táxis. Mais caro que táxi, mas mais conveniente. Depois expandiu com UberX (mais barato). Disrupcíonou o transporte sem possuir um carro sequer.</div>
+
+  <div class="unit-title">Unidade 3 · Diferenciação e Segmentação de Mercado</div>
+  <p class="body-text"><span class="highlight">Segmentação</span> é dividir o mercado em grupos com características e necessidades similares. Permite focar recursos e criar mensagens mais eficazes.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Tipo de Segmentação</th><th>Critérios</th><th>Exemplo</th></tr>
+    <tr><td class="green">Geográfica</td><td>País, região, cidade, clima</td><td>Casacos de inverno para Sul do Brasil</td></tr>
+    <tr><td class="orange">Demográfica</td><td>Idade, renda, gênero, educação</td><td>Produtos premium para renda acima de R$10k</td></tr>
+    <tr><td class="highlight">Psicográfica</td><td>Estilo de vida, valores, personalidade</td><td>Produtos eco-friendly para consumidores conscientes</td></tr>
+    <tr><td class="aqua">Comportamental</td><td>Frequência de uso, lealdade, ocasião</td><td>Descontos para usuários frequentes</td></tr>
+  </table></div>
+  <div class="unit-title">Estratégias de Diferenciação (Porter)</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Liderança em Custo</div><div class="cbody">Ser o mais barato do mercado. Exige eficiência operacional máxima. Ex: <span class="highlight">Shopee, Casas Bahia</span>. Risco: guerra de preços.</div></div>
+    <div class="card"><div class="ctitle">Diferenciação</div><div class="cbody">Oferecer algo único que justifique preço maior. Ex: <span class="highlight">Apple, Tesla</span>. Risco: o diferencial pode ser copiado.</div></div>
+    <div class="card"><div class="ctitle">Foco/Nicho</div><div class="cbody">Atender bem um segmento específico. Ex: <span class="highlight">Nubank</span> (jovens desbancarizados), produtos veganos. Risco: nicho pode ser pequeno demais.</div></div>
+    <div class="card"><div class="ctitle">Blue Ocean</div><div class="cbody">Criar mercado novo sem concorrência. Ex: <span class="highlight">Cirque du Soleil</span> (não compete com circo nem teatro — criou novo mercado).</div></div>
+  </div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 11: Qual bloco do Canvas define como a empresa gera receita?</div><div class="ans">→ <span class="highlight">Fontes de Receita</span> (Revenue Streams).</div><div class="why">Ex: assinatura (Netflix), freemium (Spotify), comissão por venda (Airbnb), publicidade (Google). Um negócio pode ter múltiplas fontes de receita.</div></div>
+  <div class="ex-block"><div class="q">Exercício 12: Qual a diferença entre inovação incremental e disruptiva?</div><div class="ans">→ <span class="highlight">Incremental:</span> melhora o existente. <span class="highlight">Disruptiva:</span> cria novo mercado ou derruba líderes começando de baixo.</div><div class="why">iPhone 15→16 é incremental (câmera melhor). Netflix vs Blockbuster é disruptiva — começou pior (sem lojas, sem posse do DVD) mas mais conveniente e barata, acabou eliminando o concorrente.</div></div>
+</div>
+
+<!-- COLA -->
+<div id="cola" class="page">
+  <div class="mod-title">&#128221; Cola de Prova — Org. Computadores & Empreendedorismo</div>
+
+  <div class="unit-title">Hierarquia de Memória (mais rápida → mais lenta)</div>
+  <div class="code">Registradores → Cache L1 → Cache L2 → Cache L3 → RAM → SSD → HD → Fita
+     ~0,3ns         ~1ns       ~5ns       ~10ns    ~60ns   μs    ms</div>
+
+  <div class="unit-title">Ciclo Fetch-Decode-Execute</div>
+  <div class="code">PC → MAR → Memória → MDR → IR → UC decodifica → ULA executa → PC+1</div>
+
+  <div class="unit-title">Técnicas de E/S</div>
+  <div class="table-wrap"><table>
+    <tr><th>Técnica</th><th>CPU bloqueada?</th><th>Uso</th></tr>
+    <tr><td class="red">Polling (E/S Programada)</td><td class="red">Sim — busy-wait</td><td>Sistemas embarcados simples</td></tr>
+    <tr><td class="green">Interrupção</td><td class="green">Não</td><td>Teclado, mouse, rede</td></tr>
+    <tr><td class="green">DMA</td><td class="green">Quase não</td><td>Disco, placa de vídeo, áudio</td></tr>
+  </table></div>
+
+  <div class="unit-title">Escalonamento — Comparativo</div>
+  <div class="table-wrap"><table>
+    <tr><th>Algoritmo</th><th>Preemptivo?</th><th>Problema</th></tr>
+    <tr><td class="orange">FCFS</td><td class="red">Não</td><td>Convoy effect</td></tr>
+    <tr><td class="green">SJF</td><td>Depende</td><td>Starvation</td></tr>
+    <tr><td class="highlight">Round Robin</td><td class="green">Sim</td><td>Overhead se quantum pequeno</td></tr>
+    <tr><td class="aqua">Prioridade</td><td>Depende</td><td>Starvation de baixa prioridade</td></tr>
+  </table></div>
+
+  <div class="unit-title">Canvas — 9 Blocos</div>
+  <div class="table-wrap"><table>
+    <tr><th>Bloco</th><th>Pergunta-chave</th></tr>
+    <tr><td class="green">Proposta de Valor</td><td>Que problema resolvemos? Que valor entregamos?</td></tr>
+    <tr><td class="orange">Segmento de Clientes</td><td>Para quem? Quem são nossos clientes?</td></tr>
+    <tr><td class="highlight">Canais</td><td>Como chegamos aos clientes?</td></tr>
+    <tr><td class="aqua">Relacionamento</td><td>Como nos relacionamos com cada segmento?</td></tr>
+    <tr><td class="green">Fontes de Receita</td><td>Como geramos dinheiro?</td></tr>
+    <tr><td class="red">Recursos-chave</td><td>Quais recursos são essenciais?</td></tr>
+    <tr><td class="orange">Atividades-chave</td><td>O que fazemos de mais importante?</td></tr>
+    <tr><td class="highlight">Parcerias-chave</td><td>De quem dependemos?</td></tr>
+    <tr><td class="red">Estrutura de Custos</td><td>Quais são os maiores custos?</td></tr>
+  </table></div>
+
+  <div class="unit-title" style="margin-top:1.2rem;">&#11088; Regras de Ouro para a Prova</div>
+  <div style="display:grid;gap:8px;margin-top:.5rem;">
+    <div class="important"><div class="label">OC</div>PC guarda endereço da <span class="highlight">próxima instrução</span>. IR guarda a instrução <span class="highlight">atual</span>.</div>
+    <div class="important"><div class="label">OC</div>Cache funciona pelo princípio de <span class="highlight">localidade temporal e espacial</span></div>
+    <div class="important"><div class="label">OC</div>Page fault = página não está na RAM → SO carrega do disco. Thrashing = page faults excessivos</div>
+    <div class="important"><div class="label">OC</div>DMA transfere dados <span class="highlight">sem envolver a CPU</span> — melhor para grandes volumes</div>
+    <div class="important"><div class="label">OC</div>Fragmentação interna = dentro do bloco. Externa = entre blocos espalhados</div>
+    <div class="important"><div class="label">OC</div>RISC = instruções simples, eficiente (ARM). CISC = instruções complexas, poderoso (x86)</div>
+    <div class="important"><div class="label">Emp</div>Ideia ≠ Oportunidade. Oportunidade = problema real + mercado que <span class="highlight">paga</span></div>
+    <div class="important"><div class="label">Emp</div>MVP = mínimo para entregar valor real. Build → Measure → <span class="highlight">Learn</span></div>
+    <div class="important"><div class="label">Emp</div>Equity = vende % da empresa. Dívida = empréstimo, mantém controle</div>
+    <div class="important"><div class="label">Emp</div>Disruptiva começa <span class="highlight">pior mas mais acessível</span>, e elimina o líder de mercado</div>
+    <div class="important"><div class="label">Emp</div>SWOT: forças e fraquezas = interno. Oportunidades e ameaças = <span class="highlight">externo</span></div>
+  </div>
+</div>
+
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>{
+    if(b.getAttribute('onclick')===`show('${id}')`) b.classList.add('active');
+  });
+}
+</script>
+</body>
+</html>
