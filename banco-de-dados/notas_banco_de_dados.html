@@ -1,0 +1,488 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;}
+.root{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;padding:1.5rem;min-height:100vh;}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.nav button{background:#3c3836;border:1px solid #504945;color:#a89984;font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:monospace;}
+.nav button.active{background:#504945;color:#fabd2f;border-color:#fabd2f;}
+.page{display:none;}
+.page.active{display:block;}
+.mod-title{color:#fabd2f;font-size:17px;font-weight:700;border-bottom:2px solid #fabd2f;padding-bottom:6px;margin-bottom:1rem;letter-spacing:.5px;}
+.unit-title{color:#fe8019;font-size:14px;font-weight:700;margin:1.2rem 0 .6rem;letter-spacing:.3px;}
+.body-text{color:#ebdbb2;font-size:13px;line-height:1.7;margin-bottom:.4rem;}
+.example{background:#32302f;border-left:3px solid #b8bb26;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#ebdbb2;font-size:13px;line-height:1.6;}
+.example .label{color:#b8bb26;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.important{background:#3c2b2b;border-left:3px solid #fb4934;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#fabd2f;font-size:13px;line-height:1.6;}
+.important .label{color:#fb4934;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.ex-block{background:#2d3b3b;border-left:3px solid #8ec07c;border-radius:0 4px 4px 0;padding:10px 14px;margin:.6rem 0;}
+.ex-block .q{color:#8ec07c;font-size:13px;font-weight:700;margin-bottom:4px;}
+.ex-block .ans{color:#fabd2f;font-size:13px;margin-bottom:3px;}
+.ex-block .why{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{border-collapse:collapse;width:100%;font-size:12px;}
+th{background:#3c3836;color:#fabd2f;padding:6px 10px;border:1px solid #504945;text-align:left;}
+td{padding:5px 10px;border:1px solid #504945;color:#ebdbb2;}
+tr:nth-child(even) td{background:#32302f;}
+.badge{display:inline-block;background:#3c3836;border:1px solid #504945;color:#a89984;font-size:11px;padding:2px 8px;border-radius:3px;margin:2px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.6rem 0;}
+.card{background:#32302f;border:1px solid #504945;border-radius:6px;padding:12px;}
+.card .ctitle{color:#fe8019;font-size:12px;font-weight:700;margin-bottom:6px;}
+.card .cbody{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.highlight{color:#fabd2f;font-weight:700;}
+.green{color:#b8bb26;}
+.red{color:#fb4934;}
+.orange{color:#fe8019;}
+.aqua{color:#8ec07c;}
+.section-sep{border:0;border-top:1px solid #504945;margin:1.2rem 0;}
+.code{background:#1d2021;border:1px solid #504945;border-radius:4px;padding:8px 12px;font-family:monospace;font-size:12px;color:#b8bb26;margin:.4rem 0;white-space:pre;}
+@media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+</style>
+<div class="root">
+<h2 style="color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem;">📚 Banco de Dados — Notas de Aula</h2>
+<div class="nav">
+  <button class="active" onclick="show('m1u1')">Módulo 1: Visão Geral</button>
+  <button onclick="show('m1u2')">Módulo 1: Modelo Conceitual</button>
+  <button onclick="show('m1u3')">Módulo 1: Modelo Relacional</button>
+  <button onclick="show('m1u4')">Módulo 1: Qualidade</button>
+  <button onclick="show('m2u1')">Módulo 2: SQL DDL</button>
+  <button onclick="show('m2u2')">Módulo 2: SQL DML</button>
+  <button onclick="show('m3u1')">Módulo 3: Indexação</button>
+  <button onclick="show('m3u2')">Módulo 3: Transações</button>
+  <button onclick="show('m4u1')">Módulo 4: NoSQL Intro</button>
+  <button onclick="show('m4u2')">Módulo 4: NoSQL Docs</button>
+  <button onclick="show('cola')">🗒 Cola de Prova</button>
+</div>
+
+<!-- M1U1 -->
+<div id="m1u1" class="page active">
+  <div class="mod-title">Módulo 1 — Projeto de Banco de Dados Relacional</div>
+  <div class="unit-title">Unidade 1 · Visão Geral sobre Banco de Dados e Motivação</div>
+  <p class="body-text">Um <span class="highlight">banco de dados</span> é uma coleção organizada de dados relacionados, gerenciada por um <span class="highlight">SGBD</span> (Sistema Gerenciador de Banco de Dados). O objetivo é armazenar, recuperar e manipular dados de forma eficiente, segura e consistente.</p>
+  <p class="body-text">Antes dos SGBDs, os dados ficavam em <span class="highlight">arquivos isolados</span> — cada programa tinha seus próprios arquivos, gerando redundância, inconsistência e dificuldade de acesso compartilhado.</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Problemas do sistema de arquivos</div><div class="cbody"><span class="red">Redundância:</span> mesmos dados em vários arquivos.<br><span class="red">Inconsistência:</span> atualizações parciais.<br><span class="red">Isolamento:</span> difícil compartilhar.<br><span class="red">Concorrência:</span> acessos simultâneos problemáticos.</div></div>
+    <div class="card"><div class="ctitle">Vantagens do SGBD</div><div class="cbody"><span class="green">Independência dos dados.</span><br><span class="green">Controle de redundância.</span><br><span class="green">Compartilhamento.</span><br><span class="green">Segurança e integridade.</span><br><span class="green">Backup e recuperação.</span></div></div>
+  </div>
+  <div class="example"><div class="label">Exemplo</div>Sistema de uma universidade: sem SGBD, o setor financeiro tem um arquivo de alunos e o setor acadêmico tem outro. O nome do aluno pode estar errado em um e certo no outro. Com SGBD, há uma única fonte de verdade.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Arquitetura de 3 Níveis (ANSI/SPARC)</div>
+  <div class="table-wrap"><table>
+    <tr><th>Nível</th><th>Nome</th><th>O que descreve</th><th>Quem vê</th></tr>
+    <tr><td class="highlight">Externo</td><td>Visão</td><td>Como cada usuário vê os dados</td><td>Usuário final</td></tr>
+    <tr><td class="highlight">Conceitual</td><td>Esquema lógico</td><td>Estrutura geral do banco</td><td>DBA</td></tr>
+    <tr><td class="highlight">Interno</td><td>Físico</td><td>Como os dados são armazenados</td><td>SGBD</td></tr>
+  </table></div>
+  <div class="important"><div class="label">⚠ Importante</div><span class="highlight">Independência lógica:</span> mudar o esquema conceitual sem afetar as visões dos usuários. <span class="highlight">Independência física:</span> mudar o armazenamento sem afetar o esquema conceitual.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 1: Qual é a principal vantagem do SGBD sobre arquivos convencionais?</div><div class="ans">→ Controle centralizado com <span class="highlight">eliminação de redundância e inconsistência</span>.</div><div class="why">O SGBD mantém uma única cópia consistente dos dados, com controle de acesso, integridade e recuperação automática.</div></div>
+  <div class="ex-block"><div class="q">Exercício 2: O que é independência de dados?</div><div class="ans">→ Capacidade de alterar a estrutura dos dados <span class="highlight">sem impactar aplicações</span> que os utilizam.</div><div class="why">Há duas formas: independência lógica (mudar esquema sem mudar visões) e independência física (mudar armazenamento sem mudar esquema).</div></div>
+</div>
+
+<!-- M1U2 -->
+<div id="m1u2" class="page">
+  <div class="mod-title">Módulo 1 — Projeto de Banco de Dados Relacional</div>
+  <div class="unit-title">Unidade 2 · Modelo Conceitual (ER)</div>
+  <p class="body-text">O <span class="highlight">Modelo Entidade-Relacionamento (ER)</span> é uma forma de representar os dados de um sistema de forma visual e independente de implementação. É o primeiro passo no projeto de um banco de dados.</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Entidade</div><div class="cbody">Objeto do mundo real com existência independente. Ex: <span class="highlight">Aluno</span>, <span class="highlight">Curso</span>, <span class="highlight">Professor</span>. Representa uma tabela no modelo relacional.</div></div>
+    <div class="card"><div class="ctitle">Atributo</div><div class="cbody">Propriedade de uma entidade. Ex: Aluno tem <span class="highlight">matrícula</span>, <span class="highlight">nome</span>, <span class="highlight">CPF</span>. O atributo que identifica unicamente = <span class="green">chave primária</span>.</div></div>
+    <div class="card"><div class="ctitle">Relacionamento</div><div class="cbody">Associação entre entidades. Ex: Aluno <span class="highlight">se matricula em</span> Curso. Tem cardinalidade: 1:1, 1:N ou N:M.</div></div>
+    <div class="card"><div class="ctitle">Cardinalidade</div><div class="cbody"><span class="green">1:1</span> — Uma pessoa tem um passaporte.<br><span class="orange">1:N</span> — Um depto tem vários funcionários.<br><span class="red">N:M</span> — Alunos cursam várias disciplinas.</div></div>
+  </div>
+  <div class="example"><div class="label">Exemplo — Cardinalidade 1:N</div>Departamento (1) ←→ (N) Funcionário. Um departamento possui vários funcionários, mas cada funcionário pertence a apenas um departamento.</div>
+  <div class="example"><div class="label">Exemplo — Cardinalidade N:M</div>Aluno (N) ←→ (M) Disciplina. Um aluno se matricula em várias disciplinas e cada disciplina tem vários alunos. Gera uma tabela intermediária: Matrícula(aluno_id, disciplina_id, nota).</div>
+  <hr class="section-sep">
+  <div class="unit-title">Tipos de Atributos</div>
+  <div class="table-wrap"><table>
+    <tr><th>Tipo</th><th>Descrição</th><th>Exemplo</th></tr>
+    <tr><td class="green">Simples</td><td>Não divisível</td><td>CPF, matrícula</td></tr>
+    <tr><td class="orange">Composto</td><td>Divisível em partes</td><td>Endereço → rua, número, CEP</td></tr>
+    <tr><td class="aqua">Multivalorado</td><td>Múltiplos valores</td><td>Telefones de uma pessoa</td></tr>
+    <tr><td class="highlight">Derivado</td><td>Calculado de outro</td><td>Idade (calculada da data de nascimento)</td></tr>
+    <tr><td class="red">Chave</td><td>Identifica unicamente</td><td>CPF, matrícula, CNPJ</td></tr>
+  </table></div>
+  <div class="important"><div class="label">⚠ Importante</div>Relacionamento <span class="highlight">N:M sempre gera uma nova tabela</span> no modelo relacional. Ex: Aluno-Disciplina vira tabela Matrícula com chave composta (aluno_id + disciplina_id).</div>
+  <div class="important"><div class="label">⚠ Importante</div><span class="highlight">Entidade fraca:</span> não tem chave própria, depende de outra entidade. Ex: Dependente depende de Funcionário — sem o funcionário, o dependente não existe.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 3: Um professor pode lecionar várias disciplinas e uma disciplina pode ter vários professores. Qual a cardinalidade?</div><div class="ans">→ <span class="highlight">N:M</span> — gera tabela intermediária Leciona(prof_id, disc_id, semestre).</div><div class="why">Ambos os lados têm "vários". Sempre que isso ocorre, é N:M e precisa de tabela extra para guardar a associação.</div></div>
+  <div class="ex-block"><div class="q">Exercício 4: "Data_nascimento" e "Idade" — qual é derivado?</div><div class="ans">→ <span class="highlight">Idade</span> é derivada, pois é calculada a partir de Data_nascimento.</div><div class="why">Atributos derivados não precisam ser armazenados — são calculados sob demanda. Armazenar os dois seria redundância.</div></div>
+</div>
+
+<!-- M1U3 -->
+<div id="m1u3" class="page">
+  <div class="mod-title">Módulo 1 — Projeto de Banco de Dados Relacional</div>
+  <div class="unit-title">Unidade 3 · Modelo Relacional e Transformação entre Modelos</div>
+  <p class="body-text">O <span class="highlight">modelo relacional</span> representa os dados em <span class="highlight">tabelas (relações)</span>. Cada linha é uma tupla (registro) e cada coluna é um atributo. É o modelo mais usado nos SGBDs comerciais (MySQL, PostgreSQL, Oracle).</p>
+  <div class="table-wrap"><table>
+    <tr><th>Conceito ER</th><th>Conceito Relacional</th><th>Exemplo</th></tr>
+    <tr><td class="highlight">Entidade</td><td>Tabela (Relação)</td><td>Aluno → tabela Aluno</td></tr>
+    <tr><td class="highlight">Instância</td><td>Linha (Tupla)</td><td>Um aluno específico</td></tr>
+    <tr><td class="highlight">Atributo</td><td>Coluna</td><td>nome, matrícula, CPF</td></tr>
+    <tr><td class="highlight">Chave primária ER</td><td>PRIMARY KEY</td><td>matrícula INT PRIMARY KEY</td></tr>
+    <tr><td class="highlight">Relacionamento 1:N</td><td>Chave estrangeira (FK)</td><td>depto_id REFERENCES Departamento</td></tr>
+    <tr><td class="highlight">Relacionamento N:M</td><td>Tabela intermediária</td><td>Matricula(aluno_id, disc_id)</td></tr>
+  </table></div>
+  <div class="unit-title">Restrições de Integridade</div>
+  <div class="important"><div class="label">Integridade de Entidade</div>A <span class="highlight">chave primária (PK) nunca pode ser NULL</span>. Cada linha deve ser unicamente identificável.</div>
+  <div class="important"><div class="label">Integridade Referencial</div>A <span class="highlight">chave estrangeira (FK) deve referenciar um valor existente</span> na tabela pai, ou ser NULL. Ex: depto_id em Funcionário deve existir em Departamento.</div>
+  <div class="example"><div class="label">Exemplo — Transformação 1:N</div>ER: Departamento (1) tem (N) Funcionário.<br>Relacional: Funcionário(<u>func_id</u>, nome, salario, <span class="orange">depto_id</span>) — a FK fica no lado N (Funcionário).</div>
+  <div class="example"><div class="label">Exemplo — Transformação N:M</div>ER: Aluno (N) se matricula em (M) Disciplina.<br>Relacional: cria tabela Matricula(<u>aluno_id</u>, <u>disc_id</u>, nota, semestre) com PK composta.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 5: Em qual tabela fica a chave estrangeira em um relacionamento 1:N?</div><div class="ans">→ No lado <span class="highlight">N</span> (o "muitos").</div><div class="why">O lado N é quem referencia o lado 1. Ex: vários Funcionários pertencem a um Depto — a FK depto_id fica em Funcionário, não em Departamento.</div></div>
+  <div class="ex-block"><div class="q">Exercício 6: O que acontece se tentarmos inserir uma FK com valor que não existe na tabela pai?</div><div class="ans">→ O SGBD <span class="red">rejeita a operação</span> — violação de integridade referencial.</div><div class="why">O SGBD verifica automaticamente se o valor da FK existe na PK da tabela referenciada. Se não existir, a inserção é bloqueada.</div></div>
+</div>
+
+<!-- M1U4 -->
+<div id="m1u4" class="page">
+  <div class="mod-title">Módulo 1 — Projeto de Banco de Dados Relacional</div>
+  <div class="unit-title">Unidade 4 · Qualidade do Projeto de Banco de Dados (Normalização)</div>
+  <p class="body-text">A <span class="highlight">normalização</span> é o processo de organizar as tabelas para eliminar redundâncias e dependências problemáticas. Uma tabela mal normalizada gera <span class="red">anomalias de inserção, atualização e exclusão</span>.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Forma Normal</th><th>Regra</th><th>Elimina</th></tr>
+    <tr><td class="green">1FN</td><td>Atributos atômicos, sem grupos repetidos</td><td>Atributos multivalorados na mesma coluna</td></tr>
+    <tr><td class="orange">2FN</td><td>1FN + sem dependência parcial da PK</td><td>Redundância em chaves compostas</td></tr>
+    <tr><td class="highlight">3FN</td><td>2FN + sem dependência transitiva</td><td>Atributos que dependem de não-chave</td></tr>
+    <tr><td class="aqua">BCNF</td><td>Todo determinante é superchave</td><td>Anomalias residuais da 3FN</td></tr>
+  </table></div>
+  <div class="example"><div class="label">Exemplo — Violação da 1FN</div>Coluna "Telefones" com valor "11999, 11888" (dois valores numa célula). Solução: criar tabela separada Telefone(pessoa_id, numero).</div>
+  <div class="example"><div class="label">Exemplo — Violação da 2FN</div>Tabela Pedido_Item(pedido_id, produto_id, nome_produto, qtd). "nome_produto" depende só de produto_id (dependência parcial). Solução: separar em Produto(produto_id, nome_produto).</div>
+  <div class="example"><div class="label">Exemplo — Violação da 3FN</div>Tabela Funcionário(func_id, depto_id, nome_depto). nome_depto depende de depto_id (não da PK). Solução: criar tabela Departamento(depto_id, nome_depto).</div>
+  <div class="important"><div class="label">⚠ Anomalias de Atualização</div>Sem normalização: se o nome de um departamento muda, é preciso atualizar em todas as linhas de funcionários — se alguma falhar, o banco fica <span class="red">inconsistente</span>.</div>
+  <div class="important"><div class="label">⚠ Regra Prática</div>Na maioria dos projetos, atingir a <span class="highlight">3FN é suficiente</span>. BCNF é usada em casos específicos com dependências funcionais complexas.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 7: A tabela está na 1FN se...</div><div class="ans">→ Todos os atributos são <span class="highlight">atômicos</span> (indivisíveis) e não há grupos repetidos.</div><div class="why">1FN é a base. Sem ela, não se pode aplicar as formas normais seguintes. Cada célula deve ter exatamente um valor.</div></div>
+  <div class="ex-block"><div class="q">Exercício 8: Qual a diferença entre dependência parcial e transitiva?</div><div class="ans">→ <span class="highlight">Parcial:</span> atributo depende de parte da PK composta. <span class="highlight">Transitiva:</span> atributo depende de outro não-chave.</div><div class="why">2FN elimina parcial. 3FN elimina transitiva. São conceitos diferentes e exigem soluções diferentes (separação de tabelas).</div></div>
+</div>
+
+<!-- M2U1 -->
+<div id="m2u1" class="page">
+  <div class="mod-title">Módulo 2 — Definição e Manipulação de Dados Relacionais</div>
+  <div class="unit-title">Unidade 1 · SQL — Linguagem de Definição de Dados (DDL)</div>
+  <p class="body-text">A <span class="highlight">DDL (Data Definition Language)</span> define a estrutura do banco: cria, altera e remove tabelas e outros objetos. Os principais comandos são <span class="highlight">CREATE, ALTER e DROP</span>.</p>
+  <div class="code">-- Criar tabela
+CREATE TABLE Aluno (
+  matricula  INT          PRIMARY KEY,
+  nome       VARCHAR(100) NOT NULL,
+  cpf        CHAR(11)     UNIQUE,
+  nascimento DATE,
+  depto_id   INT          REFERENCES Departamento(depto_id)
+);</div>
+  <div class="code">-- Alterar tabela: adicionar coluna
+ALTER TABLE Aluno ADD COLUMN email VARCHAR(100);
+
+-- Alterar tabela: remover coluna
+ALTER TABLE Aluno DROP COLUMN email;
+
+-- Remover tabela
+DROP TABLE Aluno;</div>
+  <div class="table-wrap"><table>
+    <tr><th>Constraint</th><th>Descrição</th><th>Exemplo</th></tr>
+    <tr><td class="green">PRIMARY KEY</td><td>Identifica unicamente cada linha. Não NULL.</td><td>matricula INT PRIMARY KEY</td></tr>
+    <tr><td class="orange">FOREIGN KEY</td><td>Referencia PK de outra tabela</td><td>REFERENCES Depto(depto_id)</td></tr>
+    <tr><td class="highlight">UNIQUE</td><td>Valor único, pode ser NULL</td><td>cpf CHAR(11) UNIQUE</td></tr>
+    <tr><td class="aqua">NOT NULL</td><td>Não permite valores nulos</td><td>nome VARCHAR(100) NOT NULL</td></tr>
+    <tr><td class="red">CHECK</td><td>Valida condição booleana</td><td>CHECK (salario > 0)</td></tr>
+    <tr><td class="badge">DEFAULT</td><td>Valor padrão se não informado</td><td>ativo BOOLEAN DEFAULT TRUE</td></tr>
+  </table></div>
+  <div class="important"><div class="label">⚠ Importante</div><span class="highlight">DROP TABLE</span> remove a tabela e todos os dados permanentemente. <span class="highlight">TRUNCATE</span> remove só os dados. <span class="highlight">DELETE</span> remove registros com condição. São operações diferentes!</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 9: Qual a diferença entre PRIMARY KEY e UNIQUE?</div><div class="ans">→ PK: <span class="highlight">único + não NULL + identifica a linha</span>. UNIQUE: único, mas <span class="orange">pode ser NULL</span>.</div><div class="why">Uma tabela só tem uma PK (pode ser composta), mas pode ter vários UNIQUE. Ex: CPF é UNIQUE mas email também pode ser UNIQUE — a matrícula seria a PK.</div></div>
+  <div class="ex-block"><div class="q">Exercício 10: O que acontece ao usar DROP TABLE em uma tabela referenciada por FK?</div><div class="ans">→ O SGBD <span class="red">bloqueia</span> a operação por violação de integridade referencial.</div><div class="why">Deve-se primeiro remover a tabela que contém a FK, ou usar DROP TABLE ... CASCADE (apaga tudo em cascata — use com cuidado!).</div></div>
+</div>
+
+<!-- M2U2 -->
+<div id="m2u2" class="page">
+  <div class="mod-title">Módulo 2 — Definição e Manipulação de Dados Relacionais</div>
+  <div class="unit-title">Unidade 2 · SQL — Linguagem de Manipulação de Dados (DML)</div>
+  <p class="body-text">A <span class="highlight">DML (Data Manipulation Language)</span> manipula os dados dentro das tabelas. Comandos principais: <span class="highlight">SELECT, INSERT, UPDATE, DELETE</span>.</p>
+  <div class="code">-- INSERT
+INSERT INTO Aluno (matricula, nome, cpf) VALUES (1, 'Ana', '12345678901');
+
+-- UPDATE
+UPDATE Aluno SET nome = 'Ana Silva' WHERE matricula = 1;
+
+-- DELETE
+DELETE FROM Aluno WHERE matricula = 1;
+
+-- SELECT básico
+SELECT nome, cpf FROM Aluno WHERE depto_id = 3 ORDER BY nome;</div>
+  <div class="unit-title">SELECT — Cláusulas Principais</div>
+  <div class="table-wrap"><table>
+    <tr><th>Cláusula</th><th>Função</th><th>Exemplo</th></tr>
+    <tr><td class="green">WHERE</td><td>Filtra linhas</td><td>WHERE salario > 3000</td></tr>
+    <tr><td class="orange">GROUP BY</td><td>Agrupa para funções de agregação</td><td>GROUP BY depto_id</td></tr>
+    <tr><td class="highlight">HAVING</td><td>Filtra grupos (após GROUP BY)</td><td>HAVING COUNT(*) > 5</td></tr>
+    <tr><td class="aqua">ORDER BY</td><td>Ordena resultado</td><td>ORDER BY nome ASC</td></tr>
+    <tr><td class="red">LIMIT</td><td>Limita quantidade de linhas</td><td>LIMIT 10</td></tr>
+    <tr><td class="badge">DISTINCT</td><td>Remove duplicatas</td><td>SELECT DISTINCT depto_id</td></tr>
+  </table></div>
+  <div class="unit-title">JOINs</div>
+  <div class="code">-- INNER JOIN: só linhas que têm correspondência nos dois lados
+SELECT a.nome, d.nome_depto
+FROM Aluno a
+INNER JOIN Departamento d ON a.depto_id = d.depto_id;
+
+-- LEFT JOIN: todas as linhas da esquerda, NULL onde não há correspondência
+SELECT a.nome, d.nome_depto
+FROM Aluno a
+LEFT JOIN Departamento d ON a.depto_id = d.depto_id;</code>
+  </div>
+  <div class="table-wrap"><table>
+    <tr><th>JOIN</th><th>Resultado</th></tr>
+    <tr><td class="green">INNER JOIN</td><td>Só linhas com correspondência nos dois lados</td></tr>
+    <tr><td class="orange">LEFT JOIN</td><td>Todos da esquerda + correspondentes da direita (NULL se não houver)</td></tr>
+    <tr><td class="highlight">RIGHT JOIN</td><td>Todos da direita + correspondentes da esquerda (NULL se não houver)</td></tr>
+    <tr><td class="aqua">FULL JOIN</td><td>Todos de ambos os lados (NULL onde não há correspondência)</td></tr>
+  </table></div>
+  <div class="unit-title">Funções de Agregação</div>
+  <div class="code">SELECT depto_id,
+       COUNT(*)      AS total_func,
+       AVG(salario)  AS media_sal,
+       MAX(salario)  AS maior_sal,
+       MIN(salario)  AS menor_sal,
+       SUM(salario)  AS folha
+FROM Funcionario
+GROUP BY depto_id
+HAVING COUNT(*) > 3;</div>
+  <div class="important"><div class="label">⚠ WHERE vs HAVING</div><span class="highlight">WHERE</span> filtra <span class="green">linhas individuais</span> (antes do agrupamento). <span class="highlight">HAVING</span> filtra <span class="orange">grupos</span> (depois do GROUP BY). Não se usa HAVING sem GROUP BY.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 11: Liste os departamentos com mais de 5 funcionários e sua média salarial.</div><div class="ans">→ <span class="highlight">GROUP BY + HAVING COUNT(*) > 5 + AVG(salario)</span></div><div class="why">SELECT depto_id, AVG(salario) FROM Funcionario GROUP BY depto_id HAVING COUNT(*) > 5;</div></div>
+  <div class="ex-block"><div class="q">Exercício 12: Qual JOIN retorna todos os alunos mesmo que não estejam matriculados em nenhuma disciplina?</div><div class="ans">→ <span class="highlight">LEFT JOIN</span> — Aluno LEFT JOIN Matricula.</div><div class="why">LEFT JOIN mantém todos do lado esquerdo (Aluno). Para alunos sem matrícula, as colunas de Matricula ficarão NULL.</div></div>
+</div>
+
+<!-- M3U1 -->
+<div id="m3u1" class="page">
+  <div class="mod-title">Módulo 3 — Bancos de Dados Relacionais (Avançado)</div>
+  <div class="unit-title">Unidade 1 · Indexação e Segurança em Banco de Dados</div>
+  <p class="body-text">Um <span class="highlight">índice</span> é uma estrutura auxiliar que acelera as buscas. Funciona como o índice de um livro: em vez de ler todas as páginas, o SGBD vai direto ao ponto. O custo é espaço em disco e mais tempo nas inserções/atualizações.</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Sem índice</div><div class="cbody">Busca por nome: o SGBD lê <span class="red">todas as linhas</span> (full table scan). O(n) — lento para tabelas grandes.</div></div>
+    <div class="card"><div class="ctitle">Com índice (B-tree)</div><div class="cbody">Busca por nome: o SGBD percorre a <span class="green">árvore B</span> e vai direto ao registro. O(log n) — muito mais rápido.</div></div>
+  </div>
+  <div class="code">-- Criar índice
+CREATE INDEX idx_aluno_nome ON Aluno(nome);
+
+-- Índice único
+CREATE UNIQUE INDEX idx_aluno_cpf ON Aluno(cpf);
+
+-- Índice composto
+CREATE INDEX idx_func_depto_sal ON Funcionario(depto_id, salario);
+
+-- Remover índice
+DROP INDEX idx_aluno_nome;</div>
+  <div class="important"><div class="label">⚠ Quando criar índices</div>Crie índice em colunas usadas frequentemente em <span class="highlight">WHERE, JOIN, ORDER BY</span>. Evite em colunas com poucos valores distintos (ex: sexo M/F) — o ganho é mínimo e o custo de manutenção é alto.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Segurança — Controle de Acesso</div>
+  <p class="body-text">O SGBD controla quem pode fazer o quê usando <span class="highlight">GRANT</span> (conceder privilégios) e <span class="highlight">REVOKE</span> (revogar privilégios).</p>
+  <div class="code">-- Conceder privilégio de SELECT na tabela Aluno ao usuário 'joao'
+GRANT SELECT ON Aluno TO joao;
+
+-- Conceder múltiplos privilégios
+GRANT SELECT, INSERT, UPDATE ON Aluno TO maria;
+
+-- Revogar privilégio
+REVOKE INSERT ON Aluno FROM joao;
+
+-- Criar visão para restringir acesso a colunas sensíveis
+CREATE VIEW v_aluno_publico AS
+  SELECT matricula, nome FROM Aluno;
+GRANT SELECT ON v_aluno_publico TO publico;</div>
+  <div class="table-wrap"><table>
+    <tr><th>Privilégio SQL</th><th>O que permite</th></tr>
+    <tr><td class="green">SELECT</td><td>Ler dados</td></tr>
+    <tr><td class="orange">INSERT</td><td>Inserir novos registros</td></tr>
+    <tr><td class="highlight">UPDATE</td><td>Modificar registros existentes</td></tr>
+    <tr><td class="red">DELETE</td><td>Remover registros</td></tr>
+    <tr><td class="aqua">ALL PRIVILEGES</td><td>Todos os privilégios acima</td></tr>
+  </table></div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 13: Por que índices podem piorar a performance em operações de escrita?</div><div class="ans">→ A cada INSERT/UPDATE/DELETE, o SGBD precisa <span class="highlight">atualizar o índice</span>, gerando overhead.</div><div class="why">O ganho em leitura pode ser anulado pelo custo de manutenção em tabelas com muitas escritas. É um trade-off: leitura rápida vs escrita mais lenta.</div></div>
+  <div class="ex-block"><div class="q">Exercício 14: Como restringir um usuário para ver apenas algumas colunas de uma tabela?</div><div class="ans">→ Criar uma <span class="highlight">VIEW</span> com as colunas permitidas e conceder SELECT apenas na VIEW.</div><div class="why">O usuário nunca acessa a tabela diretamente — só enxerga a visão filtrada. É a forma padrão de controlar acesso a colunas.</div></div>
+</div>
+
+<!-- M3U2 -->
+<div id="m3u2" class="page">
+  <div class="mod-title">Módulo 3 — Bancos de Dados Relacionais (Avançado)</div>
+  <div class="unit-title">Unidade 2 · Processamento de Transações e Controle de Concorrência</div>
+  <p class="body-text">Uma <span class="highlight">transação</span> é uma sequência de operações tratada como uma unidade indivisível. Ou tudo acontece, ou nada acontece. Ex: transferência bancária — débito + crédito devem ocorrer juntos.</p>
+  <div class="unit-title">Propriedades ACID</div>
+  <div class="table-wrap"><table>
+    <tr><th>Propriedade</th><th>Significado</th><th>Exemplo</th></tr>
+    <tr><td class="green">Atomicidade</td><td>Tudo ou nada — sem operações parciais</td><td>Transferência: débito E crédito ocorrem juntos</td></tr>
+    <tr><td class="orange">Consistência</td><td>O banco vai de um estado válido para outro</td><td>Saldo nunca fica negativo se há restrição</td></tr>
+    <tr><td class="highlight">Isolamento</td><td>Transações paralelas não interferem entre si</td><td>Dois saques simultâneos não "se veem"</td></tr>
+    <tr><td class="aqua">Durabilidade</td><td>Dados confirmados persistem mesmo após falha</td><td>Após COMMIT, dados ficam em disco</td></tr>
+  </table></div>
+  <div class="code">-- Exemplo de transação
+BEGIN;
+  UPDATE Conta SET saldo = saldo - 500 WHERE id = 1;  -- débito
+  UPDATE Conta SET saldo = saldo + 500 WHERE id = 2;  -- crédito
+COMMIT;  -- confirma tudo
+
+-- Se der erro, desfaz:
+ROLLBACK;</div>
+  <div class="important"><div class="label">⚠ COMMIT vs ROLLBACK</div><span class="highlight">COMMIT</span>: confirma a transação permanentemente (durável). <span class="highlight">ROLLBACK</span>: desfaz todas as operações da transação — banco volta ao estado anterior ao BEGIN.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Controle de Concorrência — Problemas</div>
+  <div class="table-wrap"><table>
+    <tr><th>Problema</th><th>O que ocorre</th><th>Solução</th></tr>
+    <tr><td class="red">Leitura suja</td><td>Lê dado de transação não confirmada</td><td>Isolamento READ COMMITTED</td></tr>
+    <tr><td class="orange">Leitura não repetível</td><td>Lê o mesmo dado 2x e os valores diferem</td><td>Isolamento REPEATABLE READ</td></tr>
+    <tr><td class="highlight">Leitura fantasma</td><td>Nova linha aparece entre duas leituras</td><td>Isolamento SERIALIZABLE</td></tr>
+    <tr><td class="red">Atualização perdida</td><td>Duas transações sobrescrevem a mesma linha</td><td>Bloqueio (lock)</td></tr>
+  </table></div>
+  <div class="example"><div class="label">Exemplo — Leitura suja</div>T1 debita R$100 de uma conta (mas não fez COMMIT). T2 lê o saldo (já descontado). T1 faz ROLLBACK. Agora T2 tem um valor que nunca existiu — isso é leitura suja.</div>
+  <div class="important"><div class="label">⚠ Níveis de Isolamento (do menos para o mais restrito)</div>READ UNCOMMITTED → READ COMMITTED → REPEATABLE READ → <span class="highlight">SERIALIZABLE</span>. Mais isolamento = mais seguro, mas menor performance (mais bloqueios).</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 15: Por que a atomicidade é essencial em transferências bancárias?</div><div class="ans">→ Sem atomicidade, o débito pode ocorrer mas o crédito falhar, <span class="red">sumindo dinheiro do sistema</span>.</div><div class="why">A transação garante que ou ambas as operações ocorrem (COMMIT) ou nenhuma (ROLLBACK). Nunca um estado intermediário visível.</div></div>
+  <div class="ex-block"><div class="q">Exercício 16: Qual nível de isolamento previne leitura fantasma?</div><div class="ans">→ <span class="highlight">SERIALIZABLE</span> — o mais restritivo.</div><div class="why">SERIALIZABLE garante que o resultado de transações paralelas é igual ao de execução em série. Elimina todos os problemas, mas com maior custo de performance.</div></div>
+</div>
+
+<!-- M4U1 -->
+<div id="m4u1" class="page">
+  <div class="mod-title">Módulo 4 — Bancos de Dados NoSQL</div>
+  <div class="unit-title">Unidade 1 · Introdução ao NoSQL</div>
+  <p class="body-text"><span class="highlight">NoSQL</span> ("Not Only SQL") são SGBDs que não seguem o modelo relacional tradicional. Surgiram para lidar com <span class="highlight">grandes volumes de dados, alta disponibilidade e escalabilidade horizontal</span> — demandas que SGBDs relacionais têm dificuldade em atender.</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Banco Relacional (SQL)</div><div class="cbody">Esquema fixo (schema-on-write).<br>Transações ACID.<br>Escala vertical (hardware maior).<br>Dados estruturados.<br>Ex: MySQL, PostgreSQL, Oracle.</div></div>
+    <div class="card"><div class="ctitle">Banco NoSQL</div><div class="cbody">Esquema flexível (schema-on-read).<br>Consistência eventual (BASE).<br>Escala horizontal (mais máquinas).<br>Dados semi ou não estruturados.<br>Ex: MongoDB, Redis, Cassandra.</div></div>
+  </div>
+  <div class="unit-title">Teorema CAP</div>
+  <p class="body-text">Um sistema distribuído não pode garantir simultaneamente as três propriedades: <span class="highlight">Consistência (C)</span>, <span class="highlight">Disponibilidade (A)</span> e <span class="highlight">Tolerância a partições (P)</span>. Deve-se escolher 2.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Combinação CAP</th><th>Sacrifica</th><th>Exemplos</th></tr>
+    <tr><td class="green">CP</td><td>Disponibilidade</td><td>MongoDB, HBase</td></tr>
+    <tr><td class="orange">AP</td><td>Consistência</td><td>Cassandra, CouchDB</td></tr>
+    <tr><td class="highlight">CA</td><td>Tolerância a partições</td><td>SGBDs relacionais tradicionais</td></tr>
+  </table></div>
+  <div class="unit-title">Tipos de Bancos NoSQL</div>
+  <div class="table-wrap"><table>
+    <tr><th>Tipo</th><th>Estrutura</th><th>Uso ideal</th><th>Exemplos</th></tr>
+    <tr><td class="green">Chave-Valor</td><td>Dicionário simples</td><td>Cache, sessões</td><td>Redis, DynamoDB</td></tr>
+    <tr><td class="orange">Documentos</td><td>JSON/BSON aninhado</td><td>Catálogos, perfis</td><td>MongoDB, CouchDB</td></tr>
+    <tr><td class="highlight">Colunar</td><td>Famílias de colunas</td><td>Analytics, IoT</td><td>Cassandra, HBase</td></tr>
+    <tr><td class="aqua">Grafos</td><td>Nós e arestas</td><td>Redes sociais, rotas</td><td>Neo4j, ArangoDB</td></tr>
+  </table></div>
+  <div class="important"><div class="label">⚠ BASE vs ACID</div>NoSQL segue BASE: <span class="highlight">B</span>asically Available, <span class="highlight">S</span>oft state, <span class="highlight">E</span>ventually consistent. A consistência é eventual — todos os nós convergem para o mesmo valor, mas pode haver um atraso.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 17: Por que redes sociais (ex: Facebook) usam NoSQL?</div><div class="ans">→ Volume massivo de dados não estruturados, necessidade de <span class="highlight">escala horizontal</span> e alta disponibilidade.</div><div class="why">Bilhões de usuários geram posts, curtidas e comentários com estruturas variadas. NoSQL escala adicionando servidores (horizontal) sem reformular o esquema.</div></div>
+  <div class="ex-block"><div class="q">Exercício 18: O que é consistência eventual?</div><div class="ans">→ Os dados ficam <span class="highlight">temporariamente inconsistentes</span> entre nós, mas convergem para o mesmo valor após algum tempo.</div><div class="why">Ex: você posta algo no Instagram e por segundos alguns usuários não veem. Depois de propagação, todos veem. A consistência veio, mas com atraso.</div></div>
+</div>
+
+<!-- M4U2 -->
+<div id="m4u2" class="page">
+  <div class="mod-title">Módulo 4 — Bancos de Dados NoSQL</div>
+  <div class="unit-title">Unidade 2 · NoSQL Orientado a Documentos e Outros SGBDs</div>
+  <p class="body-text">O <span class="highlight">MongoDB</span> é o banco de documentos mais popular. Armazena dados em formato <span class="highlight">BSON</span> (Binary JSON) em coleções. Não exige esquema fixo — cada documento pode ter campos diferentes.</p>
+  <div class="code">// Inserir documento
+db.alunos.insertOne({
+  nome: "Ana Silva",
+  matricula: 12345,
+  notas: [8.5, 9.0, 7.5],
+  endereco: { cidade: "Campo Grande", uf: "MS" }
+});
+
+// Buscar
+db.alunos.find({ nome: "Ana Silva" });
+
+// Atualizar
+db.alunos.updateOne(
+  { matricula: 12345 },
+  { $set: { nome: "Ana Costa" } }
+);
+
+// Remover
+db.alunos.deleteOne({ matricula: 12345 });</div>
+  <div class="unit-title">Comparativo — SQL vs MongoDB</div>
+  <div class="table-wrap"><table>
+    <tr><th>SQL (Relacional)</th><th>MongoDB (Documentos)</th></tr>
+    <tr><td>Banco de dados</td><td>Banco de dados</td></tr>
+    <tr><td>Tabela</td><td>Coleção (Collection)</td></tr>
+    <tr><td>Linha (Tupla)</td><td>Documento (Document)</td></tr>
+    <tr><td>Coluna</td><td>Campo (Field)</td></tr>
+    <tr><td>JOIN entre tabelas</td><td>$lookup ou dados embutidos</td></tr>
+    <tr><td>Schema fixo</td><td>Schema flexível</td></tr>
+  </table></div>
+  <div class="unit-title">Redis — Banco Chave-Valor</div>
+  <p class="body-text">O <span class="highlight">Redis</span> armazena pares chave-valor na memória RAM — extremamente rápido. Ideal para <span class="highlight">cache, sessões, filas e contadores em tempo real</span>.</p>
+  <div class="code">SET usuario:1:nome "Ana Silva"    # armazena
+GET usuario:1:nome                 # retorna "Ana Silva"
+SETEX sessao:abc123 3600 "dados"  # expira em 1h (cache de sessão)
+INCR visitas:pagina:home          # contador atômico</div>
+  <div class="unit-title">Cassandra — Banco Colunar</div>
+  <p class="body-text">O <span class="highlight">Cassandra</span> é otimizado para escrita massiva e dados distribuídos geograficamente. Usa <span class="highlight">famílias de colunas</span> e tem linguagem própria (CQL — Cassandra Query Language).</p>
+  <div class="important"><div class="label">⚠ Quando usar cada NoSQL</div>
+    <span class="green">Redis:</span> cache, sessão, tempo real.<br>
+    <span class="orange">MongoDB:</span> catálogos, CMS, perfis de usuário, dados variáveis.<br>
+    <span class="highlight">Cassandra:</span> logs, IoT, séries temporais, alta escrita.<br>
+    <span class="aqua">Neo4j:</span> redes sociais, recomendações, rotas.
+  </div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 19: Por que o MongoDB não precisa de ALTER TABLE ao adicionar um campo novo?</div><div class="ans">→ Documentos são <span class="highlight">independentes</span> — cada um pode ter campos diferentes.</div><div class="why">Em SQL, todos os registros compartilham o mesmo esquema. No MongoDB, um novo campo é adicionado apenas nos documentos que precisam — os demais continuam sem ele.</div></div>
+  <div class="ex-block"><div class="q">Exercício 20: Qual banco usar para armazenar o carrinho de compras de um e-commerce com alta concorrência?</div><div class="ans">→ <span class="highlight">Redis</span> — rápido, em memória, suporta expiração automática e operações atômicas.</div><div class="why">Carrinhos são temporários, lidos/escritos com alta frequência. Redis garante acesso em microssegundos e pode expirar automaticamente carrinhos abandonados.</div></div>
+</div>
+
+<!-- COLA -->
+<div id="cola" class="page">
+  <div class="mod-title">🗒 Cola de Prova — Resumo Geral de Banco de Dados</div>
+  <div class="unit-title">Comparativo de Modelos</div>
+  <div class="table-wrap"><table>
+    <tr><th>Modelo</th><th>Fase</th><th>Foco</th><th>Ferramenta</th></tr>
+    <tr><td class="green">Conceitual (ER)</td><td>Análise</td><td>O que guardar — entidades e relacionamentos</td><td>Diagrama ER</td></tr>
+    <tr><td class="orange">Lógico (Relacional)</td><td>Projeto</td><td>Como organizar — tabelas, PKs, FKs</td><td>Esquema de tabelas</td></tr>
+    <tr><td class="highlight">Físico</td><td>Implementação</td><td>Como armazenar — índices, partições</td><td>SQL DDL no SGBD</td></tr>
+  </table></div>
+  <div class="unit-title">Formas Normais</div>
+  <div class="table-wrap"><table>
+    <tr><th>Forma Normal</th><th>Regra central</th><th>O que elimina</th></tr>
+    <tr><td class="green">1FN</td><td>Atributos atômicos</td><td>Grupos repetidos, listas em colunas</td></tr>
+    <tr><td class="orange">2FN</td><td>Sem dependência parcial da PK</td><td>Redundância em PKs compostas</td></tr>
+    <tr><td class="highlight">3FN</td><td>Sem dependência transitiva</td><td>Atributos que dependem de não-chave</td></tr>
+  </table></div>
+  <div class="unit-title">SQL — Ordem de Execução</div>
+  <div class="code">SELECT   -- 6. seleciona colunas
+FROM     -- 1. identifica tabelas
+JOIN     -- 2. combina tabelas
+WHERE    -- 3. filtra linhas
+GROUP BY -- 4. agrupa
+HAVING   -- 5. filtra grupos
+ORDER BY -- 7. ordena
+LIMIT    -- 8. limita</div>
+  <div class="unit-title">Propriedades ACID × BASE</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">ACID (SQL)</div><div class="cbody"><span class="green">A</span>tomicidade — tudo ou nada<br><span class="green">C</span>onsistência — estado sempre válido<br><span class="green">I</span>solamento — transações independentes<br><span class="green">D</span>urabilidade — persistência após commit</div></div>
+    <div class="card"><div class="ctitle">BASE (NoSQL)</div><div class="cbody"><span class="orange">B</span>asically Available — sempre responde<br><span class="orange">S</span>oft state — estado pode mudar<br><span class="orange">E</span>ventually consistent — convergência</div></div>
+  </div>
+  <div class="unit-title" style="margin-top:1.2rem;">⭐ Regras de Ouro para a Prova</div>
+  <div style="display:grid;gap:8px;margin-top:.5rem;">
+    <div class="important"><div class="label">Regra</div>FK fica sempre no lado <span class="highlight">N</span> do relacionamento 1:N</div>
+    <div class="important"><div class="label">Regra</div>Relacionamento N:M <span class="highlight">sempre gera uma tabela intermediária</span></div>
+    <div class="important"><div class="label">Regra</div><span class="highlight">WHERE</span> filtra linhas. <span class="highlight">HAVING</span> filtra grupos. Não confunda!</div>
+    <div class="important"><div class="label">Regra</div>INNER JOIN só retorna linhas com correspondência. LEFT JOIN retorna <span class="highlight">todos da esquerda</span></div>
+    <div class="important"><div class="label">Regra</div><span class="highlight">COMMIT</span> confirma. <span class="highlight">ROLLBACK</span> desfaz. Sem COMMIT, nada é persistido</div>
+    <div class="important"><div class="label">Regra</div>Índice acelera leitura mas <span class="highlight">custa em escrita</span>. Crie só onde há ganho real</div>
+    <div class="important"><div class="label">Regra</div>NoSQL = escala horizontal + esquema flexível. SQL = ACID + integridade referencial</div>
+    <div class="important"><div class="label">Regra</div>Teorema CAP: nunca há C + A + P juntos — <span class="highlight">sempre sacrifica um</span></div>
+  </div>
+</div>
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const btns=document.querySelectorAll('.nav button');
+  btns.forEach(b=>{if(b.getAttribute('onclick')===`show('${id}')`){b.classList.add('active');}});
+}
+</script>
