@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sistemas Computacionais — Notas</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;}
+.root{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;padding:1.5rem;min-height:100vh;}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.nav button{background:#3c3836;border:1px solid #504945;color:#a89984;font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:monospace;}
+.nav button.active{background:#504945;color:#fabd2f;border-color:#fabd2f;}
+.page{display:none;}.page.active{display:block;}
+.mod-title{color:#fabd2f;font-size:17px;font-weight:700;border-bottom:2px solid #fabd2f;padding-bottom:6px;margin-bottom:1rem;letter-spacing:.5px;}
+.unit-title{color:#fe8019;font-size:14px;font-weight:700;margin:1.2rem 0 .6rem;letter-spacing:.3px;}
+.body-text{color:#ebdbb2;font-size:13px;line-height:1.7;margin-bottom:.4rem;}
+.example{background:#32302f;border-left:3px solid #b8bb26;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#ebdbb2;font-size:13px;line-height:1.6;}
+.example .label{color:#b8bb26;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.important{background:#3c2b2b;border-left:3px solid #fb4934;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#fabd2f;font-size:13px;line-height:1.6;}
+.important .label{color:#fb4934;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.ex-block{background:#2d3b3b;border-left:3px solid #8ec07c;border-radius:0 4px 4px 0;padding:10px 14px;margin:.6rem 0;}
+.ex-block .q{color:#8ec07c;font-size:13px;font-weight:700;margin-bottom:4px;}
+.ex-block .ans{color:#fabd2f;font-size:13px;margin-bottom:3px;}
+.ex-block .why{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{border-collapse:collapse;width:100%;font-size:12px;}
+th{background:#3c3836;color:#fabd2f;padding:6px 10px;border:1px solid #504945;text-align:left;}
+td{padding:5px 10px;border:1px solid #504945;color:#ebdbb2;}
+tr:nth-child(even) td{background:#32302f;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.6rem 0;}
+.card{background:#32302f;border:1px solid #504945;border-radius:6px;padding:12px;}
+.card .ctitle{color:#fe8019;font-size:12px;font-weight:700;margin-bottom:6px;}
+.card .cbody{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.highlight{color:#fabd2f;font-weight:700;}
+.green{color:#b8bb26;}.red{color:#fb4934;}.orange{color:#fe8019;}.aqua{color:#8ec07c;}
+.section-sep{border:0;border-top:1px solid #504945;margin:1.2rem 0;}
+.code{background:#1d2021;border:1px solid #504945;border-radius:4px;padding:8px 12px;font-family:monospace;font-size:12px;color:#b8bb26;margin:.4rem 0;white-space:pre-wrap;}
+@media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="root">
+<h2 style="color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;">&#128187; Sistemas Computacionais — Notas de Aula</h2>
+<p style="color:#665c54;font-size:10px;margin-bottom:1rem;">Organizacao de Computadores &nbsp;|&nbsp; Interface HW/SW &nbsp;|&nbsp; E/S &nbsp;|&nbsp; Sistemas Operacionais</p>
+<div class="nav">
+  <button class="active" onclick="show('m1')">M1: Processador e Memória</button>
+  <button onclick="show('m2')">M2: ISA e Assembly</button>
+  <button onclick="show('m3')">M3: E/S e Arquiteturas</button>
+  <button onclick="show('m4')">M4: Sistemas Operacionais</button>
+  <button onclick="show('cola')">&#128221; Cola de Prova</button>
+</div>
+
+<!-- M1 -->
+<div id="m1" class="page active">
+  <div class="mod-title">Módulo 1 — Organização de Computadores</div>
+  <div class="unit-title">Unidade 1 · Processador e Execução de Instruções</div>
+  <p class="body-text">Um computador segue a <span class="highlight">Arquitetura de Von Neumann</span>: CPU, memória, E/S e barramento. Programa e dados ficam na mesma memória.</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Componentes da CPU</div><div class="cbody"><span class="highlight">ULA</span> — opera dados (+, -, AND, OR…)<br><span class="highlight">UC</span> — busca, decodifica e executa<br><span class="highlight">Registradores</span> — memória interna ultra-rápida</div></div>
+    <div class="card"><div class="ctitle">Registradores Importantes</div><div class="cbody"><span class="highlight">PC</span> — endereço da próxima instrução<br><span class="highlight">IR</span> — instrução atual em execução<br><span class="highlight">MAR</span> — endereço de memória<br><span class="highlight">MDR</span> — dado lido/escrito na memória<br><span class="highlight">ACC</span> — resultado da ULA</div></div>
+  </div>
+  <div class="unit-title">Ciclo Fetch-Decode-Execute</div>
+  <div class="code">1. FETCH     PC → MAR → Memória → MDR → IR   (busca instrução)
+2. DECODE    UC identifica o opcode do IR        (entende a instrução)
+3. EXECUTE   UC aciona ULA / registradores       (executa)
+4. PC = PC+1 aponta para próxima instrução       (repete infinitamente)</div>
+  <div class="example"><div class="label">Exemplo — ADD R1, R2</div>1. Fetch: busca instrução no endereço do PC.<br>2. Decode: UC identifica ADD, operandos R1 e R2.<br>3. Execute: ULA soma R1+R2, resultado em R1.<br>4. PC incrementa para próxima instrução.</div>
+  <div class="important"><div class="label">⚠ Pipeline</div>Executa várias instruções em paralelo, cada uma em fase diferente. Aumenta <span class="highlight">throughput</span> mas não reduz a latência de uma instrução individual. Problema: dependência entre instruções causa bolhas (stall).</div>
+  <div class="important"><div class="label">⚠ RISC vs CISC</div><span class="highlight">RISC</span> (ARM, MIPS): instruções simples, tamanho fixo, 1 ciclo. Fácil de fazer pipeline. <span class="highlight">CISC</span> (x86): instruções complexas, tamanho variável, mais próximas de alto nível. Mais poderoso por instrução.</div>
+
+  <hr class="section-sep">
+  <div class="unit-title">Unidade 2 · Hierarquia de Memórias</div>
+  <div class="table-wrap"><table>
+    <tr><th>Nível</th><th>Tipo</th><th>Velocidade</th><th>Tamanho</th><th>Custo</th></tr>
+    <tr><td class="green">Registradores</td><td>Flip-flops na CPU</td><td class="green">~0,3 ns</td><td>Bytes</td><td class="red">Altíssimo</td></tr>
+    <tr><td class="green">Cache L1/L2/L3</td><td>SRAM</td><td class="green">1–10 ns</td><td>KB–MB</td><td class="red">Alto</td></tr>
+    <tr><td class="highlight">RAM Principal</td><td>DRAM</td><td class="orange">~60 ns</td><td>GB</td><td class="orange">Médio</td></tr>
+    <tr><td class="aqua">SSD / HD</td><td>Flash / Magnético</td><td class="red">μs – ms</td><td>TB</td><td class="green">Baixo</td></tr>
+    <tr><td>Fita / Nuvem</td><td>Magnético / Rede</td><td class="red">Segundos</td><td>PB</td><td class="green">Muito baixo</td></tr>
+  </table></div>
+
+  <div class="unit-title">Memória Cache</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Localidade Temporal</div><div class="cbody">Dado usado recentemente tende a ser usado de novo em breve. Ex: variável <code>i</code> de um loop.</div></div>
+    <div class="card"><div class="ctitle">Localidade Espacial</div><div class="cbody">Dados próximos ao que foi acessado tendem a ser acessados logo. Ex: elementos consecutivos de um array.</div></div>
+  </div>
+  <div class="important"><div class="label">⚠ Hit vs Miss</div><span class="green">Cache Hit:</span> dado encontrado na cache → rápido. <span class="red">Cache Miss:</span> dado não está → busca na RAM e traz para cache. Taxa de hit ≈ 95% em bons programas.</div>
+
+  <div class="unit-title">Memória Virtual</div>
+  <p class="body-text">Permite usar mais memória do que a RAM física disponível, usando o disco como extensão. O SO mapeia endereços virtuais em físicos via <span class="highlight">tabela de páginas</span>.</p>
+  <div class="important"><div class="label">⚠ Page Fault</div>Página acessada não está na RAM → SO interrompe o processo, carrega do disco e retoma. Excessos de page fault = <span class="red">thrashing</span> — sistema trava trocando páginas em vez de processar.</div>
+
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 1: Qual é o papel do PC (Program Counter)?</div><div class="ans">→ Guardar o <span class="highlight">endereço da próxima instrução</span> a ser executada.</div><div class="why">Após cada fetch o PC é incrementado. Em desvios (if/for), o PC recebe o endereço do salto destino.</div></div>
+  <div class="ex-block"><div class="q">Exercício 2: Por que a cache funciona bem na prática?</div><div class="ans">→ Programas exibem <span class="highlight">localidade temporal e espacial</span> — acessam repetidamente os mesmos dados e dados próximos.</div><div class="why">Loops acessam a mesma variável várias vezes (temporal). Arrays são percorridos sequencialmente (espacial). Isso garante alta taxa de hit.</div></div>
+</div>
+
+<!-- M2 -->
+<div id="m2" class="page">
+  <div class="mod-title">Módulo 2 — Interface Hardware/Software</div>
+  <div class="unit-title">Unidade 1 · ISA e Linguagem de Montagem (Assembly)</div>
+  <p class="body-text">O <span class="highlight">ISA</span> (Instruction Set Architecture) é a interface entre hardware e software — define instruções disponíveis, registradores e modos de endereçamento.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Tipo de Instrução</th><th>O que faz</th><th>Exemplo</th></tr>
+    <tr><td class="green">Aritmética/Lógica</td><td>Operações na ULA</td><td>ADD R1, R2, R3 → R1 = R2+R3</td></tr>
+    <tr><td class="orange">Transferência</td><td>Move dados entre registradores e memória</td><td>LOAD R1, 100 → R1 = MEM[100]</td></tr>
+    <tr><td class="highlight">Desvio (Branch)</td><td>Altera fluxo de execução</td><td>BEQ R1, R2, label</td></tr>
+    <tr><td class="aqua">Comparação</td><td>Compara valores, seta flags</td><td>CMP R1, R2</td></tr>
+    <tr><td class="red">E/S</td><td>Comunica com dispositivos</td><td>IN / OUT porta, reg</td></tr>
+  </table></div>
+
+  <div class="unit-title">Modos de Endereçamento</div>
+  <div class="table-wrap"><table>
+    <tr><th>Modo</th><th>Operando obtido</th><th>Exemplo</th></tr>
+    <tr><td class="green">Imediato</td><td>Valor está na própria instrução</td><td>ADD R1, #5 → R1 = R1+5</td></tr>
+    <tr><td class="orange">Direto</td><td>Endereço de memória na instrução</td><td>LOAD R1, 200 → R1=MEM[200]</td></tr>
+    <tr><td class="highlight">Indireto por Reg.</td><td>Registrador guarda o endereço</td><td>LOAD R1, (R2) → MEM[R2]</td></tr>
+    <tr><td class="aqua">Indexado</td><td>Base + deslocamento</td><td>LOAD R1, 4(R2) → MEM[R2+4]</td></tr>
+  </table></div>
+
+  <div class="code">; Exemplo Assembly x86 — soma de dois números
+    mov eax, [a]      ; carrega 'a' no registrador EAX
+    add eax, [b]      ; EAX = EAX + b
+    mov [result], eax ; salva resultado na memória
+
+; if (a > b) em Assembly
+    cmp eax, ebx      ; compara a e b, seta flags
+    jg  maior         ; jump if greater → salta para 'maior'
+    ; bloco else aqui
+maior:
+    ; bloco then aqui</div>
+  <div class="important"><div class="label">⚠ Importante</div>Assembly é <span class="highlight">dependente de arquitetura</span> — código x86 não roda em ARM sem recompilar. C e Java abstraem isso: o compilador/JVM gera o código correto para cada plataforma.</div>
+
+  <div class="unit-title">Unidade 2 · Tradução de Alto Nível para Máquina</div>
+  <div class="code">Código-fonte (.c / .java)
+      ↓  Compilador
+Assembly / Bytecode
+      ↓  Montador (Assembler)
+Código de Máquina (binário)
+      ↓  Linker
+Executável final</div>
+  <div class="table-wrap"><table>
+    <tr><th>Ferramenta</th><th>Função</th><th>Entrada → Saída</th></tr>
+    <tr><td class="green">Compilador</td><td>Traduz código-fonte para assembly/objeto</td><td>.c → .s / .o</td></tr>
+    <tr><td class="orange">Montador</td><td>Converte assembly para código de máquina</td><td>.s → .o</td></tr>
+    <tr><td class="highlight">Linker</td><td>Une módulos e bibliotecas</td><td>.o → executável</td></tr>
+    <tr><td class="aqua">Loader</td><td>Carrega executável na memória e inicia</td><td>executável → processo</td></tr>
+    <tr><td class="red">Interpretador</td><td>Executa linha a linha sem compilar antes</td><td>.py → executa direto</td></tr>
+  </table></div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 3: Qual a diferença entre compilador e interpretador?</div><div class="ans">→ Compilador traduz <span class="highlight">tudo antes</span> (mais rápido na execução). Interpretador traduz e executa <span class="highlight">linha a linha</span> (mais flexível, mais lento).</div><div class="why">C é compilado. Python é interpretado. Java é híbrido: compila para bytecode e a JVM interpreta/JIT-compila.</div></div>
+  <div class="ex-block"><div class="q">Exercício 4: No modo imediato, onde está o operando?</div><div class="ans">→ Embutido na <span class="highlight">própria instrução</span> — não precisa acessar a memória.</div><div class="why">É o modo mais rápido. A limitação é o tamanho do valor (cabe em poucos bits da instrução). Ex: ADD R1, #5 — o 5 vem direto da instrução.</div></div>
+</div>
+
+<!-- M3 -->
+<div id="m3" class="page">
+  <div class="mod-title">Módulo 3 — Entrada e Saída e Arquiteturas Atuais</div>
+  <div class="unit-title">Unidade 1 · Dispositivos e Operações de E/S</div>
+  <div class="table-wrap"><table>
+    <tr><th>Técnica E/S</th><th>Como funciona</th><th>CPU bloqueada?</th><th>Uso</th></tr>
+    <tr><td class="red">Polling (E/S Programada)</td><td>CPU fica em loop verificando se terminou</td><td class="red">Sim — busy-wait</td><td>Sistemas embarcados simples</td></tr>
+    <tr><td class="orange">Interrupção</td><td>Dispositivo avisa CPU via IRQ ao terminar</td><td class="green">Não</td><td>Teclado, mouse, rede</td></tr>
+    <tr><td class="green">DMA</td><td>Controlador DMA transfere sem envolver a CPU</td><td class="green">Quase não</td><td>Disco, placa de vídeo, áudio</td></tr>
+  </table></div>
+  <div class="example"><div class="label">Exemplo — Interrupção de Teclado</div>1. Tecla pressionada → controlador gera IRQ.<br>2. CPU termina instrução atual e salva contexto.<br>3. Executa ISR (Interrupt Service Routine) — lê o dado.<br>4. Restaura contexto e continua o programa anterior.</div>
+  <div class="example"><div class="label">Exemplo — DMA para leitura de disco</div>1. CPU configura DMA: destino na RAM, quantidade, endereço no disco.<br>2. DMA assume o barramento e transfere diretamente para RAM.<br>3. Ao terminar, DMA gera interrupção para avisar a CPU.<br>4. CPU não ficou bloqueada durante a transferência!</div>
+  <div class="important"><div class="label">⚠ Barramento (Bus)</div><span class="highlight">Dados:</span> transporta os dados. <span class="highlight">Endereços:</span> indica onde ler/escrever. <span class="highlight">Controle:</span> sinais de leitura, escrita, interrupção. Largura do barramento de endereços define o espaço máximo endereçável (32 bits → 4 GB).</div>
+
+  <div class="unit-title">Unidade 2 · Arquiteturas de Computadores Atuais</div>
+  <div class="table-wrap"><table>
+    <tr><th>Arquitetura</th><th>Tipo</th><th>Exemplos</th><th>Uso principal</th></tr>
+    <tr><td class="green">x86-64</td><td>CISC</td><td>Intel Core, AMD Ryzen</td><td>Desktops, servidores</td></tr>
+    <tr><td class="orange">ARM</td><td>RISC</td><td>Apple M1/M2, Snapdragon</td><td>Mobile, notebooks</td></tr>
+    <tr><td class="highlight">RISC-V</td><td>RISC open-source</td><td>SiFive, chips IoT</td><td>Pesquisa, IoT</td></tr>
+    <tr><td class="aqua">GPU</td><td>Milhares de núcleos simples</td><td>NVIDIA, AMD</td><td>IA, gráficos, computação paralela</td></tr>
+  </table></div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Classificação de Flynn</div><div class="cbody"><span class="highlight">SISD:</span> 1 instrução, 1 dado (clássico)<br><span class="highlight">SIMD:</span> 1 instrução, múltiplos dados (GPU, AVX)<br><span class="highlight">MIMD:</span> múltiplas instruções, múltiplos dados (multicore)</div></div>
+    <div class="card"><div class="ctitle">Lei de Amdahl</div><div class="cbody">Speedup máximo é limitado pela fração <span class="highlight">serial</span> do programa. Se 20% é serial → speedup máximo = 5×, independente de quantos núcleos adicionar.</div></div>
+  </div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 5: Por que DMA é preferível ao polling para grandes transferências?</div><div class="ans">→ DMA libera a <span class="highlight">CPU para outras tarefas</span>. Polling desperdiça 100% da CPU em busy-wait.</div><div class="why">1GB de disco com polling: CPU fica presa em loop por segundos. Com DMA: executa outros processos e recebe interrupção ao final.</div></div>
+  <div class="ex-block"><div class="q">Exercício 6: Por que ARM domina smartphones e x86 domina desktops?</div><div class="ans">→ ARM é mais <span class="highlight">eficiente energeticamente</span> (bateria). x86 tem maior desempenho bruto com energia ilimitada.</div><div class="why">RISC executa instruções simples com menos transistores e calor. CISC faz mais por ciclo mas consome mais energia — inviável em mobile.</div></div>
+</div>
+
+<!-- M4 -->
+<div id="m4" class="page">
+  <div class="mod-title">Módulo 4 — Sistemas Operacionais</div>
+  <div class="unit-title">Unidade 1 · Gerência de Processos</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Processo</div><div class="cbody">Programa em execução com espaço de memória próprio e isolado. Troca de contexto entre processos é <span class="red">custosa</span>.</div></div>
+    <div class="card"><div class="ctitle">Thread</div><div class="cbody">Linha de execução dentro de um processo. Threads <span class="highlight">compartilham memória</span> do processo. Troca de contexto é mais <span class="green">leve</span>.</div></div>
+  </div>
+  <div class="unit-title">Estados de um Processo</div>
+  <div class="code">Novo → Pronto → Executando ⇌ Bloqueado → Pronto → ... → Terminado
+
+Novo:       criado, aguardando admissão pelo SO
+Pronto:     na fila, esperando CPU
+Executando: usando a CPU (1 por núcleo por vez)
+Bloqueado:  aguardando E/S ou evento (libera a CPU)
+Terminado:  execução encerrada</div>
+  <div class="unit-title">Algoritmos de Escalonamento</div>
+  <div class="table-wrap"><table>
+    <tr><th>Algoritmo</th><th>Como funciona</th><th>Preemptivo?</th><th>Problema</th></tr>
+    <tr><td class="orange">FCFS</td><td>Ordem de chegada</td><td class="red">Não</td><td>Convoy effect: processo longo bloqueia todos</td></tr>
+    <tr><td class="green">SJF</td><td>Menor burst de CPU primeiro</td><td>Depende</td><td>Starvation de processos longos</td></tr>
+    <tr><td class="highlight">Round Robin</td><td>Cada processo ganha um quantum, depois vai ao fim da fila</td><td class="green">Sim</td><td>Overhead se quantum muito pequeno</td></tr>
+    <tr><td class="aqua">Prioridade</td><td>Maior prioridade executa primeiro</td><td>Depende</td><td>Starvation de baixa prioridade</td></tr>
+  </table></div>
+  <div class="example"><div class="label">Exemplo — Round Robin quantum=4ms</div>P1(burst=8), P2(burst=4), P3(burst=6).<br>Ordem: P1(4)→P2(4)→P3(4)→P1(4)→P3(2). Nenhum processo fica preso esperando outro terminar.</div>
+
+  <div class="unit-title">Unidade 2 · Gerência de Memória</div>
+  <div class="table-wrap"><table>
+    <tr><th>Técnica</th><th>Como funciona</th><th>Problema</th></tr>
+    <tr><td class="green">Partição fixa</td><td>RAM em blocos fixos — processo ocupa um bloco</td><td>Fragmentação interna</td></tr>
+    <tr><td class="orange">Partição variável</td><td>Blocos do tamanho exato do processo</td><td>Fragmentação externa</td></tr>
+    <tr><td class="highlight">Paginação</td><td>Processo em páginas, RAM em frames. Tabela de páginas mapeia.</td><td>Overhead da tabela</td></tr>
+    <tr><td class="aqua">Segmentação</td><td>Processo em segmentos lógicos (código, dados, pilha)</td><td>Fragmentação externa</td></tr>
+  </table></div>
+  <div class="important"><div class="label">⚠ Fragmentação</div><span class="highlight">Interna:</span> espaço desperdiçado dentro do bloco alocado (bloco 4KB para processo 3KB → 1KB perdido). <span class="highlight">Externa:</span> espaço livre espalhado em fragmentos não contíguos — soma seria suficiente, mas não serve.</div>
+  <hr class="section-sep">
+  <div class="unit-title">Exercícios Resolvidos</div>
+  <div class="ex-block"><div class="q">Exercício 7: Qual a diferença entre processo e thread?</div><div class="ans">→ Processo tem <span class="highlight">memória própria e isolada</span>. Threads compartilham a memória do processo pai.</div><div class="why">Thread é mais leve — ideal para paralelismo dentro do mesmo programa. Ex: servidor web cria uma thread por requisição, não um processo novo.</div></div>
+  <div class="ex-block"><div class="q">Exercício 8: Por que Round Robin é mais justo que FCFS?</div><div class="ans">→ Divide CPU igualmente com quantum. FCFS pode deixar processos curtos esperando um <span class="highlight">processo longo terminar</span>.</div><div class="why">Com quantum=100ms, cada processo tem no máximo 100ms por vez. No FCFS, P1 com burst de 10s trava P2 e P3 inteiros.</div></div>
+</div>
+
+<!-- COLA -->
+<div id="cola" class="page">
+  <div class="mod-title">&#128221; Cola de Prova — Sistemas Computacionais</div>
+  <div class="unit-title">Hierarquia de Memória</div>
+  <div class="code">Registradores → Cache L1 → L2 → L3 → RAM → SSD → HD → Fita
+    ~0,3ns         ~1ns     ~5ns  ~10ns  ~60ns   μs    ms</div>
+  <div class="unit-title">Ciclo de Instrução</div>
+  <div class="code">PC → MAR → Memória → MDR → IR → UC decodifica → ULA executa → PC+1</div>
+  <div class="unit-title">Técnicas de E/S</div>
+  <div class="table-wrap"><table>
+    <tr><th>Técnica</th><th>CPU bloqueada?</th><th>Uso ideal</th></tr>
+    <tr><td class="red">Polling</td><td class="red">Sim — busy-wait</td><td>Embarcados simples</td></tr>
+    <tr><td class="orange">Interrupção</td><td class="green">Não</td><td>Teclado, mouse, rede</td></tr>
+    <tr><td class="green">DMA</td><td class="green">Quase não</td><td>Disco, vídeo, áudio</td></tr>
+  </table></div>
+  <div class="unit-title">Escalonamento</div>
+  <div class="table-wrap"><table>
+    <tr><th>Algoritmo</th><th>Preemptivo?</th><th>Problema</th></tr>
+    <tr><td class="orange">FCFS</td><td class="red">Não</td><td>Convoy effect</td></tr>
+    <tr><td class="green">SJF</td><td>Depende</td><td>Starvation</td></tr>
+    <tr><td class="highlight">Round Robin</td><td class="green">Sim</td><td>Overhead de quantum pequeno</td></tr>
+    <tr><td class="aqua">Prioridade</td><td>Depende</td><td>Starvation de baixa prioridade</td></tr>
+  </table></div>
+  <div class="unit-title" style="margin-top:1.2rem;">&#11088; Regras de Ouro</div>
+  <div style="display:grid;gap:8px;margin-top:.5rem;">
+    <div class="important"><div class="label">Regra</div>PC = endereço da <span class="highlight">próxima</span> instrução. IR = instrução <span class="highlight">atual</span>.</div>
+    <div class="important"><div class="label">Regra</div>Cache funciona por <span class="highlight">localidade temporal e espacial</span></div>
+    <div class="important"><div class="label">Regra</div>Page fault = página não está na RAM. Thrashing = page faults <span class="highlight">excessivos</span></div>
+    <div class="important"><div class="label">Regra</div>DMA transfere dados <span class="highlight">sem envolver a CPU</span> — melhor para grandes volumes</div>
+    <div class="important"><div class="label">Regra</div>Fragmentação <span class="highlight">interna</span> = dentro do bloco. <span class="highlight">Externa</span> = entre blocos espalhados</div>
+    <div class="important"><div class="label">Regra</div>RISC = simples, eficiente (ARM mobile). CISC = complexo, poderoso (x86 desktop)</div>
+    <div class="important"><div class="label">Regra</div>Thread compartilha memória. Processo tem memória <span class="highlight">isolada</span></div>
+  </div>
+</div>
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>{
+    if(b.getAttribute('onclick')===`show('${id}')`) b.classList.add('active');
+  });
+}
+</script>
+</body>
+</html>
