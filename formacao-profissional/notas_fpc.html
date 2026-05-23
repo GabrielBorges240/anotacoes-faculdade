@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Formação Profissional em Computação — Notas</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;}
+.root{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;padding:1.5rem;min-height:100vh;}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.nav button{background:#3c3836;border:1px solid #504945;color:#a89984;font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:monospace;}
+.nav button.active{background:#504945;color:#fabd2f;border-color:#fabd2f;}
+.page{display:none;}.page.active{display:block;}
+.mod-title{color:#fabd2f;font-size:17px;font-weight:700;border-bottom:2px solid #fabd2f;padding-bottom:6px;margin-bottom:1rem;letter-spacing:.5px;}
+.unit-title{color:#fe8019;font-size:14px;font-weight:700;margin:1.2rem 0 .6rem;letter-spacing:.3px;}
+.body-text{color:#ebdbb2;font-size:13px;line-height:1.7;margin-bottom:.4rem;}
+.example{background:#32302f;border-left:3px solid #b8bb26;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#ebdbb2;font-size:13px;line-height:1.6;}
+.example .label{color:#b8bb26;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.important{background:#3c2b2b;border-left:3px solid #fb4934;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#fabd2f;font-size:13px;line-height:1.6;}
+.important .label{color:#fb4934;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.step-block{background:#2d3b3b;border-left:3px solid #8ec07c;border-radius:0 4px 4px 0;padding:10px 14px;margin:.5rem 0;}
+.step-block .step{color:#8ec07c;font-size:12px;font-weight:700;margin-bottom:3px;}
+.step-block .desc{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{border-collapse:collapse;width:100%;font-size:12px;}
+th{background:#3c3836;color:#fabd2f;padding:6px 10px;border:1px solid #504945;text-align:left;}
+td{padding:5px 10px;border:1px solid #504945;color:#ebdbb2;}
+tr:nth-child(even) td{background:#32302f;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.6rem 0;}
+.card{background:#32302f;border:1px solid #504945;border-radius:6px;padding:12px;}
+.card .ctitle{color:#fe8019;font-size:12px;font-weight:700;margin-bottom:6px;}
+.card .cbody{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.highlight{color:#fabd2f;font-weight:700;}
+.green{color:#b8bb26;}.red{color:#fb4934;}.orange{color:#fe8019;}.aqua{color:#8ec07c;}
+.section-sep{border:0;border-top:1px solid #504945;margin:1.2rem 0;}
+.code{background:#1d2021;border:1px solid #504945;border-radius:4px;padding:8px 12px;font-family:monospace;font-size:12px;color:#b8bb26;margin:.4rem 0;white-space:pre-wrap;}
+.badge{display:inline-block;background:#3c3836;border:1px solid #504945;color:#a89984;font-size:10px;padding:1px 7px;border-radius:3px;margin:2px;}
+@media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="root">
+<h2 style="color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;">&#128187; Formação Profissional em Computação — Notas</h2>
+<p style="color:#665c54;font-size:10px;margin-bottom:1rem;">Requisitos &nbsp;|&nbsp; Especificacao &nbsp;|&nbsp; Dashboard &nbsp;|&nbsp; Projeto Integrador</p>
+<div class="nav">
+  <button class="active" onclick="show('m1')">M1: Proposta do Projeto</button>
+  <button onclick="show('m2')">M2: Execução — Dashboard</button>
+  <button onclick="show('ref')">&#128214; Referência Técnica</button>
+  <button onclick="show('cola')">&#128221; Cola / Checklist</button>
+</div>
+
+<!-- M1 -->
+<div id="m1" class="page active">
+  <div class="mod-title">Módulo 1 — Proposta do Projeto</div>
+  <div class="unit-title">Unidade 1 · Visão Geral de FPC e Definição de Requisitos</div>
+  <p class="body-text"><span class="highlight">FPC</span> é a disciplina integradora do curso — conecta os conhecimentos das outras disciplinas em um projeto real. O foco é desenvolver uma <span class="highlight">solução Dashboard</span> completa: da proposta à entrega.</p>
+
+  <div class="unit-title">O que são Requisitos?</div>
+  <p class="body-text">Requisitos descrevem <span class="highlight">o que o sistema deve fazer</span> (funcionais) e <span class="highlight">como deve se comportar</span> (não-funcionais). São a base de todo o desenvolvimento.</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Requisitos Funcionais (RF)</div><div class="cbody">O que o sistema <span class="highlight">faz</span>. Funcionalidades visíveis ao usuário.<br><br>Ex: "O sistema deve exibir gráfico de vendas por mês", "Usuário deve poder filtrar por período".</div></div>
+    <div class="card"><div class="ctitle">Requisitos Não-Funcionais (RNF)</div><div class="cbody">Como o sistema <span class="highlight">se comporta</span>. Qualidades do sistema.<br><br>Ex: "O dashboard deve carregar em menos de 3 segundos", "Deve funcionar em dispositivos móveis".</div></div>
+  </div>
+  <div class="table-wrap"><table>
+    <tr><th>Tipo de RNF</th><th>Descrição</th><th>Exemplo no Dashboard</th></tr>
+    <tr><td class="green">Desempenho</td><td>Velocidade de resposta</td><td>Gráficos carregam em &lt;3s</td></tr>
+    <tr><td class="orange">Usabilidade</td><td>Facilidade de uso</td><td>Interface intuitiva, responsiva</td></tr>
+    <tr><td class="highlight">Segurança</td><td>Proteção de dados</td><td>Autenticação, dados não expostos</td></tr>
+    <tr><td class="aqua">Disponibilidade</td><td>Uptime do sistema</td><td>Disponível 99% do tempo</td></tr>
+    <tr><td class="red">Manutenibilidade</td><td>Facilidade de manutenção</td><td>Código documentado e modular</td></tr>
+  </table></div>
+
+  <div class="unit-title">Como Levantar Requisitos</div>
+  <div class="step-block"><div class="step">1 · Entrevista com o cliente/usuário</div><div class="desc">Pergunte: "O que você precisa ver no dashboard?", "Quais decisões você toma com esses dados?", "Com que frequência você usa?". Anote tudo.</div></div>
+  <div class="step-block"><div class="step">2 · Observação / Análise do contexto</div><div class="desc">Observe como o usuário trabalha hoje. Quais planilhas usa? Quais relatórios gera manualmente? Esses são candidatos a automação no dashboard.</div></div>
+  <div class="step-block"><div class="step">3 · Prototipagem rápida (wireframe)</div><div class="desc">Esboce a tela no papel ou no Figma. Mostre ao usuário e valide: "É isso que você imaginou?" Antes de codificar.</div></div>
+  <div class="step-block"><div class="step">4 · Documentar e priorizar</div><div class="desc">Liste todos os requisitos. Priorize com MoSCoW: <span class="highlight">Must have</span> (essencial), <span class="orange">Should have</span> (importante), <span class="aqua">Could have</span> (desejável), <span class="red">Won't have</span> (fora do escopo).</div></div>
+
+  <div class="important"><div class="label">⚠ Escopo bem definido evita retrabalho</div>Um requisito vago como "o sistema deve ser rápido" gera conflito. Prefira: "O dashboard deve carregar os dados em menos de <span class="highlight">3 segundos</span> com conexão de 10 Mbps". Seja específico e mensurável.</div>
+
+  <hr class="section-sep">
+  <div class="unit-title">Unidade 2 · Documentos de Especificação do Projeto</div>
+  <p class="body-text">A especificação transforma os requisitos em documentos formais que guiam o desenvolvimento. Os principais são:</p>
+
+  <div class="table-wrap"><table>
+    <tr><th>Documento</th><th>O que contém</th><th>Para quem</th></tr>
+    <tr><td class="green">Documento de Visão</td><td>Objetivo do projeto, problema que resolve, público-alvo, escopo</td><td>Todos os stakeholders</td></tr>
+    <tr><td class="orange">ERS (Especificação de Requisitos)</td><td>Lista detalhada de RF e RNF numerados e priorizados</td><td>Equipe técnica + cliente</td></tr>
+    <tr><td class="highlight">Casos de Uso</td><td>Interações entre usuário e sistema (ator + fluxo principal + alternativas)</td><td>Analista + desenvolvedor</td></tr>
+    <tr><td class="aqua">Protótipo / Wireframe</td><td>Representação visual das telas antes de codificar</td><td>Cliente + designer + dev</td></tr>
+    <tr><td class="red">Cronograma</td><td>Fases, entregas e prazos do projeto</td><td>Gerente + equipe</td></tr>
+  </table></div>
+
+  <div class="unit-title">Estrutura de um Caso de Uso</div>
+  <div class="code">Caso de Uso: Visualizar Gráfico de Vendas
+Ator Principal: Gestor
+Pré-condição: Usuário autenticado no sistema
+
+Fluxo Principal:
+  1. Gestor acessa o dashboard
+  2. Sistema exibe painel principal com KPIs
+  3. Gestor seleciona o período desejado (mês/trimestre/ano)
+  4. Sistema filtra e atualiza os gráficos
+  5. Gestor visualiza o gráfico de vendas por período
+
+Fluxo Alternativo (sem dados):
+  4a. Não há dados para o período selecionado
+  4b. Sistema exibe mensagem "Sem dados para o período"
+
+Pós-condição: Gráfico exibido com dados do período selecionado</div>
+
+  <div class="example"><div class="label">Exemplo — Documento de Visão (resumido)</div><span class="highlight">Problema:</span> gestores precisam de múltiplas planilhas para acompanhar KPIs da empresa.<br><span class="highlight">Solução:</span> dashboard centralizado com atualização automática dos dados.<br><span class="highlight">Público-alvo:</span> gerentes de vendas e diretores.<br><span class="highlight">Escopo:</span> exibir vendas, metas, top produtos e comparativo mensal.</div>
+
+  <div class="important"><div class="label">⚠ Checklist da Proposta (Módulo 1)</div>
+    &#9745; Documento de Visão com problema e solução claros<br>
+    &#9745; Lista de requisitos funcionais numerados (RF01, RF02…)<br>
+    &#9745; Lista de requisitos não-funcionais (RNF01, RNF02…)<br>
+    &#9745; Pelo menos 1 caso de uso detalhado<br>
+    &#9745; Wireframe / protótipo das telas principais<br>
+    &#9745; Cronograma com datas de entrega
+  </div>
+</div>
+
+<!-- M2 -->
+<div id="m2" class="page">
+  <div class="mod-title">Módulo 2 — Execução do Projeto · Dashboard</div>
+  <div class="unit-title">Unidade 1 · Implementação da Solução Dashboard</div>
+  <p class="body-text">Um <span class="highlight">dashboard</span> é uma interface visual que consolida dados e KPIs em um único painel, facilitando a tomada de decisão. Deve ser claro, objetivo e atualizado.</p>
+
+  <div class="unit-title">Elementos essenciais de um Dashboard</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">KPIs (Key Performance Indicators)</div><div class="cbody">Métricas numéricas principais. Exibidas em destaque. Ex: Total de Vendas, Ticket Médio, Clientes Ativos, Meta Atingida (%).</div></div>
+    <div class="card"><div class="ctitle">Gráficos</div><div class="cbody"><span class="green">Barras:</span> comparar categorias.<br><span class="orange">Linhas:</span> evolução no tempo.<br><span class="highlight">Pizza/Donut:</span> proporção do todo.<br><span class="aqua">Scatter:</span> correlação entre variáveis.</div></div>
+    <div class="card"><div class="ctitle">Filtros / Controles</div><div class="cbody">Permitem ao usuário explorar os dados. Ex: seletor de período, dropdown de região, filtro por produto. Devem ser intuitivos.</div></div>
+    <div class="card"><div class="ctitle">Tabelas</div><div class="cbody">Para dados detalhados onde o usuário precisa ver valores exatos. Use com moderação — prefira gráficos para visão geral.</div></div>
+  </div>
+
+  <div class="unit-title">Boas Práticas de Design de Dashboard</div>
+  <div class="step-block"><div class="step">&#9312; Hierarquia visual — o mais importante primeiro</div><div class="desc">KPIs principais no topo, gráficos de detalhe abaixo. O olho do usuário vai do topo-esquerda para baixo-direita. Coloque o dado mais crítico nessa posição.</div></div>
+  <div class="step-block"><div class="step">&#9313; Menos é mais — evite poluição visual</div><div class="desc">Cada gráfico deve responder uma pergunta. Se você não consegue dizer "esse gráfico mostra X", ele não deveria estar lá. Remova decorações desnecessárias.</div></div>
+  <div class="step-block"><div class="step">&#9314; Cores com propósito</div><div class="desc">Use <span class="green">verde</span> para bom/positivo, <span class="red">vermelho</span> para alerta/negativo, <span class="orange">amarelo</span> para atenção. Não use cores só para decorar — cada cor deve transmitir informação.</div></div>
+  <div class="step-block"><div class="step">&#9315; Responsividade</div><div class="desc">O dashboard deve funcionar em telas diferentes (desktop, tablet). Use layouts em grid flexível. Teste sempre em resoluções diferentes.</div></div>
+  <div class="step-block"><div class="step">&#9316; Dados em tempo real vs estático</div><div class="desc">Defina se os dados atualizam automaticamente (polling/websocket) ou manualmente (botão "atualizar"). Indique sempre a data/hora da última atualização.</div></div>
+
+  <div class="unit-title">Tecnologias para Implementação</div>
+  <div class="table-wrap"><table>
+    <tr><th>Camada</th><th>Opção</th><th>Para que serve</th></tr>
+    <tr><td class="green">Frontend</td><td>HTML + CSS + JS</td><td>Interface visual do dashboard</td></tr>
+    <tr><td class="green">Gráficos</td><td>Chart.js / Recharts / D3.js</td><td>Renderizar gráficos interativos</td></tr>
+    <tr><td class="orange">Framework</td><td>React / Vue</td><td>Componentes reativos e reutilizáveis</td></tr>
+    <tr><td class="highlight">Backend</td><td>Node.js / Python (Flask/Django)</td><td>API que fornece os dados</td></tr>
+    <tr><td class="aqua">Banco de Dados</td><td>PostgreSQL / MySQL / MongoDB</td><td>Armazenar os dados exibidos</td></tr>
+    <tr><td class="red">No-code / Low-code</td><td>Power BI / Metabase / Grafana</td><td>Dashboard sem código (ou pouco)</td></tr>
+  </table></div>
+
+  <div class="code">// Exemplo Chart.js — Gráfico de barras de vendas mensais
+const ctx = document.getElementById('grafVendas').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Jan','Fev','Mar','Abr','Mai','Jun'],
+    datasets: [{
+      label: 'Vendas (R$)',
+      data: [12000, 19000, 15000, 22000, 18000, 25000],
+      backgroundColor: '#b8bb26',
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true } }
+  }
+});</div>
+
+  <hr class="section-sep">
+  <div class="unit-title">Unidade 2 · Resultados da Solução Dashboard</div>
+  <p class="body-text">A fase de resultados documenta e apresenta o que foi entregue. Inclui demonstração do sistema, análise dos dados exibidos e avaliação do cumprimento dos requisitos.</p>
+
+  <div class="unit-title">Como documentar os Resultados</div>
+  <div class="step-block"><div class="step">1 · Demonstração funcional</div><div class="desc">Mostre o dashboard funcionando com dados reais ou de exemplo. Grave um vídeo ou tire capturas de tela de cada funcionalidade implementada.</div></div>
+  <div class="step-block"><div class="step">2 · Rastreabilidade de requisitos</div><div class="desc">Para cada RF da proposta, mostre se foi implementado. Crie uma tabela: RF01 → Implementado / RF02 → Parcialmente / RF03 → Não implementado (justifique).</div></div>
+  <div class="step-block"><div class="step">3 · Análise dos dados exibidos</div><div class="desc">Interprete o que os gráficos mostram. Ex: "O gráfico de vendas mostra pico em março, coincidindo com a campanha promocional". O dashboard deve gerar insight, não só exibir número.</div></div>
+  <div class="step-block"><div class="step">4 · Limitações e trabalhos futuros</div><div class="desc">O que não foi feito e por quê? O que poderia ser melhorado? Ex: "A integração em tempo real não foi implementada por limitação de tempo — poderia ser feita com WebSocket".</div></div>
+
+  <div class="table-wrap"><table>
+    <tr><th>Critério de avaliação típico</th><th>Como atender</th></tr>
+    <tr><td class="green">Funcionalidade</td><td>Dashboard carrega, filtra e exibe dados corretamente</td></tr>
+    <tr><td class="orange">Documentação</td><td>Requisitos, casos de uso e arquitetura documentados</td></tr>
+    <tr><td class="highlight">Design / UX</td><td>Interface clara, hierarquia visual, cores com propósito</td></tr>
+    <tr><td class="aqua">Apresentação</td><td>Explicar o que cada gráfico mostra e que decisão ele apoia</td></tr>
+    <tr><td class="red">Código</td><td>Organizado, comentado, sem gambiarras óbvias</td></tr>
+  </table></div>
+
+  <div class="important"><div class="label">⚠ Checklist da Entrega (Módulo 2)</div>
+    &#9745; Dashboard funcionando com dados reais ou de exemplo<br>
+    &#9745; Pelo menos 3 KPIs em destaque<br>
+    &#9745; Pelo menos 2 tipos de gráfico diferentes<br>
+    &#9745; Pelo menos 1 filtro interativo funcionando<br>
+    &#9745; Tabela de rastreabilidade RF × implementado<br>
+    &#9745; Análise dos dados exibidos (o que os gráficos revelam)<br>
+    &#9745; Código organizado e comentado
+  </div>
+</div>
+
+<!-- REFERÊNCIA TÉCNICA -->
+<div id="ref" class="page">
+  <div class="mod-title">&#128214; Referência Técnica — Dashboard</div>
+
+  <div class="unit-title">Escolha do Tipo de Gráfico</div>
+  <div class="table-wrap"><table>
+    <tr><th>Pergunta do usuário</th><th>Tipo de gráfico</th><th>Exemplo</th></tr>
+    <tr><td>"Como evoluiu ao longo do tempo?"</td><td class="green">Linha / Área</td><td>Vendas por mês nos últimos 12 meses</td></tr>
+    <tr><td>"Qual é maior/menor?"</td><td class="orange">Barras horizontais</td><td>Top 10 produtos mais vendidos</td></tr>
+    <tr><td>"Comparar categorias no mesmo período?"</td><td class="highlight">Barras verticais</td><td>Vendas por região — Jan vs Fev vs Mar</td></tr>
+    <tr><td>"Qual a proporção do todo?"</td><td class="aqua">Pizza / Donut</td><td>Participação de cada categoria nas vendas</td></tr>
+    <tr><td>"Há correlação entre X e Y?"</td><td class="red">Scatter (dispersão)</td><td>Temperatura vs consumo de sorvete</td></tr>
+    <tr><td>"Mapa de calor / intensidade?"</td><td class="green">Heatmap</td><td>Vendas por hora do dia × dia da semana</td></tr>
+  </table></div>
+
+  <div class="unit-title">Estrutura de Pastas — Projeto Web</div>
+  <div class="code">dashboard/
+├── index.html          ← página principal
+├── css/
+│   └── style.css       ← estilos globais
+├── js/
+│   ├── main.js         ← lógica principal
+│   ├── charts.js       ← funções de gráficos
+│   └── data.js         ← dados ou chamadas à API
+├── data/
+│   └── dados.json      ← dados mockados (dev)
+└── README.md           ← documentação do projeto</div>
+
+  <div class="unit-title">Template de Requisito Funcional</div>
+  <div class="code">RF01 — Exibir KPIs Principais
+  Descrição: O sistema deve exibir na tela inicial os KPIs:
+             total de vendas, ticket médio e meta atingida (%).
+  Prioridade: Must Have
+  Critério de aceite: KPIs visíveis ao abrir o dashboard,
+                      atualizados com os dados do período selecionado.
+
+RF02 — Filtrar por Período
+  Descrição: O usuário deve poder selecionar um intervalo de datas
+             para filtrar todos os dados exibidos no dashboard.
+  Prioridade: Must Have
+  Critério de aceite: Ao alterar o período, todos os gráficos e
+                      KPIs atualizam automaticamente.</div>
+
+  <div class="unit-title">Template de Tabela de Rastreabilidade</div>
+  <div class="code">| Requisito | Descrição                  | Status           | Onde no sistema       |
+|-----------|----------------------------|------------------|-----------------------|
+| RF01      | Exibir KPIs principais     | ✓ Implementado   | Seção topo dashboard  |
+| RF02      | Filtrar por período        | ✓ Implementado   | Seletor de data       |
+| RF03      | Exportar para PDF          | ⚠ Parcial        | Só impressão do nav.  |
+| RF04      | Alertas de meta            | ✗ Não impl.      | Fora do escopo final  |
+| RNF01     | Carregar em < 3s           | ✓ Implementado   | Testado com DevTools  |
+| RNF02     | Responsivo mobile          | ✓ Implementado   | CSS Grid + media query|</div>
+
+  <div class="unit-title">Ferramentas Úteis</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Design / Prototipagem</div><div class="cbody"><span class="highlight">Figma</span> — wireframes e protótipos<br><span class="orange">draw.io</span> — diagramas e fluxos<br><span class="aqua">Lucidchart</span> — UML e arquitetura<br><span class="green">Canva</span> — apresentações</div></div>
+    <div class="card"><div class="ctitle">Dados de Exemplo</div><div class="cbody"><span class="highlight">Mockaroo</span> — gera CSV/JSON faker<br><span class="orange">JSONPlaceholder</span> — API fake<br><span class="aqua">Kaggle</span> — datasets reais<br><span class="green">Random.org</span> — dados aleatórios</div></div>
+    <div class="card"><div class="ctitle">Bibliotecas de Gráfico</div><div class="cbody"><span class="highlight">Chart.js</span> — simples, popular<br><span class="orange">Recharts</span> — para React<br><span class="aqua">D3.js</span> — máximo controle<br><span class="green">Plotly</span> — científico, interativo</div></div>
+    <div class="card"><div class="ctitle">Hospedagem Gratuita</div><div class="cbody"><span class="highlight">GitHub Pages</span> — HTML estático<br><span class="orange">Vercel</span> — React/Next.js<br><span class="aqua">Netlify</span> — frontend geral<br><span class="green">Render</span> — backend + frontend</div></div>
+  </div>
+</div>
+
+<!-- COLA -->
+<div id="cola" class="page">
+  <div class="mod-title">&#128221; Cola / Checklist — FPC Dashboard</div>
+
+  <div class="unit-title">&#9745; Checklist Módulo 1 — Proposta</div>
+  <div style="display:grid;gap:6px;margin-top:.5rem;">
+    <div class="step-block"><div class="step">Documento de Visão</div><div class="desc">Problema identificado, solução proposta, público-alvo e escopo bem definidos.</div></div>
+    <div class="step-block"><div class="step">Requisitos Funcionais (RF)</div><div class="desc">Numerados (RF01, RF02…), com descrição clara e critério de aceite mensurável.</div></div>
+    <div class="step-block"><div class="step">Requisitos Não-Funcionais (RNF)</div><div class="desc">Desempenho, usabilidade, segurança — com valores específicos (ex: "< 3 segundos").</div></div>
+    <div class="step-block"><div class="step">Casos de Uso</div><div class="desc">Ator, pré-condição, fluxo principal e fluxo alternativo documentados.</div></div>
+    <div class="step-block"><div class="step">Wireframe / Protótipo</div><div class="desc">Esboço das telas principais validado antes de implementar.</div></div>
+    <div class="step-block"><div class="step">Cronograma</div><div class="desc">Fases e datas de entrega definidas.</div></div>
+  </div>
+
+  <div class="unit-title" style="margin-top:1.2rem;">&#9745; Checklist Módulo 2 — Entrega</div>
+  <div style="display:grid;gap:6px;margin-top:.5rem;">
+    <div class="step-block"><div class="step">Dashboard funcionando</div><div class="desc">Carrega dados, gráficos renderizam, filtros funcionam.</div></div>
+    <div class="step-block"><div class="step">KPIs em destaque</div><div class="desc">Pelo menos 3 métricas principais visíveis no topo.</div></div>
+    <div class="step-block"><div class="step">Variedade de gráficos</div><div class="desc">Pelo menos 2 tipos diferentes (ex: linha + barras).</div></div>
+    <div class="step-block"><div class="step">Filtro interativo</div><div class="desc">Seletor de período ou categoria que atualiza os dados.</div></div>
+    <div class="step-block"><div class="step">Tabela de rastreabilidade</div><div class="desc">Cada RF marcado como implementado / parcial / não implementado.</div></div>
+    <div class="step-block"><div class="step">Análise dos dados</div><div class="desc">Interpretação do que os gráficos revelam — insights reais.</div></div>
+    <div class="step-block"><div class="step">Código organizado</div><div class="desc">Pastas separadas, comentários, sem código morto.</div></div>
+  </div>
+
+  <div class="unit-title" style="margin-top:1.2rem;">&#11088; Regras de Ouro</div>
+  <div style="display:grid;gap:8px;margin-top:.5rem;">
+    <div class="important"><div class="label">Regra</div>Requisito bom é <span class="highlight">específico e mensurável</span> — "rápido" é vago, "< 3s" é requisito</div>
+    <div class="important"><div class="label">Regra</div>RF = o que o sistema <span class="highlight">faz</span>. RNF = como o sistema se <span class="highlight">comporta</span></div>
+    <div class="important"><div class="label">Regra</div>Cada gráfico responde <span class="highlight">uma pergunta</span> — se não sabe qual, remova</div>
+    <div class="important"><div class="label">Regra</div>Cores: <span class="green">verde</span> = bom, <span class="red">vermelho</span> = alerta, <span class="orange">amarelo</span> = atenção — sempre com propósito</div>
+    <div class="important"><div class="label">Regra</div>Wireframe antes de código — valide com o usuário <span class="highlight">antes</span> de implementar</div>
+    <div class="important"><div class="label">Regra</div">MoSCoW: Must Have primeiro. O resto só se sobrar tempo</div>
+    <div class="important"><div class="label">Regra</div>Dashboard bom gera <span class="highlight">insight</span>, não só exibe número — interprete os dados</div>
+    <div class="important"><div class="label">Regra</div>Rastreabilidade: mostre que cada RF da proposta foi (ou não) implementado e <span class="highlight">por quê</span></div>
+  </div>
+</div>
+
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>{
+    if(b.getAttribute('onclick')===`show('${id}')`) b.classList.add('active');
+  });
+}
+</script>
+</body>
+</html>
