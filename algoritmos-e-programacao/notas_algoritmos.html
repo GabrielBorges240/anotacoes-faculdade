@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Algoritmos e Programação</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;}
+.root{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;padding:1.5rem;min-height:100vh;}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.nav button{background:#3c3836;border:1px solid #504945;color:#a89984;font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:monospace;}
+.nav button.active{background:#504945;color:#fabd2f;border-color:#fabd2f;}
+.page{display:none;}.page.active{display:block;}
+.mod-title{color:#fabd2f;font-size:17px;font-weight:700;border-bottom:2px solid #fabd2f;padding-bottom:6px;margin-bottom:1rem;}
+.unit-title{color:#fe8019;font-size:14px;font-weight:700;margin:1.2rem 0 .6rem;}
+.body-text{color:#ebdbb2;font-size:13px;line-height:1.7;margin-bottom:.4rem;}
+.example{background:#32302f;border-left:3px solid #b8bb26;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#ebdbb2;font-size:13px;line-height:1.6;}
+.example .label{color:#b8bb26;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.important{background:#3c2b2b;border-left:3px solid #fb4934;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#fabd2f;font-size:13px;line-height:1.6;}
+.important .label{color:#fb4934;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.ex-block{background:#2d3b3b;border-left:3px solid #8ec07c;border-radius:0 4px 4px 0;padding:10px 14px;margin:.6rem 0;}
+.ex-block .q{color:#8ec07c;font-size:13px;font-weight:700;margin-bottom:4px;}
+.ex-block .ans{color:#fabd2f;font-size:13px;margin-bottom:3px;}
+.ex-block .why{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{border-collapse:collapse;width:100%;font-size:12px;}
+th{background:#3c3836;color:#fabd2f;padding:6px 10px;border:1px solid #504945;text-align:left;}
+td{padding:5px 10px;border:1px solid #504945;color:#ebdbb2;}
+tr:nth-child(even) td{background:#32302f;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.6rem 0;}
+.card{background:#32302f;border:1px solid #504945;border-radius:6px;padding:12px;}
+.card .ctitle{color:#fe8019;font-size:12px;font-weight:700;margin-bottom:6px;}
+.card .cbody{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.highlight{color:#fabd2f;font-weight:700;}
+.green{color:#b8bb26;}.red{color:#fb4934;}.orange{color:#fe8019;}.aqua{color:#8ec07c;}
+.section-sep{border:0;border-top:1px solid #504945;margin:1.2rem 0;}
+.code{background:#1d2021;border:1px solid #504945;border-radius:4px;padding:8px 12px;font-family:monospace;font-size:12px;color:#b8bb26;margin:.4rem 0;white-space:pre-wrap;}
+@media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="root">
+<h2 style="color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;">&#128187; Algoritmos e Programação — Notas</h2>
+<p style="color:#665c54;font-size:10px;margin-bottom:1rem;">Complexidade &nbsp;|&nbsp; Ordenação &nbsp;|&nbsp; Busca &nbsp;|&nbsp; Recursão &nbsp;|&nbsp; Python</p>
+<div class="nav">
+  <button class="active" onclick="show('m1')">Complexidade e Notação O</button>
+  <button onclick="show('m2')">Ordenação</button>
+  <button onclick="show('m3')">Busca e Recursão</button>
+  <button onclick="show('m4')">Python Essencial</button>
+  <button onclick="show('cola')">&#128221; Cola de Prova</button>
+</div>
+
+<div id="m1" class="page active">
+  <div class="mod-title">Complexidade de Algoritmos e Notação Big-O</div>
+  <p class="body-text">A <span class="highlight">complexidade</span> mede como o tempo de execução ou uso de memória cresce conforme o tamanho da entrada (n). A <span class="highlight">notação Big-O</span> descreve o pior caso.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Notação</th><th>Nome</th><th>Exemplo</th><th>n=1000</th></tr>
+    <tr><td class="green">O(1)</td><td>Constante</td><td>Acessar lista[i]</td><td class="green">1 op</td></tr>
+    <tr><td class="green">O(log n)</td><td>Logarítmica</td><td>Busca binária</td><td class="green">~10 ops</td></tr>
+    <tr><td class="orange">O(n)</td><td>Linear</td><td>Percorrer lista</td><td class="orange">1.000 ops</td></tr>
+    <tr><td class="orange">O(n log n)</td><td>Linearítmica</td><td>Merge Sort</td><td class="orange">~10.000 ops</td></tr>
+    <tr><td class="red">O(n²)</td><td>Quadrática</td><td>Bubble Sort</td><td class="red">1.000.000 ops</td></tr>
+    <tr><td class="red">O(2ⁿ)</td><td>Exponencial</td><td>Subconjuntos</td><td class="red">inviável</td></tr>
+  </table></div>
+  <div class="important"><div class="label">⚠ Regra prática</div>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ). Em entrevistas, sempre justifique a complexidade do seu algoritmo.</div>
+  <div class="example"><div class="label">Como calcular Big-O</div>
+1. Loop simples de 0 a n → O(n)<br>
+2. Loop dentro de loop (ambos até n) → O(n²)<br>
+3. Dividir o problema pela metade a cada passo → O(log n)<br>
+4. Constantes e termos menores são ignorados: O(3n + 5) = O(n)</div>
+  <div class="code"># O(n) — percorre uma vez
+def soma_lista(lst):
+    total = 0
+    for x in lst:   # n iterações
+        total += x  # O(1)
+    return total    # total: O(n)
+
+# O(n²) — loop aninhado
+def tem_duplicata(lst):
+    for i in range(len(lst)):        # n
+        for j in range(i+1, len(lst)):  # n
+            if lst[i] == lst[j]:
+                return True
+    return False  # O(n²)
+
+# O(n) com set — muito melhor!
+def tem_duplicata_rapido(lst):
+    return len(lst) != len(set(lst))  # O(n)</div>
+  <hr class="section-sep">
+  <div class="unit-title">Espaço vs Tempo</div>
+  <p class="body-text">Complexidade de <span class="highlight">tempo</span> = quantas operações. Complexidade de <span class="highlight">espaço</span> = quanta memória extra usa. Frequentemente há um trade-off entre os dois.</p>
+  <div class="ex-block"><div class="q">Exercício 1: Qual a complexidade de buscar um elemento em uma lista não ordenada?</div><div class="ans">→ <span class="highlight">O(n)</span> — pior caso: percorre tudo sem encontrar.</div><div class="why">Tem que checar cada elemento um a um. Não tem como pular.</div></div>
+  <div class="ex-block"><div class="q">Exercício 2: Qual a complexidade de acessar um dicionário Python por chave?</div><div class="ans">→ <span class="highlight">O(1)</span> médio — dicionário é uma tabela hash internamente.</div><div class="why">Hash mapeia a chave diretamente para a posição. Por isso dicionários são preferíveis a listas para busca.</div></div>
+</div>
+
+<div id="m2" class="page">
+  <div class="mod-title">Algoritmos de Ordenação</div>
+  <div class="table-wrap"><table>
+    <tr><th>Algoritmo</th><th>Melhor</th><th>Médio</th><th>Pior</th><th>Estável?</th><th>Quando usar</th></tr>
+    <tr><td class="green">Merge Sort</td><td class="green">O(n log n)</td><td class="green">O(n log n)</td><td class="green">O(n log n)</td><td class="green">Sim</td><td>Dados grandes, garantia de desempenho</td></tr>
+    <tr><td class="green">Quick Sort</td><td class="green">O(n log n)</td><td class="green">O(n log n)</td><td class="red">O(n²)</td><td class="red">Não</td><td>Prática — rápido na maioria dos casos</td></tr>
+    <tr><td class="orange">Insertion Sort</td><td class="green">O(n)</td><td class="orange">O(n²)</td><td class="red">O(n²)</td><td class="green">Sim</td><td>Listas pequenas ou quase ordenadas</td></tr>
+    <tr><td class="red">Bubble Sort</td><td class="green">O(n)</td><td class="red">O(n²)</td><td class="red">O(n²)</td><td class="green">Sim</td><td>Só didático — nunca em produção</td></tr>
+    <tr><td class="red">Selection Sort</td><td class="red">O(n²)</td><td class="red">O(n²)</td><td class="red">O(n²)</td><td class="red">Não</td><td>Só didático</td></tr>
+  </table></div>
+  <div class="code"># Merge Sort em Python — O(n log n)
+def merge_sort(lst):
+    if len(lst) <= 1:
+        return lst
+    meio = len(lst) // 2
+    esq = merge_sort(lst[:meio])
+    dir = merge_sort(lst[meio:])
+    return merge(esq, dir)
+
+def merge(esq, dir):
+    resultado = []
+    i = j = 0
+    while i < len(esq) and j < len(dir):
+        if esq[i] <= dir[j]:
+            resultado.append(esq[i]); i += 1
+        else:
+            resultado.append(dir[j]); j += 1
+    return resultado + esq[i:] + dir[j:]
+
+# Quick Sort em Python — O(n log n) médio
+def quick_sort(lst):
+    if len(lst) <= 1:
+        return lst
+    pivo = lst[len(lst) // 2]
+    esq = [x for x in lst if x < pivo]
+    meio = [x for x in lst if x == pivo]
+    dir = [x for x in lst if x > pivo]
+    return quick_sort(esq) + meio + quick_sort(dir)
+
+# Python nativo — use sempre que possível!
+lista = [3,1,4,1,5,9,2,6]
+lista.sort()          # in-place, O(n log n) — Timsort
+sorted(lista)         # retorna nova lista</div>
+  <div class="important"><div class="label">⚠ Python usa Timsort</div>O método <span class="highlight">sort()</span> e a função <span class="highlight">sorted()</span> do Python usam Timsort — híbrido de Merge Sort e Insertion Sort. É O(n log n) garantido e estável. Sempre prefira ao implementar do zero.</div>
+  <div class="ex-block"><div class="q">Exercício 3: Por que Quick Sort é O(n²) no pior caso?</div><div class="ans">→ Quando o pivô escolhido é sempre o menor ou maior elemento (lista já ordenada).</div><div class="why">Cada partição fica com n-1 e 0 elementos — gera n recursões de tamanho n-1, n-2... = O(n²). Escolher pivô aleatório ou do meio minimiza esse risco.</div></div>
+</div>
+
+<div id="m3" class="page">
+  <div class="mod-title">Busca e Recursão</div>
+  <div class="unit-title">Busca Linear vs Busca Binária</div>
+  <div class="code"># Busca Linear — O(n) — funciona em qualquer lista
+def busca_linear(lst, alvo):
+    for i, v in enumerate(lst):
+        if v == alvo:
+            return i
+    return -1
+
+# Busca Binária — O(log n) — EXIGE lista ORDENADA
+def busca_binaria(lst, alvo):
+    esq, dir = 0, len(lst) - 1
+    while esq <= dir:
+        meio = (esq + dir) // 2
+        if lst[meio] == alvo:
+            return meio
+        elif lst[meio] < alvo:
+            esq = meio + 1
+        else:
+            dir = meio - 1
+    return -1
+
+# Python nativo
+import bisect
+lst = [1, 3, 5, 7, 9, 11]
+idx = bisect.bisect_left(lst, 7)  # busca binária nativa</div>
+  <div class="important"><div class="label">⚠ Busca Binária exige ordenação</div>Busca binária é O(log n) mas só funciona em listas ordenadas. Se a lista não está ordenada: ordenar (O(n log n)) + buscar (O(log n)) = O(n log n). Para uma busca só, busca linear é melhor. Para muitas buscas, vale ordenar uma vez.</div>
+
+  <div class="unit-title">Recursão</div>
+  <p class="body-text">Uma função <span class="highlight">recursiva</span> chama a si mesma com um problema menor. Toda recursão precisa de: (1) <span class="highlight">caso base</span> — para de chamar; (2) <span class="highlight">caso recursivo</span> — reduz o problema.</p>
+  <div class="code"># Fatorial — O(n)
+def fatorial(n):
+    if n <= 1:          # caso base
+        return 1
+    return n * fatorial(n - 1)  # caso recursivo
+
+# Fibonacci — O(2ⁿ) ingênuo, O(n) com memoização
+def fib(n, memo={}):
+    if n <= 1: return n
+    if n not in memo:
+        memo[n] = fib(n-1, memo) + fib(n-2, memo)
+    return memo[n]
+
+# Fibonacci — O(n) com programação dinâmica
+def fib_dp(n):
+    if n <= 1: return n
+    a, b = 0, 1
+    for _ in range(2, n+1):
+        a, b = b, a + b
+    return b
+
+# Soma de lista recursiva
+def soma(lst):
+    if not lst: return 0         # caso base
+    return lst[0] + soma(lst[1:])  # caso recursivo</div>
+  <div class="important"><div class="label">⚠ Stack Overflow</div>Cada chamada recursiva ocupa espaço na pilha. Recursão muito profunda causa <span class="red">RecursionError</span> em Python (limite padrão: 1000 chamadas). Para problemas grandes, prefira versão iterativa ou use <span class="highlight">memoização</span>.</div>
+
+  <div class="unit-title">Programação Dinâmica</div>
+  <p class="body-text">Técnica que resolve subproblemas menores e armazena os resultados para não recalcular. Transforma O(2ⁿ) em O(n).</p>
+  <div class="ex-block"><div class="q">Exercício 4: Qual a diferença entre recursão com memoização e programação dinâmica bottom-up?</div><div class="ans">→ <span class="highlight">Memoização (top-down):</span> começa do problema grande, armazena resultados conforme desce. <span class="highlight">Bottom-up:</span> começa dos casos base e vai subindo.</div><div class="why">Ambas têm O(n) de tempo. Bottom-up evita overhead de chamadas recursivas e risco de stack overflow — preferível para n grande.</div></div>
+</div>
+
+<div id="m4" class="page">
+  <div class="mod-title">Python Essencial para Backend e AI</div>
+  <div class="unit-title">Estruturas de Dados em Python</div>
+  <div class="code"># Lista — O(1) append, O(n) busca
+lst = [1, 2, 3]
+lst.append(4)       # O(1)
+lst.insert(0, 0)    # O(n) — desloca tudo
+lst.pop()           # O(1) — remove o último
+lst.pop(0)          # O(n) — remove o primeiro
+
+# Dicionário — O(1) médio para tudo
+d = {'a': 1, 'b': 2}
+d['c'] = 3          # inserir
+d.get('x', 0)       # buscar com default
+d.items()           # pares (chave, valor)
+
+# Set — O(1) médio, sem duplicatas
+s = {1, 2, 3}
+s.add(4)
+s.discard(1)
+inter = s & {2, 4}  # interseção
+
+# Deque — O(1) nas duas extremidades (use como fila/pilha)
+from collections import deque
+fila = deque()
+fila.append(1)      # enqueue — O(1)
+fila.appendleft(0)  # O(1) — lista seria O(n)
+fila.popleft()      # dequeue — O(1)</div>
+
+  <div class="unit-title">Python Avançado — Ferramentas que Importam</div>
+  <div class="code"># List comprehension — Pytônico e eficiente
+quadrados = [x**2 for x in range(10)]
+pares = [x for x in range(20) if x % 2 == 0]
+
+# Dict comprehension
+freq = {c: s.count(c) for c in set(s)}
+
+# Generator — lazy, não carrega tudo na memória
+gen = (x**2 for x in range(10**6))  # não ocupa memória
+next(gen)  # calcula um por vez
+
+# Funções de ordem superior
+nums = [3, 1, 4, 1, 5]
+list(map(lambda x: x*2, nums))       # aplica função
+list(filter(lambda x: x>2, nums))    # filtra
+from functools import reduce
+reduce(lambda a,b: a+b, nums)        # reduz
+
+# Sorted com chave customizada
+pessoas = [('Ana',25), ('Bia',22), ('Carlos',30)]
+sorted(pessoas, key=lambda p: p[1])  # ordena por idade
+
+# Counter — contar frequências
+from collections import Counter
+c = Counter('abracadabra')
+c.most_common(3)  # [('a',5),('b',2),('r',2)]
+
+# Defaultdict — evita KeyError
+from collections import defaultdict
+grafo = defaultdict(list)
+grafo['A'].append('B')  # sem verificar se 'A' existe</div>
+
+  <div class="unit-title">Algoritmos Clássicos em Python</div>
+  <div class="code"># Dois ponteiros — O(n), para listas ordenadas
+def dois_ponteiros(lst, alvo):
+    esq, dir = 0, len(lst) - 1
+    while esq < dir:
+        soma = lst[esq] + lst[dir]
+        if soma == alvo: return (esq, dir)
+        elif soma < alvo: esq += 1
+        else: dir -= 1
+    return None
+
+# Sliding window — O(n), janela deslizante
+def max_soma_subarray(lst, k):
+    soma = sum(lst[:k])
+    maximo = soma
+    for i in range(k, len(lst)):
+        soma += lst[i] - lst[i-k]
+        maximo = max(maximo, soma)
+    return maximo
+
+# BFS — busca em largura em grafo
+from collections import deque
+def bfs(grafo, inicio):
+    visitados = set()
+    fila = deque([inicio])
+    while fila:
+        no = fila.popleft()
+        if no not in visitados:
+            visitados.add(no)
+            fila.extend(grafo[no])
+    return visitados</div>
+  <div class="ex-block"><div class="q">Exercício 5: Por que usar deque em vez de lista para fila (BFS)?</div><div class="ans">→ deque.popleft() é <span class="highlight">O(1)</span>. list.pop(0) é <span class="red">O(n)</span> — desloca todos os elementos.</div><div class="why">Em BFS com n nós, usar lista seria O(n²) total. Com deque, O(n). Para filas, sempre use deque ou queue.Queue.</div></div>
+</div>
+
+<div id="cola" class="page">
+  <div class="mod-title">&#128221; Cola — Algoritmos e Programação</div>
+  <div class="unit-title">Big-O de Referência</div>
+  <div class="table-wrap"><table>
+    <tr><th>Operação</th><th>Complexidade</th></tr>
+    <tr><td>Acessar lista[i] / dict[k]</td><td class="green">O(1)</td></tr>
+    <tr><td>Busca binária</td><td class="green">O(log n)</td></tr>
+    <tr><td>Percorrer lista / busca linear</td><td class="orange">O(n)</td></tr>
+    <tr><td>Merge Sort / Quick Sort / sorted()</td><td class="orange">O(n log n)</td></tr>
+    <tr><td>Loop aninhado / Bubble Sort</td><td class="red">O(n²)</td></tr>
+    <tr><td>Fibonacci ingênuo / subconjuntos</td><td class="red">O(2ⁿ)</td></tr>
+  </table></div>
+  <div class="unit-title">Estrutura Certa para o Problema</div>
+  <div class="table-wrap"><table>
+    <tr><th>Precisa de...</th><th>Use</th><th>Por quê</th></tr>
+    <tr><td>Busca por chave</td><td class="green">dict</td><td>O(1) médio</td></tr>
+    <tr><td>Unicidade / pertencimento</td><td class="green">set</td><td>O(1) médio</td></tr>
+    <tr><td>Fila (FIFO)</td><td class="orange">deque</td><td>O(1) nas duas pontas</td></tr>
+    <tr><td>Pilha (LIFO)</td><td class="orange">list.append/pop</td><td>O(1) no fim</td></tr>
+    <tr><td>Menor/maior sempre disponível</td><td class="highlight">heapq</td><td>O(log n) insert</td></tr>
+    <tr><td>Contar frequências</td><td class="aqua">Counter</td><td>O(n) total</td></tr>
+  </table></div>
+  <div class="unit-title" style="margin-top:1rem;">&#11088; Regras de Ouro</div>
+  <div style="display:grid;gap:8px;margin-top:.5rem;">
+    <div class="important"><div class="label">Regra</div>Constantes e termos menores somem: O(3n² + 5n + 2) = <span class="highlight">O(n²)</span></div>
+    <div class="important"><div class="label">Regra</div>Loop simples = O(n). Loop dentro de loop = <span class="highlight">O(n²)</span></div>
+    <div class="important"><div class="label">Regra</div>Dividir pela metade a cada passo = <span class="highlight">O(log n)</span></div>
+    <div class="important"><div class="label">Regra</div>dict e set são <span class="highlight">O(1)</span> para busca — prefira a listas quando possível</div>
+    <div class="important"><div class="label">Regra</div>Recursão sem memoização em Fibonacci = <span class="red">O(2ⁿ)</span>. Com memo = <span class="green">O(n)</span></div>
+    <div class="important"><div class="label">Regra</div>Use <span class="highlight">deque</span> para fila — list.pop(0) é O(n), deque.popleft() é O(1)</div>
+  </div>
+</div>
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>{if(b.getAttribute('onclick')===`show('${id}')`)b.classList.add('active');});
+}
+</script>
+</body>
+</html>
