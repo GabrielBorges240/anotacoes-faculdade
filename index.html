@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Anotacoes da Faculdade — Gabriel Borges</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;min-height:100vh;padding:2rem;display:flex;flex-direction:column;align-items:center;}
@@ -9,78 +10,78 @@ h1{color:#fabd2f;font-size:22px;margin-bottom:.3rem;letter-spacing:1px;margin-to
 .sub{color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:.5rem;}
 .periodo{color:#665c54;font-size:11px;margin:1.5rem 0 .5rem;text-transform:uppercase;letter-spacing:1px;width:100%;max-width:960px;border-bottom:1px solid #504945;padding-bottom:4px;}
 .cards{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-start;max-width:960px;width:100%;}
-.card{background:#32302f;border:1px solid #504945;border-radius:8px;padding:16px 20px;text-decoration:none;color:#ebdbb2;transition:border-color .2s;min-width:175px;flex:1 1 175px;max-width:220px;}
-.card:hover{border-color:#fabd2f;}
-.card .icon{font-size:24px;margin-bottom:6px;}
+.card{background:#32302f;border:1px solid #504945;border-radius:8px;padding:16px 20px;text-decoration:none;color:#ebdbb2;transition:border-color .2s,background .2s;min-width:175px;flex:1 1 175px;max-width:220px;}
+.card:hover{border-color:#fabd2f;background:#3c3836;}
+.card .icon{font-size:22px;margin-bottom:8px;color:#83a598;}
+.card:hover .icon{color:#fabd2f;}
 .card .title{color:#fabd2f;font-size:12px;font-weight:700;margin-bottom:3px;}
 .card .sub2{color:#a89984;font-size:10px;line-height:1.5;}
-.badge{display:inline-block;background:#3c3836;border:1px solid #504945;color:#665c54;font-size:9px;padding:1px 5px;border-radius:3px;margin-bottom:4px;}
 </style>
 </head>
 <body>
 <h1>Anotacoes da Faculdade</h1>
 <div class="sub">Gabriel Borges — Ciencia da Computacao UFMS</div>
 
-<div class="periodo">&#128218; 2º Período — Base técnica</div>
+<div class="periodo"><i class="fa fa-layer-group" style="margin-right:6px;"></i>2º Período — Base técnica</div>
 <div class="cards">
   <a class="card" href="algoritmos-e-programacao/notas_algoritmos.html">
-    <div class="icon">&#9000;</div>
+    <div class="icon"><i class="fa fa-code-branch"></i></div>
     <div class="title">Algoritmos e Programação</div>
-    <div class="sub2">Big-O - Ordenação - Busca - Python</div>
+    <div class="sub2">Big-O · Ordenação · Busca · Python</div>
   </a>
   <a class="card" href="estatistica-e-probabilidade/notas_estatistica.html">
-    <div class="icon">&#128202;</div>
+    <div class="icon"><i class="fa fa-chart-bar"></i></div>
     <div class="title">Estatística e Probabilidade</div>
-    <div class="sub2">Descritiva - Bayes - Distribuições - ML</div>
+    <div class="sub2">Descritiva · Bayes · Distribuições · ML</div>
   </a>
   <a class="card" href="calculo-para-ai-ml/notas_calculo.html">
-    <div class="icon">&#8747;</div>
+    <div class="icon"><i class="fa fa-square-root-variable"></i></div>
     <div class="title">Cálculo para AI/ML</div>
-    <div class="sub2">Derivadas - Gradiente - Álgebra Linear</div>
+    <div class="sub2">Derivadas · Gradiente · Álgebra Linear</div>
   </a>
   <a class="card" href="engenharia-de-software/notas_engenharia_software.html">
-    <div class="icon">&#9881;</div>
+    <div class="icon"><i class="fa fa-gears"></i></div>
     <div class="title">Engenharia de Software</div>
-    <div class="sub2">Ágil - Testes - Padrões - Clean Code</div>
+    <div class="sub2">Ágil · Testes · Padrões · Clean Code</div>
   </a>
   <a class="card" href="web-e-http/notas_web_http.html">
-    <div class="icon">&#127760;</div>
+    <div class="icon"><i class="fa fa-globe"></i></div>
     <div class="title">Web e HTTP</div>
-    <div class="sub2">HTTP - REST - FastAPI - JWT</div>
+    <div class="sub2">HTTP · REST · FastAPI · JWT</div>
   </a>
 </div>
 
-<div class="periodo">&#128218; 3º Período — Atual</div>
+<div class="periodo"><i class="fa fa-layer-group" style="margin-right:6px;"></i>3º Período — Atual</div>
 <div class="cards">
   <a class="card" href="estrutura-de-dados/notas_estrutura_de_dados.html">
-    <div class="icon">&#127795;</div>
+    <div class="icon"><i class="fa fa-diagram-project"></i></div>
     <div class="title">Estrutura de Dados</div>
-    <div class="sub2">Hash - Heap - BST - AVL</div>
+    <div class="sub2">Hash · Heap · BST · AVL</div>
   </a>
   <a class="card" href="banco-de-dados/notas_banco_de_dados.html">
-    <div class="icon">&#128451;</div>
+    <div class="icon"><i class="fa fa-database"></i></div>
     <div class="title">Banco de Dados</div>
-    <div class="sub2">SQL - Transacoes - NoSQL</div>
+    <div class="sub2">SQL · Transações · NoSQL</div>
   </a>
   <a class="card" href="poo-e-apoo/notas_poo_apoo.html">
-    <div class="icon">&#9749;</div>
+    <div class="icon"><i class="fa fa-cube"></i></div>
     <div class="title">POO & APOO</div>
-    <div class="sub2">Java - OO - UML - GRASP</div>
+    <div class="sub2">Java · OO · UML · GRASP</div>
   </a>
   <a class="card" href="sistemas-computacionais/notas_sistemas_computacionais.html">
-    <div class="icon">&#128187;</div>
+    <div class="icon"><i class="fa fa-microchip"></i></div>
     <div class="title">Sistemas Computacionais</div>
-    <div class="sub2">CPU - Memoria - ISA - SO</div>
+    <div class="sub2">CPU · Memória · ISA · SO</div>
   </a>
   <a class="card" href="gestao-inovacao/notas_gestao_inovacao.html">
-    <div class="icon">&#128640;</div>
-    <div class="title">Gestao de Inovacao</div>
-    <div class="sub2">Startup - Canvas - MVP</div>
+    <div class="icon"><i class="fa fa-lightbulb"></i></div>
+    <div class="title">Gestão de Inovação</div>
+    <div class="sub2">Startup · Canvas · MVP</div>
   </a>
   <a class="card" href="formacao-profissional/notas_fpc.html">
-    <div class="icon">&#128295;</div>
-    <div class="title">Formacao Profissional</div>
-    <div class="sub2">Requisitos - Dashboard - Projeto</div>
+    <div class="icon"><i class="fa fa-laptop-code"></i></div>
+    <div class="title">Formação Profissional</div>
+    <div class="sub2">Requisitos · Dashboard · Projeto</div>
   </a>
 </div>
 </body>
