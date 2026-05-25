@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Web e HTTP para Backend Python</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;}
+.root{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;padding:1.5rem;min-height:100vh;}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.nav button{background:#3c3836;border:1px solid #504945;color:#a89984;font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:monospace;}
+.nav button.active{background:#504945;color:#fabd2f;border-color:#fabd2f;}
+.page{display:none;}.page.active{display:block;}
+.mod-title{color:#fabd2f;font-size:17px;font-weight:700;border-bottom:2px solid #fabd2f;padding-bottom:6px;margin-bottom:1rem;}
+.unit-title{color:#fe8019;font-size:14px;font-weight:700;margin:1.2rem 0 .6rem;}
+.body-text{color:#ebdbb2;font-size:13px;line-height:1.7;margin-bottom:.4rem;}
+.example{background:#32302f;border-left:3px solid #b8bb26;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#ebdbb2;font-size:13px;line-height:1.6;}
+.example .label{color:#b8bb26;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.important{background:#3c2b2b;border-left:3px solid #fb4934;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#fabd2f;font-size:13px;line-height:1.6;}
+.important .label{color:#fb4934;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.ex-block{background:#2d3b3b;border-left:3px solid #8ec07c;border-radius:0 4px 4px 0;padding:10px 14px;margin:.6rem 0;}
+.ex-block .q{color:#8ec07c;font-size:13px;font-weight:700;margin-bottom:4px;}
+.ex-block .ans{color:#fabd2f;font-size:13px;margin-bottom:3px;}
+.ex-block .why{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{border-collapse:collapse;width:100%;font-size:12px;}
+th{background:#3c3836;color:#fabd2f;padding:6px 10px;border:1px solid #504945;text-align:left;}
+td{padding:5px 10px;border:1px solid #504945;color:#ebdbb2;}
+tr:nth-child(even) td{background:#32302f;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.6rem 0;}
+.card{background:#32302f;border:1px solid #504945;border-radius:6px;padding:12px;}
+.card .ctitle{color:#fe8019;font-size:12px;font-weight:700;margin-bottom:6px;}
+.card .cbody{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.highlight{color:#fabd2f;font-weight:700;}
+.green{color:#b8bb26;}.red{color:#fb4934;}.orange{color:#fe8019;}.aqua{color:#8ec07c;}
+.section-sep{border:0;border-top:1px solid #504945;margin:1.2rem 0;}
+.code{background:#1d2021;border:1px solid #504945;border-radius:4px;padding:8px 12px;font-family:monospace;font-size:12px;color:#b8bb26;margin:.4rem 0;white-space:pre-wrap;}
+@media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="root">
+<h2 style="color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;">&#127760; Web e HTTP para Backend Python — Notas</h2>
+<p style="color:#665c54;font-size:10px;margin-bottom:1rem;">HTTP &nbsp;|&nbsp; REST &nbsp;|&nbsp; APIs &nbsp;|&nbsp; FastAPI &nbsp;|&nbsp; Autenticação</p>
+<div class="nav">
+  <button class="active" onclick="show('m1')">HTTP — Protocolo</button>
+  <button onclick="show('m2')">REST e APIs</button>
+  <button onclick="show('m3')">FastAPI em Python</button>
+  <button onclick="show('m4')">Autenticação e Segurança</button>
+  <button onclick="show('cola')">&#128221; Cola de Prova</button>
+</div>
+
+<div id="m1" class="page active">
+  <div class="mod-title">HTTP — Como a Web Funciona</div>
+  <p class="body-text">O <span class="highlight">HTTP</span> (HyperText Transfer Protocol) é o protocolo de comunicação da web. É baseado em <span class="highlight">requisição e resposta</span> — o cliente pede, o servidor responde. Como backend Python, você cria o servidor que processa essas requisições.</p>
+
+  <div class="unit-title">Fluxo de uma Requisição HTTP</div>
+  <div class="code">Cliente (app, curl, browser)
+    ↓  1. DNS resolve "api.exemplo.com" → IP
+    ↓  2. TCP handshake (conexão)
+    ↓  3. Envia requisição HTTP
+Servidor (sua API Python)
+    ↓  4. Processa a requisição
+    ↓  5. Consulta banco, aplica lógica
+    ↓  6. Retorna resposta HTTP
+Cliente
+    ↓  7. Processa a resposta (JSON, HTML...)</div>
+
+  <div class="unit-title">Métodos HTTP</div>
+  <div class="table-wrap"><table>
+    <tr><th>Método</th><th>Ação</th><th>Tem body?</th><th>Idempotente?</th><th>Uso típico</th></tr>
+    <tr><td class="green">GET</td><td>Buscar/ler dados</td><td class="red">Não</td><td class="green">Sim</td><td>Listar usuários, buscar produto</td></tr>
+    <tr><td class="orange">POST</td><td>Criar novo recurso</td><td class="green">Sim</td><td class="red">Não</td><td>Criar usuário, fazer login</td></tr>
+    <tr><td class="highlight">PUT</td><td>Atualizar completo</td><td class="green">Sim</td><td class="green">Sim</td><td>Substituir recurso inteiro</td></tr>
+    <tr><td class="aqua">PATCH</td><td>Atualizar parcial</td><td class="green">Sim</td><td class="red">Não</td><td>Atualizar só o nome de um usuário</td></tr>
+    <tr><td class="red">DELETE</td><td>Remover recurso</td><td class="red">Não</td><td class="green">Sim</td><td>Deletar usuário, remover item</td></tr>
+  </table></div>
+  <div class="important"><div class="label">⚠ Idempotência</div>Requisição <span class="highlight">idempotente</span> = chamar N vezes tem o mesmo efeito que chamar 1 vez. GET busca sempre o mesmo dado. DELETE deleta uma vez, chamar de novo não muda nada. POST cria um novo registro a cada chamada — não é idempotente.</div>
+
+  <div class="unit-title">Códigos de Status HTTP</div>
+  <div class="table-wrap"><table>
+    <tr><th>Faixa</th><th>Significado</th><th>Exemplos importantes</th></tr>
+    <tr><td class="green">2xx — Sucesso</td><td>Requisição processada com sucesso</td><td>200 OK, 201 Created, 204 No Content</td></tr>
+    <tr><td class="orange">3xx — Redirecionamento</td><td>Cliente deve seguir outro endereço</td><td>301 Moved, 302 Found, 304 Not Modified</td></tr>
+    <tr><td class="highlight">4xx — Erro do Cliente</td><td>Problema na requisição enviada</td><td>400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 422 Unprocessable</td></tr>
+    <tr><td class="red">5xx — Erro do Servidor</td><td>Problema no servidor ao processar</td><td>500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable</td></tr>
+  </table></div>
+  <div class="example"><div class="label">Status Codes mais usados em APIs</div>
+    <span class="green">200</span> — sucesso com body de resposta (GET, PUT, PATCH)<br>
+    <span class="green">201</span> — recurso criado com sucesso (POST)<br>
+    <span class="green">204</span> — sucesso sem body (DELETE)<br>
+    <span class="highlight">400</span> — dados inválidos enviados pelo cliente<br>
+    <span class="highlight">401</span> — não autenticado (precisa de token/login)<br>
+    <span class="highlight">403</span> — autenticado mas sem permissão<br>
+    <span class="highlight">404</span> — recurso não encontrado<br>
+    <span class="red">500</span> — erro interno — nunca exponha detalhes ao cliente!
+  </div>
+
+  <div class="unit-title">Headers HTTP</div>
+  <div class="code"># Headers comuns em APIs REST
+Content-Type: application/json     # formato do body enviado
+Accept: application/json           # formato esperado na resposta
+Authorization: Bearer eyJhbG...    # token de autenticação JWT
+X-Request-ID: abc123               # ID único da requisição (rastreamento)
+Cache-Control: no-cache            # controle de cache
+
+# Headers de CORS (Cross-Origin Resource Sharing)
+Access-Control-Allow-Origin: *    # permite qualquer origem
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE</div>
+
+  <div class="ex-block"><div class="q">Exercício 1: Qual a diferença entre 401 e 403?</div><div class="ans">→ <span class="highlight">401</span>: não autenticado (sem token / token inválido). <span class="highlight">403</span>: autenticado mas sem permissão.</div><div class="why">401 = "Quem é você?" → faça login. 403 = "Sei quem você é, mas não pode fazer isso" → usuário comum tentando acessar rota de admin.</div></div>
+</div>
+
+<div id="m2" class="page">
+  <div class="mod-title">REST e Design de APIs</div>
+  <p class="body-text"><span class="highlight">REST</span> (Representational State Transfer) é um estilo arquitetural para APIs web. Define princípios de como organizar rotas, usar métodos HTTP e estruturar respostas.</p>
+
+  <div class="unit-title">Princípios REST</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Stateless (sem estado)</div><div class="cbody">Cada requisição contém <span class="highlight">toda informação necessária</span>. O servidor não guarda estado da sessão. O cliente envia o token em cada requisição.</div></div>
+    <div class="card"><div class="ctitle">Recursos e URIs</div><div class="cbody">Recursos são identificados por URIs. Use <span class="highlight">substantivos no plural</span>, não verbos.<br><span class="green">Bom:</span> /usuarios, /produtos/42<br><span class="red">Ruim:</span> /getUsuario, /deletarProduto</div></div>
+    <div class="card"><div class="ctitle">Representações</div><div class="cbody">Recursos são transferidos em formatos como <span class="highlight">JSON</span> (padrão atual), XML (legado). O cliente especifica o formato com o header Accept.</div></div>
+    <div class="card"><div class="ctitle">Interface Uniforme</div><div class="cbody">Mesmos métodos HTTP para todos os recursos. GET sempre lê, POST sempre cria, etc. Consistência facilita o uso da API.</div></div>
+  </div>
+
+  <div class="unit-title">Design de Rotas REST</div>
+  <div class="table-wrap"><table>
+    <tr><th>Operação</th><th>Método</th><th>Rota</th><th>Body</th><th>Resposta</th></tr>
+    <tr><td>Listar todos</td><td class="green">GET</td><td>/usuarios</td><td>—</td><td>200 + lista</td></tr>
+    <tr><td>Buscar um</td><td class="green">GET</td><td>/usuarios/42</td><td>—</td><td>200 + objeto</td></tr>
+    <tr><td>Criar</td><td class="orange">POST</td><td>/usuarios</td><td>JSON</td><td>201 + criado</td></tr>
+    <tr><td>Atualizar tudo</td><td class="highlight">PUT</td><td>/usuarios/42</td><td>JSON completo</td><td>200 + atualizado</td></tr>
+    <tr><td>Atualizar parcial</td><td class="aqua">PATCH</td><td>/usuarios/42</td><td>JSON parcial</td><td>200 + atualizado</td></tr>
+    <tr><td>Deletar</td><td class="red">DELETE</td><td>/usuarios/42</td><td>—</td><td>204</td></tr>
+  </table></div>
+
+  <div class="unit-title">JSON — Formato padrão de APIs</div>
+  <div class="code">// Resposta típica de uma API REST
+{
+  "id": 42,
+  "nome": "Ana Silva",
+  "email": "ana@exemplo.com",
+  "criado_em": "2024-01-15T10:30:00Z",
+  "ativo": true,
+  "endereco": {
+    "cidade": "Campo Grande",
+    "uf": "MS"
+  },
+  "tags": ["admin", "premium"]
+}
+
+// Resposta de erro padronizada
+{
+  "erro": "USUARIO_NAO_ENCONTRADO",
+  "mensagem": "Usuário com ID 42 não existe",
+  "status": 404,
+  "timestamp": "2024-01-15T10:30:00Z"
+}</div>
+
+  <div class="important"><div class="label">⚠ Versionamento de API</div>Sempre versione sua API para não quebrar clientes existentes ao evoluir. Ex: <span class="highlight">/api/v1/usuarios</span>, /api/v2/usuarios. Quando mudar a estrutura de resposta, crie v2 mantendo v1 funcionando por um período de deprecação.</div>
+
+  <div class="ex-block"><div class="q">Exercício 2: Por que usar /produtos e não /getProdutos na rota REST?</div><div class="ans">→ O <span class="highlight">método HTTP já define a ação</span>. A URI identifica o recurso, não a operação.</div><div class="why">GET /produtos = listar. POST /produtos = criar. O verbo na URL é redundante e vai contra o princípio REST de interface uniforme.</div></div>
+</div>
+
+<div id="m3" class="page">
+  <div class="mod-title">FastAPI — Backend Python Moderno</div>
+  <p class="body-text"><span class="highlight">FastAPI</span> é o framework Python mais moderno para APIs REST. É rápido (async nativo), tem validação automática com Pydantic e gera documentação Swagger automaticamente.</p>
+
+  <div class="code">pip install fastapi uvicorn[standard]</div>
+
+  <div class="unit-title">API Completa com FastAPI</div>
+  <div class="code">from fastapi import FastAPI, HTTPException, status
+from pydantic import BaseModel
+from typing import Optional
+
+app = FastAPI(title="API de Usuários", version="1.0.0")
+
+# Schema de validação (Pydantic)
+class UsuarioCriar(BaseModel):
+    nome: str
+    email: str
+    idade: Optional[int] = None
+
+class UsuarioResposta(BaseModel):
+    id: int
+    nome: str
+    email: str
+
+# Banco de dados simulado
+db: dict[int, dict] = {}
+proximo_id = 1
+
+# GET /usuarios — listar todos
+@app.get("/usuarios", response_model=list[UsuarioResposta])
+def listar_usuarios():
+    return list(db.values())
+
+# GET /usuarios/{id} — buscar um
+@app.get("/usuarios/{usuario_id}", response_model=UsuarioResposta)
+def buscar_usuario(usuario_id: int):
+    if usuario_id not in db:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Usuário {usuario_id} não encontrado"
+        )
+    return db[usuario_id]
+
+# POST /usuarios — criar
+@app.post("/usuarios", response_model=UsuarioResposta,
+          status_code=status.HTTP_201_CREATED)
+def criar_usuario(usuario: UsuarioCriar):
+    global proximo_id
+    novo = {"id": proximo_id, **usuario.dict()}
+    db[proximo_id] = novo
+    proximo_id += 1
+    return novo
+
+# DELETE /usuarios/{id}
+@app.delete("/usuarios/{usuario_id}", status_code=204)
+def deletar_usuario(usuario_id: int):
+    if usuario_id not in db:
+        raise HTTPException(status_code=404, detail="Não encontrado")
+    del db[usuario_id]
+
+# Rodar: uvicorn main:app --reload
+# Docs:   http://localhost:8000/docs  (Swagger automático!)</div>
+
+  <div class="unit-title">Query Params, Path Params e Body</div>
+  <div class="code"># Path param — parte da URL: /produtos/42
+@app.get("/produtos/{produto_id}")
+def buscar_produto(produto_id: int):  # FastAPI valida e converte o tipo
+    ...
+
+# Query param — após ?: /produtos?pagina=2&limite=10
+@app.get("/produtos")
+def listar_produtos(pagina: int = 1, limite: int = 10, busca: str = ""):
+    ...
+
+# Body — JSON no corpo da requisição (POST/PUT/PATCH)
+@app.post("/produtos")
+def criar_produto(produto: ProdutoSchema):  # Pydantic valida automaticamente
+    ...</div>
+
+  <div class="unit-title">Middleware e Dependências</div>
+  <div class="code">from fastapi import Depends
+from fastapi.middleware.cors import CORSMiddleware
+
+# CORS — permitir frontend acessar a API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Dependency Injection — reutilizar lógica entre rotas
+def obter_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@app.get("/usuarios")
+def listar(db=Depends(obter_db)):
+    return db.query(Usuario).all()</div>
+
+  <div class="ex-block"><div class="q">Exercício 3: Por que FastAPI gera documentação automática?</div><div class="ans">→ Usa os <span class="highlight">type hints</span> do Python e schemas Pydantic para gerar OpenAPI spec automaticamente.</div><div class="why">Ao declarar tipos nos parâmetros e usar BaseModel, FastAPI sabe exatamente o formato esperado e gera o Swagger UI em /docs sem nenhuma configuração extra.</div></div>
+</div>
+
+<div id="m4" class="page">
+  <div class="mod-title">Autenticação e Segurança em APIs</div>
+  <div class="unit-title">JWT — JSON Web Token</div>
+  <p class="body-text">JWT é o padrão de autenticação mais usado em APIs REST. O servidor gera um token assinado após o login — o cliente envia esse token em cada requisição.</p>
+  <div class="code">Estrutura do JWT: header.payload.signature
+
+Header:  {"alg": "HS256", "typ": "JWT"}
+Payload: {"sub": "42", "nome": "Ana", "exp": 1716000000}
+Signature: HMACSHA256(base64(header)+"."+base64(payload), secret)
+
+# No header da requisição:
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MiJ9.abc123</div>
+
+  <div class="code">pip install python-jose[cryptography] passlib[bcrypt]
+
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+from datetime import datetime, timedelta
+
+SECRET_KEY = "sua-chave-secreta-muito-longa"
+ALGORITHM  = "HS256"
+EXPIRA_EM  = 30  # minutos
+
+pwd_context = CryptContext(schemes=["bcrypt"])
+
+def hash_senha(senha: str) -> str:
+    return pwd_context.hash(senha)
+
+def verificar_senha(senha: str, hash: str) -> bool:
+    return pwd_context.verify(senha, hash)
+
+def criar_token(dados: dict) -> str:
+    dados["exp"] = datetime.utcnow() + timedelta(minutes=EXPIRA_EM)
+    return jwt.encode(dados, SECRET_KEY, algorithm=ALGORITHM)
+
+def verificar_token(token: str) -> dict:
+    try:
+        return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Token inválido")</div>
+
+  <div class="unit-title">Fluxo de Autenticação JWT</div>
+  <div class="code">1. POST /auth/login  {email, senha}
+      ↓ servidor verifica senha (bcrypt)
+      ↓ gera JWT com user_id e exp
+   ← 200 {access_token: "eyJ..."}
+
+2. GET /usuarios/perfil
+   → Header: Authorization: Bearer eyJ...
+      ↓ servidor valida JWT (assinatura + expiração)
+      ↓ extrai user_id do payload
+   ← 200 {id: 42, nome: "Ana"}</div>
+
+  <div class="unit-title">Boas Práticas de Segurança em APIs</div>
+  <div class="table-wrap"><table>
+    <tr><th>Problema</th><th>Solução</th></tr>
+    <tr><td class="red">Senhas em texto puro</td><td class="green">Sempre hash com bcrypt — nunca armazene senha pura</td></tr>
+    <tr><td class="red">Token sem expiração</td><td class="green">JWT com exp curto (15-30min) + refresh token</td></tr>
+    <tr><td class="red">SQL Injection</td><td class="green">Usar ORM (SQLAlchemy) ou queries parametrizadas</td></tr>
+    <tr><td class="red">Dados sensíveis na URL</td><td class="green">Dados sensíveis no body (POST), não em query params</td></tr>
+    <tr><td class="red">CORS aberto demais</td><td class="green">allow_origins com domínios específicos em produção</td></tr>
+    <tr><td class="red">Erros com stack trace</td><td class="green">Em produção, retornar mensagem genérica ao cliente</td></tr>
+    <tr><td class="red">Rate limit inexistente</td><td class="green">Limitar requisições por IP (slowapi no FastAPI)</td></tr>
+  </table></div>
+
+  <div class="unit-title">SQLAlchemy — ORM para Python</div>
+  <div class="code">pip install sqlalchemy
+
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import DeclarativeBase, Session
+
+engine = create_engine("sqlite:///./banco.db")
+
+class Base(DeclarativeBase): pass
+
+class Usuario(Base):
+    __tablename__ = "usuarios"
+    id    = Column(Integer, primary_key=True)
+    nome  = Column(String(100), nullable=False)
+    email = Column(String(100), unique=True)
+
+Base.metadata.create_all(engine)  # cria tabelas
+
+# CRUD com sessão
+with Session(engine) as session:
+    # Create
+    usuario = Usuario(nome="Ana", email="ana@ex.com")
+    session.add(usuario)
+    session.commit()
+
+    # Read
+    ana = session.query(Usuario).filter_by(email="ana@ex.com").first()
+
+    # Update
+    ana.nome = "Ana Silva"
+    session.commit()
+
+    # Delete
+    session.delete(ana)
+    session.commit()</div>
+
+  <div class="important"><div class="label">⚠ ORM vs SQL puro</div>ORM (SQLAlchemy): mais seguro, mais produtivo, independente de banco. SQL puro: mais performance em queries complexas. Recomendação: use ORM por padrão, SQL puro só quando necessário por performance.</div>
+
+  <div class="ex-block"><div class="q">Exercício 4: Por que nunca armazenar senhas em texto puro?</div><div class="ans">→ Se o banco vazar, todas as senhas são expostas. Com <span class="highlight">bcrypt</span>, o atacante só vê o hash — irreversível.</div><div class="why">bcrypt é lento por design (fator de custo configurável) — dificulta ataques de força bruta. Sempre: hash = bcrypt(senha). Login: bcrypt.verify(senha_digitada, hash_armazenado).</div></div>
+</div>
+
+<div id="cola" class="page">
+  <div class="mod-title">&#128221; Cola — Web e HTTP para Backend Python</div>
+
+  <div class="unit-title">Métodos HTTP × CRUD</div>
+  <div class="table-wrap"><table>
+    <tr><th>CRUD</th><th>Método HTTP</th><th>Status sucesso</th><th>Exemplo</th></tr>
+    <tr><td>Read (listar)</td><td class="green">GET</td><td>200</td><td>GET /usuarios</td></tr>
+    <tr><td>Read (um)</td><td class="green">GET</td><td>200</td><td>GET /usuarios/42</td></tr>
+    <tr><td>Create</td><td class="orange">POST</td><td>201</td><td>POST /usuarios</td></tr>
+    <tr><td>Update (total)</td><td class="highlight">PUT</td><td>200</td><td>PUT /usuarios/42</td></tr>
+    <tr><td>Update (parcial)</td><td class="aqua">PATCH</td><td>200</td><td>PATCH /usuarios/42</td></tr>
+    <tr><td>Delete</td><td class="red">DELETE</td><td>204</td><td>DELETE /usuarios/42</td></tr>
+  </table></div>
+
+  <div class="unit-title">Status Codes Essenciais</div>
+  <div class="table-wrap"><table>
+    <tr><th>Code</th><th>Significado</th><th>Quando usar</th></tr>
+    <tr><td class="green">200</td><td>OK</td><td>GET, PUT, PATCH com sucesso</td></tr>
+    <tr><td class="green">201</td><td>Created</td><td>POST com sucesso</td></tr>
+    <tr><td class="green">204</td><td>No Content</td><td>DELETE com sucesso</td></tr>
+    <tr><td class="highlight">400</td><td>Bad Request</td><td>Dados inválidos no body</td></tr>
+    <tr><td class="highlight">401</td><td>Unauthorized</td><td>Sem token / token inválido</td></tr>
+    <tr><td class="highlight">403</td><td>Forbidden</td><td>Sem permissão</td></tr>
+    <tr><td class="highlight">404</td><td>Not Found</td><td>Recurso não existe</td></tr>
+    <tr><td class="highlight">422</td><td>Unprocessable</td><td>Validação falhou (FastAPI padrão)</td></tr>
+    <tr><td class="red">500</td><td>Server Error</td><td>Bug no servidor</td></tr>
+  </table></div>
+
+  <div class="unit-title" style="margin-top:1rem;">&#11088; Regras de Ouro</div>
+  <div style="display:grid;gap:8px;margin-top:.5rem;">
+    <div class="important"><div class="label">Regra</div>URI = substantivo plural. Método = verbo. <span class="highlight">GET /usuarios</span>, nunca /getUsuarios</div>
+    <div class="important"><div class="label">Regra</div>401 = não autenticado. 403 = autenticado mas <span class="highlight">sem permissão</span></div>
+    <div class="important"><div class="label">Regra</div>Senhas sempre com <span class="highlight">bcrypt</span> — nunca texto puro, nunca MD5/SHA1</div>
+    <div class="important"><div class="label">Regra</div>JWT no header: <span class="highlight">Authorization: Bearer token</span> — nunca na URL</div>
+    <div class="important"><div class="label">Regra</div>REST é <span class="highlight">stateless</span> — servidor não guarda sessão. Token em cada requisição</div>
+    <div class="important"><div class="label">Regra</div">POST cria = 201. DELETE sem body = 204. GET/PUT bem sucedido = 200</div>
+    <div class="important"><div class="label">Regra</div>ORM protege de SQL Injection. Nunca concatenar string em query SQL</div>
+    <div class="important"><div class="label">Regra</div>FastAPI: /docs = Swagger automático. Uvicorn serve a API. <span class="highlight">Pydantic valida</span> automaticamente</div>
+  </div>
+</div>
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>{if(b.getAttribute('onclick')===`show('${id}')`)b.classList.add('active');});
+}
+</script>
+</body>
+</html>
