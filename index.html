@@ -16,23 +16,20 @@ h1{color:#fabd2f;font-size:clamp(16px,4vw,22px);margin-bottom:.3rem;letter-spaci
 .card:hover .icon,.card:active .icon{color:#fabd2f;}
 .card .title{color:#fabd2f;font-size:clamp(11px,2.8vw,12px);font-weight:700;margin-bottom:3px;line-height:1.3;}
 .card .sub2{color:#a89984;font-size:clamp(9px,2.3vw,10px);line-height:1.5;}
-
 @media(max-width:480px){
   body{padding:1rem;}
   .cards{grid-template-columns:repeat(2,1fr);gap:8px;}
   .card{padding:12px 12px;}
   .card .icon{font-size:18px;margin-bottom:6px;}
 }
-@media(max-width:320px){
-  .cards{grid-template-columns:1fr;}
-}
+@media(max-width:320px){.cards{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 <h1>Anotacoes da Faculdade</h1>
 <div class="sub">Gabriel Borges — Ciencia da Computacao UFMS</div>
 
-<div class="periodo"><i class="fa fa-layer-group" style="margin-right:6px;"></i>2º Período — Base técnica</div>
+<div class="periodo"><i class="fa fa-layer-group" style="margin-right:6px;"></i>2º Período</div>
 <div class="cards">
   <a class="card" href="algoritmos-e-programacao/notas_algoritmos.html">
     <div class="icon"><i class="fa fa-code-branch"></i></div>
@@ -92,6 +89,20 @@ h1{color:#fabd2f;font-size:clamp(16px,4vw,22px);margin-bottom:.3rem;letter-spaci
     <div class="icon"><i class="fa fa-laptop-code"></i></div>
     <div class="title">Formação Profissional</div>
     <div class="sub2">Requisitos · Dashboard · Projeto</div>
+  </a>
+</div>
+
+<div class="periodo"><i class="fa fa-layer-group" style="margin-right:6px;"></i>4º e 5º Período — Próximos</div>
+<div class="cards">
+  <a class="card" href="infraestrutura/notas_infraestrutura.html">
+    <div class="icon"><i class="fa fa-server"></i></div>
+    <div class="title">Infraestrutura de Software</div>
+    <div class="sub2">Linux · Docker · Cloud · Deploy</div>
+  </a>
+  <a class="card" href="tecnicas-avancadas/notas_tecnicas_avancadas.html">
+    <div class="icon"><i class="fa fa-bolt"></i></div>
+    <div class="title">Técnicas Avançadas Dev</div>
+    <div class="sub2">Arquitetura · Async · Cache · Filas</div>
   </a>
 </div>
 </body>
