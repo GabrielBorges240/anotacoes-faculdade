@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Segurança da Informação</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;}
+.root{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;padding:1.5rem;min-height:100vh;}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.nav button{background:#3c3836;border:1px solid #504945;color:#a89984;font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:monospace;}
+.nav button.active{background:#504945;color:#fabd2f;border-color:#fabd2f;}
+.page{display:none;}.page.active{display:block;}
+.mod-title{color:#fabd2f;font-size:17px;font-weight:700;border-bottom:2px solid #fabd2f;padding-bottom:6px;margin-bottom:1rem;}
+.unit-title{color:#fe8019;font-size:14px;font-weight:700;margin:1.2rem 0 .6rem;}
+.body-text{color:#ebdbb2;font-size:13px;line-height:1.7;margin-bottom:.4rem;}
+.example{background:#32302f;border-left:3px solid #b8bb26;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#ebdbb2;font-size:13px;line-height:1.6;}
+.example .label{color:#b8bb26;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.important{background:#3c2b2b;border-left:3px solid #fb4934;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#fabd2f;font-size:13px;line-height:1.6;}
+.important .label{color:#fb4934;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.ex-block{background:#2d3b3b;border-left:3px solid #8ec07c;border-radius:0 4px 4px 0;padding:10px 14px;margin:.6rem 0;}
+.ex-block .q{color:#8ec07c;font-size:13px;font-weight:700;margin-bottom:4px;}
+.ex-block .ans{color:#fabd2f;font-size:13px;margin-bottom:3px;}
+.ex-block .why{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{border-collapse:collapse;width:100%;font-size:12px;}
+th{background:#3c3836;color:#fabd2f;padding:6px 10px;border:1px solid #504945;text-align:left;}
+td{padding:5px 10px;border:1px solid #504945;color:#ebdbb2;}
+tr:nth-child(even) td{background:#32302f;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.6rem 0;}
+.card{background:#32302f;border:1px solid #504945;border-radius:6px;padding:12px;}
+.card .ctitle{color:#fe8019;font-size:12px;font-weight:700;margin-bottom:6px;}
+.card .cbody{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.highlight{color:#fabd2f;font-weight:700;}
+.green{color:#b8bb26;}.red{color:#fb4934;}.orange{color:#fe8019;}.aqua{color:#8ec07c;}
+.section-sep{border:0;border-top:1px solid #504945;margin:1.2rem 0;}
+.code{background:#1d2021;border:1px solid #504945;border-radius:4px;padding:8px 12px;font-family:monospace;font-size:12px;color:#b8bb26;margin:.4rem 0;white-space:pre-wrap;}
+@media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="root">
+<h2 style="color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;">&#128274; Segurança da Informação</h2>
+<p style="color:#665c54;font-size:10px;margin-bottom:1rem;">OWASP &nbsp;|&nbsp; Criptografia &nbsp;|&nbsp; Autenticação &nbsp;|&nbsp; Ataques &nbsp;|&nbsp; Defesas</p>
+<div class="nav">
+  <button class="active" onclick="show('m1')">Conceitos e OWASP Top 10</button>
+  <button onclick="show('m2')">Ataques Comuns</button>
+  <button onclick="show('m3')">Criptografia</button>
+  <button onclick="show('m4')">Segurança em APIs Python</button>
+  <button onclick="show('cola')">&#128221; Cola</button>
+</div>
+
+<div id="m1" class="page active">
+  <div class="mod-title">Conceitos Fundamentais e OWASP Top 10</div>
+  <div class="unit-title">Tríade CIA</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Confidencialidade</div><div class="cbody">Dados acessíveis <span class="highlight">só por quem tem permissão</span>. Ex: criptografia, controle de acesso, JWT.</div></div>
+    <div class="card"><div class="ctitle">Integridade</div><div class="cbody">Dados <span class="highlight">não foram alterados</span> sem autorização. Ex: hashes, assinaturas digitais, checksums.</div></div>
+    <div class="card"><div class="ctitle">Disponibilidade</div><div class="cbody">Sistema <span class="highlight">acessível quando necessário</span>. Ex: redundância, backups, proteção contra DDoS.</div></div>
+    <div class="card"><div class="ctitle">Autenticidade</div><div class="cbody">Garantir que o usuário <span class="highlight">é quem diz ser</span>. Ex: login, MFA, certificados digitais.</div></div>
+  </div>
+
+  <div class="unit-title">OWASP Top 10 — Vulnerabilidades mais críticas em APIs</div>
+  <div class="table-wrap"><table>
+    <tr><th>#</th><th>Vulnerabilidade</th><th>Exemplo</th><th>Defesa</th></tr>
+    <tr><td class="red">1</td><td class="red">Broken Object Level Auth</td><td>GET /pedidos/42 — ver pedido de outro usuário</td><td>Verificar se o recurso pertence ao usuário logado</td></tr>
+    <tr><td class="red">2</td><td class="red">Broken Authentication</td><td>Tokens sem expiração, senhas fracas</td><td>JWT com exp, bcrypt, MFA</td></tr>
+    <tr><td class="red">3</td><td class="red">Broken Object Property Auth</td><td>PATCH /usuario — alterar campo "admin: true"</td><td>Whitelist de campos editáveis</td></tr>
+    <tr><td class="orange">4</td><td class="orange">Unrestricted Resource Consumption</td><td>Sem limite de requisições — DDoS fácil</td><td>Rate limiting por IP/usuário</td></tr>
+    <tr><td class="orange">5</td><td class="orange">Broken Function Level Auth</td><td>Usuário comum acessa rota /admin/</td><td>Middleware de verificação de roles</td></tr>
+    <tr><td class="highlight">6</td><td class="highlight">Unrestricted Access to Sensitive Flows</td><td>Sem limite em /esqueci-senha — força bruta</td><td>Rate limit + captcha em fluxos sensíveis</td></tr>
+    <tr><td class="highlight">7</td><td class="highlight">SSRF</td><td>API faz fetch de URL passada pelo usuário</td><td>Validar e bloquear URLs internas</td></tr>
+    <tr><td class="highlight">8</td><td class="highlight">Security Misconfiguration</td><td>Debug mode em produção, CORS aberto</td><td>Configuração revisada por ambiente</td></tr>
+    <tr><td class="aqua">9</td><td class="aqua">Improper Inventory Management</td><td>API v1 desatualizada ainda acessível</td><td>Deprecar e remover versões antigas</td></tr>
+    <tr><td class="aqua">10</td><td class="aqua">Unsafe Consumption of APIs</td><td>Confiar cegamente em API de terceiros</td><td>Validar e sanitizar dados externos</td></tr>
+  </table></div>
+
+  <div class="important"><div class="label">⚠ BOLA — o mais crítico</div>Broken Object Level Authorization é o ataque mais comum em APIs. Ex: usuário 1 acessa <span class="highlight">GET /pedidos/99</span> sendo que o pedido 99 é do usuário 2. Sempre verifique: <code>pedido.usuario_id == usuario_logado.id</code></div>
+
+  <div class="ex-block"><div class="q">Exercício 1: O que é BOLA e como prevenir?</div><div class="ans">→ Usuário acessa recurso de <span class="highlight">outro usuário apenas mudando o ID na URL</span>. Previne verificando propriedade do recurso.</div><div class="why">if pedido.usuario_id != current_user.id: raise HTTPException(403). Simples assim — mas esquecido com frequência em APIs mal projetadas.</div></div>
+</div>
+
+<div id="m2" class="page">
+  <div class="mod-title">Ataques Comuns e Como Defender</div>
+  <div class="unit-title">SQL Injection</div>
+  <div class="code"># VULNERÁVEL — concatenação de string na query
+@app.get("/usuarios")
+def buscar(nome: str):
+    query = f"SELECT * FROM usuarios WHERE nome = '{nome}'"
+    # Se nome = "'; DROP TABLE usuarios; --"
+    # vira: SELECT * FROM usuarios WHERE nome = ''; DROP TABLE usuarios; --'
+    return db.execute(query)
+
+# SEGURO — query parametrizada (ORM ou parâmetros)
+def buscar_seguro(nome: str):
+    # SQLAlchemy — parametrizado automaticamente
+    return db.query(Usuario).filter(Usuario.nome == nome).all()
+
+    # SQL puro com parâmetros
+    return db.execute("SELECT * FROM usuarios WHERE nome = :nome", {"nome": nome})</div>
+
+  <div class="unit-title">XSS — Cross-Site Scripting</div>
+  <div class="code"># XSS acontece quando o backend retorna dados do usuário sem sanitizar
+# e o frontend renderiza como HTML
+
+# Vulnerável: retorna HTML com input do usuário
+comentario = request.body.comentario
+return f"<p>{comentario}</p>"
+# Se comentario = "<script>roubar_cookies()</script>"
+# o script executa no browser de quem ver!
+
+# Defesa: escape de HTML + Content-Security-Policy
+import html
+comentario_seguro = html.escape(comentario)
+
+# Header CSP no Nginx:
+add_header Content-Security-Policy "default-src 'self';"</div>
+
+  <div class="unit-title">CSRF — Cross-Site Request Forgery</div>
+  <div class="code"># CSRF: site malicioso faz requisição autenticada em nome do usuário
+# Ex: usuário logado no banco, acessa site malicioso que faz:
+# POST bank.com/transferir com os cookies do usuário!
+
+# Defesa 1: CSRF Token (formulários)
+# Defesa 2: SameSite cookies
+response.set_cookie("session", value, samesite="strict")
+
+# Defesa 3: APIs REST com JWT no header (não cookie)
+# O header Authorization não é enviado automaticamente pelo browser
+# — CSRF não funciona com JWT no header!</div>
+
+  <div class="unit-title">Rate Limiting — Proteção contra Força Bruta e DDoS</div>
+  <div class="code">pip install slowapi
+
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+
+# Limitar rotas específicas
+@app.post("/auth/login")
+@limiter.limit("5/minute")  # max 5 tentativas por minuto por IP
+async def login(request: Request, dados: LoginSchema):
+    ...
+
+@app.post("/auth/esqueci-senha")
+@limiter.limit("3/hour")    # max 3 por hora
+async def esqueci_senha(request: Request, email: str):
+    ...</div>
+
+  <div class="unit-title">Principais Vetores de Ataque</div>
+  <div class="table-wrap"><table>
+    <tr><th>Ataque</th><th>Como funciona</th><th>Defesa principal</th></tr>
+    <tr><td class="red">SQL Injection</td><td>Injeta SQL em inputs para manipular o banco</td><td>ORM / queries parametrizadas</td></tr>
+    <tr><td class="red">XSS</td><td>Injeta JavaScript malicioso via inputs</td><td>Escape de HTML, CSP header</td></tr>
+    <tr><td class="orange">CSRF</td><td>Site malicioso faz requests autenticados</td><td>JWT no header, SameSite cookies</td></tr>
+    <tr><td class="orange">Força Bruta</td><td>Testa senhas até acertar</td><td>Rate limit, bloqueio de IP, MFA</td></tr>
+    <tr><td class="highlight">DDoS</td><td>Inunda o servidor de requisições</td><td>CDN, rate limit, WAF, Cloudflare</td></tr>
+    <tr><td class="highlight">Man-in-the-Middle</td><td>Intercepta comunicação</td><td>HTTPS obrigatório, HSTS</td></tr>
+    <tr><td class="aqua">Credential Stuffing</td><td>Usa senhas vazadas de outros sites</td><td>MFA, pwned passwords API</td></tr>
+  </table></div>
+
+  <div class="ex-block"><div class="q">Exercício 2: Por que APIs REST com JWT no header são mais seguras contra CSRF?</div><div class="ans">→ O browser <span class="highlight">não envia o header Authorization automaticamente</span> em requests cross-origin — diferente de cookies.</div><div class="why">CSRF explora o fato de browsers enviarem cookies automaticamente para o domínio. JWT no header Authorization requer JavaScript explícito para enviar — um site malicioso não consegue fazer isso por restrições do CORS.</div></div>
+</div>
+
+<div id="m3" class="page">
+  <div class="mod-title">Criptografia</div>
+  <div class="unit-title">Tipos de Criptografia</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Simétrica</div><div class="cbody">Mesma chave para criptografar e descriptografar.<br><br><span class="green">Rápida</span>, ideal para grandes volumes.<br>Ex: AES-256.<br><br>Problema: como compartilhar a chave com segurança?</div></div>
+    <div class="card"><div class="ctitle">Assimétrica (Par de Chaves)</div><div class="cbody">Chave pública (criptografa) + chave privada (descriptografa).<br><br><span class="orange">Mais lenta</span>, usada para trocar chaves e assinar.<br>Ex: RSA, ECDSA.<br><br>Base do HTTPS e assinaturas digitais.</div></div>
+    <div class="card"><div class="ctitle">Hash (One-way)</div><div class="cbody">Entrada → saída de tamanho fixo. <span class="highlight">Irreversível</span>.<br><br>Ex: bcrypt (senhas), SHA-256 (integridade), MD5 (obsoleto para segurança).<br><br>Mesmo input = mesmo output sempre.</div></div>
+    <div class="card"><div class="ctitle">TLS/SSL</div><div class="cbody">Combina assimétrica (para trocar chave de sessão) + simétrica (para dados).<br><br>HTTPS = HTTP + TLS. Garante confidencialidade e integridade da comunicação.</div></div>
+  </div>
+
+  <div class="unit-title">Hashing de Senhas — bcrypt</div>
+  <div class="code">from passlib.context import CryptContext
+
+pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# Criar hash
+senha_hash = pwd.hash("minha_senha_123")
+# $2b$12$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy
+
+# Verificar
+pwd.verify("minha_senha_123", senha_hash)  # True
+pwd.verify("senha_errada",    senha_hash)  # False
+
+# Por que bcrypt e não SHA-256 para senhas?
+# SHA-256: rápido demais — atacante testa bilhões por segundo
+# bcrypt: lento por design (fator de custo configurável)
+# bcrypt com cost=12 → ~100ms por hash → força bruta inviável</div>
+
+  <div class="unit-title">JWT — Assinatura e Verificação</div>
+  <div class="code">from jose import jwt
+from datetime import datetime, timedelta
+
+SECRET = "chave-secreta-minima-256-bits-de-comprimento"
+ALGO   = "HS256"  # HMAC com SHA-256
+
+# Criar token
+def criar_token(user_id: int, role: str) -> str:
+    payload = {
+        "sub": str(user_id),    # subject (ID do usuário)
+        "role": role,
+        "iat": datetime.utcnow(),                         # issued at
+        "exp": datetime.utcnow() + timedelta(minutes=30)  # expira em 30min
+    }
+    return jwt.encode(payload, SECRET, algorithm=ALGO)
+
+# Verificar token
+def verificar_token(token: str) -> dict:
+    return jwt.decode(token, SECRET, algorithms=[ALGO])
+    # Lança JWTError se inválido ou expirado
+
+# HS256 = assinatura simétrica (mesma chave para assinar e verificar)
+# RS256 = assinatura assimétrica (privada assina, pública verifica) — melhor para microsserviços</div>
+
+  <div class="important"><div class="label">⚠ Nunca armazene dados sensíveis no JWT</div>O payload do JWT é apenas <span class="highlight">codificado em Base64</span>, não criptografado. Qualquer pessoa pode decodificar e ler o conteúdo. Guarde apenas id e role — nunca senha, CPF ou dados pessoais sensíveis.</div>
+
+  <div class="ex-block"><div class="q">Exercício 3: Por que bcrypt é melhor que SHA-256 para senhas?</div><div class="ans">→ bcrypt é <span class="highlight">lento por design</span>. SHA-256 é tão rápido que atacantes testam bilhões de combinações por segundo.</div><div class="why">SHA-256 em GPU: ~10 bilhões hashes/s. bcrypt cost=12: ~100ms por hash = ~10 hashes/s. A senha "senha123" em SHA-256: quebrada em segundos. Em bcrypt: anos. O custo é configurável — aumenta com hardware mais rápido.</div></div>
+</div>
+
+<div id="m4" class="page">
+  <div class="mod-title">Segurança em APIs Python — Checklist Prático</div>
+  <div class="unit-title">Configurações de Segurança no FastAPI</div>
+  <div class="code">from fastapi import FastAPI, Depends, HTTPException, Security
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+import secrets
+
+app = FastAPI()
+
+# CORS — restrinja em produção
+app.add_middleware(CORSMiddleware,
+    allow_origins=["https://meuapp.com"],  # NÃO use ["*"] em produção
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["Authorization", "Content-Type"],
+    allow_credentials=True,
+)
+
+# Trusted Host — evita Host header attacks
+app.add_middleware(TrustedHostMiddleware,
+    allowed_hosts=["meuapp.com", "api.meuapp.com"]
+)
+
+# Security headers via Nginx (não no FastAPI)
+# add_header X-Frame-Options "DENY";
+# add_header X-Content-Type-Options "nosniff";
+# add_header Strict-Transport-Security "max-age=31536000";
+# add_header X-XSS-Protection "1; mode=block";</code></div>
+
+  <div class="unit-title">Autenticação e Autorização</div>
+  <div class="code">from enum import Enum
+from functools import wraps
+
+class Role(str, Enum):
+    ADMIN = "admin"
+    USER  = "user"
+
+security = HTTPBearer()
+
+# Dependência de autenticação
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Security(security)
+):
+    token = credentials.credentials
+    try:
+        payload = verificar_token(token)
+        return payload
+    except:
+        raise HTTPException(401, "Token inválido ou expirado")
+
+# Dependência de autorização por role
+def requer_role(role: Role):
+    async def verificar(user=Depends(get_current_user)):
+        if user.get("role") != role:
+            raise HTTPException(403, "Sem permissão")
+        return user
+    return verificar
+
+# Uso nas rotas
+@app.get("/admin/usuarios")
+async def admin_listar(user=Depends(requer_role(Role.ADMIN))):
+    return {"msg": "só admin chega aqui"}
+
+@app.get("/perfil")
+async def meu_perfil(user=Depends(get_current_user)):
+    return {"id": user["sub"], "role": user["role"]}
+
+# BOLA — verificar propriedade do recurso
+@app.get("/pedidos/{pedido_id}")
+async def get_pedido(pedido_id: int, user=Depends(get_current_user)):
+    pedido = db.query(Pedido).get(pedido_id)
+    if not pedido:
+        raise HTTPException(404)
+    if pedido.usuario_id != int(user["sub"]):  # BOLA check!
+        raise HTTPException(403, "Não é seu pedido")
+    return pedido</div>
+
+  <div class="unit-title">Checklist de Segurança para Deploy</div>
+  <div class="table-wrap"><table>
+    <tr><th>Item</th><th>Como verificar</th></tr>
+    <tr><td class="green">HTTPS ativo</td><td>curl -I https://minha-api.com → status 200</td></tr>
+    <tr><td class="green">Senhas com bcrypt</td><td>Revisar código — nunca md5/sha1/texto puro</td></tr>
+    <tr><td class="green">JWT com expiração</td><td>Token tem campo "exp" no payload</td></tr>
+    <tr><td class="orange">CORS restrito</td><td>allow_origins sem "*" em produção</td></tr>
+    <tr><td class="orange">Rate limiting ativo</td><td>Tentar 100 logins/min — deve bloquear</td></tr>
+    <tr><td class="orange">Variáveis de ambiente</td><td>.env no .gitignore, secrets no servidor</td></tr>
+    <tr><td class="highlight">ORM em todas queries</td><td>Nenhum f-string com input do usuário em SQL</td></tr>
+    <tr><td class="highlight">Debug mode desligado</td><td>DEBUG=False em produção</td></tr>
+    <tr><td class="highlight">Logs sem dados sensíveis</td><td>Revisar logs — sem senha, CPF, token</td></tr>
+    <tr><td class="red">BOLA verificado</td><td>Testar acessar recurso de outro usuário → 403</td></tr>
+  </table></div>
+</div>
+
+<div id="cola" class="page">
+  <div class="mod-title">&#128221; Cola — Segurança da Informação</div>
+  <div class="unit-title">Tríade CIA</div>
+  <div class="table-wrap"><table>
+    <tr><th>Pilar</th><th>Garantia</th><th>Como</th></tr>
+    <tr><td class="green">Confidencialidade</td><td>Só quem tem permissão acessa</td><td>Criptografia, JWT, RBAC</td></tr>
+    <tr><td class="orange">Integridade</td><td>Dados não foram alterados</td><td>Hash, assinatura digital</td></tr>
+    <tr><td class="highlight">Disponibilidade</td><td>Sistema acessível</td><td>Redundância, anti-DDoS</td></tr>
+  </table></div>
+  <div class="unit-title">OWASP — Os 3 mais importantes</div>
+  <div class="table-wrap"><table>
+    <tr><th>Vulnerabilidade</th><th>Defesa</th></tr>
+    <tr><td class="red">BOLA — acesso a recurso alheio</td><td>Verificar pedido.user_id == current_user.id</td></tr>
+    <tr><td class="red">SQL Injection</td><td>ORM / queries parametrizadas — nunca f-string</td></tr>
+    <tr><td class="orange">Força Bruta</td><td>Rate limit em /login e /esqueci-senha</td></tr>
+  </table></div>
+  <div class="unit-title" style="margin-top:1rem;">&#11088; Regras de Ouro</div>
+  <div style="display:grid;gap:8px;margin-top:.5rem;">
+    <div class="important"><div class="label">Regra</div>Senhas: sempre <span class="highlight">bcrypt</span> — nunca MD5, SHA1 ou texto puro</div>
+    <div class="important"><div class="label">Regra</div>JWT: só id e role no payload — <span class="highlight">nunca dados sensíveis</span> (é Base64, não criptografado)</div>
+    <div class="important"><div class="label">Regra</div">SQL: nunca concatenar input do usuário — use <span class="highlight">ORM ou parâmetros</span></div>
+    <div class="important"><div class="label">Regra</div>BOLA: sempre verifique se o <span class="highlight">recurso pertence ao usuário logado</span></div>
+    <div class="important"><div class="label">Regra</div>CORS: <span class="highlight">nunca "*"</span> em produção — liste os domínios permitidos</div>
+    <div class="important"><div class="label">Regra</div>401 = não autenticado. 403 = autenticado mas <span class="highlight">sem permissão</span></div>
+  </div>
+</div>
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>{if(b.getAttribute('onclick')===`show('${id}')`)b.classList.add('active');});
+}
+</script>
+</body>
+</html>
