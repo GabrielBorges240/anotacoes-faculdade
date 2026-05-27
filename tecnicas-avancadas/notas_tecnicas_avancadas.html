@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Técnicas Avançadas de Desenvolvimento</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;}
+.root{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;padding:1.5rem;min-height:100vh;}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.nav button{background:#3c3836;border:1px solid #504945;color:#a89984;font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:monospace;}
+.nav button.active{background:#504945;color:#fabd2f;border-color:#fabd2f;}
+.page{display:none;}.page.active{display:block;}
+.mod-title{color:#fabd2f;font-size:17px;font-weight:700;border-bottom:2px solid #fabd2f;padding-bottom:6px;margin-bottom:1rem;}
+.unit-title{color:#fe8019;font-size:14px;font-weight:700;margin:1.2rem 0 .6rem;}
+.body-text{color:#ebdbb2;font-size:13px;line-height:1.7;margin-bottom:.4rem;}
+.example{background:#32302f;border-left:3px solid #b8bb26;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#ebdbb2;font-size:13px;line-height:1.6;}
+.example .label{color:#b8bb26;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.important{background:#3c2b2b;border-left:3px solid #fb4934;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#fabd2f;font-size:13px;line-height:1.6;}
+.important .label{color:#fb4934;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.ex-block{background:#2d3b3b;border-left:3px solid #8ec07c;border-radius:0 4px 4px 0;padding:10px 14px;margin:.6rem 0;}
+.ex-block .q{color:#8ec07c;font-size:13px;font-weight:700;margin-bottom:4px;}
+.ex-block .ans{color:#fabd2f;font-size:13px;margin-bottom:3px;}
+.ex-block .why{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{border-collapse:collapse;width:100%;font-size:12px;}
+th{background:#3c3836;color:#fabd2f;padding:6px 10px;border:1px solid #504945;text-align:left;}
+td{padding:5px 10px;border:1px solid #504945;color:#ebdbb2;}
+tr:nth-child(even) td{background:#32302f;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.6rem 0;}
+.card{background:#32302f;border:1px solid #504945;border-radius:6px;padding:12px;}
+.card .ctitle{color:#fe8019;font-size:12px;font-weight:700;margin-bottom:6px;}
+.card .cbody{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.highlight{color:#fabd2f;font-weight:700;}
+.green{color:#b8bb26;}.red{color:#fb4934;}.orange{color:#fe8019;}.aqua{color:#8ec07c;}
+.section-sep{border:0;border-top:1px solid #504945;margin:1.2rem 0;}
+.code{background:#1d2021;border:1px solid #504945;border-radius:4px;padding:8px 12px;font-family:monospace;font-size:12px;color:#b8bb26;margin:.4rem 0;white-space:pre-wrap;}
+@media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="root">
+<h2 style="color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;">&#9889; Técnicas Avançadas de Desenvolvimento de Software</h2>
+<p style="color:#665c54;font-size:10px;margin-bottom:1rem;">Arquitetura &nbsp;|&nbsp; Async &nbsp;|&nbsp; Cache &nbsp;|&nbsp; Filas &nbsp;|&nbsp; Microsserviços</p>
+<div class="nav">
+  <button class="active" onclick="show('m1')">Arquitetura de Software</button>
+  <button onclick="show('m2')">Async e Performance</button>
+  <button onclick="show('m3')">Cache e Filas</button>
+  <button onclick="show('m4')">Microsserviços</button>
+  <button onclick="show('cola')">&#128221; Cola</button>
+</div>
+
+<div id="m1" class="page active">
+  <div class="mod-title">Arquitetura de Software</div>
+  <div class="unit-title">Arquitetura em Camadas (Layered)</div>
+  <div class="code">Requisição HTTP
+      ↓
+  Camada de Apresentação (Routes/Controllers)
+      ↓  valida entrada, chama service
+  Camada de Negócio (Services)
+      ↓  lógica de negócio, orquestra
+  Camada de Dados (Repository/DAO)
+      ↓  queries ao banco
+  Banco de Dados</div>
+  <div class="code"># Exemplo em FastAPI com camadas
+# routes/usuario.py — apresentação
+@router.post("/usuarios")
+def criar(dados: UsuarioSchema, service: UsuarioService = Depends()):
+    return service.criar_usuario(dados)
+
+# services/usuario.py — negócio
+class UsuarioService:
+    def __init__(self, repo: UsuarioRepository = Depends()):
+        self.repo = repo
+
+    def criar_usuario(self, dados: UsuarioSchema):
+        if self.repo.buscar_por_email(dados.email):
+            raise HTTPException(400, "Email já cadastrado")
+        senha_hash = bcrypt.hash(dados.senha)
+        return self.repo.criar(dados.nome, dados.email, senha_hash)
+
+# repositories/usuario.py — dados
+class UsuarioRepository:
+    def __init__(self, db: Session = Depends(get_db)):
+        self.db = db
+
+    def criar(self, nome, email, senha_hash):
+        usuario = Usuario(nome=nome, email=email, senha=senha_hash)
+        self.db.add(usuario); self.db.commit()
+        return usuario</div>
+
+  <div class="unit-title">Arquiteturas Comuns</div>
+  <div class="table-wrap"><table>
+    <tr><th>Arquitetura</th><th>Estrutura</th><th>Vantagem</th><th>Quando usar</th></tr>
+    <tr><td class="green">Monolito</td><td>Tudo em 1 aplicação</td><td>Simples de desenvolver</td><td>Início de projetos, times pequenos</td></tr>
+    <tr><td class="orange">Microsserviços</td><td>Serviços independentes</td><td>Escala e deploy independentes</td><td>Times grandes, alta escala</td></tr>
+    <tr><td class="highlight">Serverless</td><td>Funções sob demanda</td><td>Zero gerenciamento de servidor</td><td>Eventos, ETL, automações</td></tr>
+    <tr><td class="aqua">Event-Driven</td><td>Comunicação via eventos</td><td>Baixo acoplamento</td><td>Integração entre sistemas</td></tr>
+  </table></div>
+
+  <div class="important"><div class="label">⚠ Monolito primeiro!</div>Comece com monolito bem estruturado. Microsserviços adicionam complexidade enorme (rede, deploy, observabilidade). Só migre quando o monolito se tornar um problema real — não antes.</div>
+
+  <div class="unit-title">SOLID na Prática em Python</div>
+  <div class="code"># S — Single Responsibility
+# Ruim: uma classe faz tudo
+class UsuarioManager:
+    def criar(self): ...
+    def enviar_email(self): ...   # responsabilidade extra!
+    def salvar_log(self): ...     # responsabilidade extra!
+
+# Bom: cada classe faz uma coisa
+class UsuarioService:   def criar(self): ...
+class EmailService:     def enviar(self): ...
+class LogService:       def registrar(self): ...
+
+# D — Dependency Inversion (injeta abstração, não implementação)
+from abc import ABC, abstractmethod
+
+class NotificacaoBase(ABC):
+    @abstractmethod
+    def enviar(self, msg: str): ...
+
+class EmailNotificacao(NotificacaoBase):
+    def enviar(self, msg): print(f"Email: {msg}")
+
+class SMSNotificacao(NotificacaoBase):
+    def enviar(self, msg): print(f"SMS: {msg}")
+
+class PedidoService:
+    def __init__(self, notificacao: NotificacaoBase):
+        self.notif = notificacao  # depende da abstração
+
+    def finalizar(self, pedido):
+        self.notif.enviar(f"Pedido {pedido.id} confirmado!")</code></div>
+
+  <div class="ex-block"><div class="q">Exercício 1: Por que separar Service de Repository?</div><div class="ans">→ Service cuida da <span class="highlight">lógica de negócio</span>. Repository cuida do <span class="highlight">acesso aos dados</span>. São responsabilidades diferentes.</div><div class="why">Se trocar PostgreSQL por MongoDB, só muda o Repository — o Service não sabe do banco. Se mudar a regra de negócio, só muda o Service — o banco não sabe. Isso é o princípio de responsabilidade única aplicado em camadas.</div></div>
+</div>
+
+<div id="m2" class="page">
+  <div class="mod-title">Programação Assíncrona e Performance</div>
+  <div class="unit-title">Async/Await em Python</div>
+  <p class="body-text">Python síncrono: enquanto espera o banco responder, a thread fica bloqueada. Python <span class="highlight">assíncrono</span>: enquanto espera o banco, processa outra requisição. Ideal para APIs com I/O intenso.</p>
+  <div class="code">import asyncio
+import httpx  # cliente HTTP async
+
+# Síncrono — bloqueia enquanto espera
+def buscar_usuario_sync(id):
+    resultado = db.query(...)  # bloqueia a thread
+    return resultado
+
+# Assíncrono — libera a thread enquanto espera
+async def buscar_usuario(id):
+    resultado = await db.fetch(...)  # libera a thread
+    return resultado
+
+# FastAPI suporta async nativamente
+@app.get("/usuarios/{id}")
+async def get_usuario(id: int):
+    usuario = await usuario_service.buscar(id)
+    return usuario
+
+# Executar múltiplas operações em paralelo
+async def dados_dashboard(user_id: int):
+    # executa as 3 queries ao mesmo tempo!
+    pedidos, saldo, notifs = await asyncio.gather(
+        buscar_pedidos(user_id),
+        buscar_saldo(user_id),
+        buscar_notificacoes(user_id)
+    )
+    return {"pedidos": pedidos, "saldo": saldo, "notifs": notifs}</div>
+
+  <div class="important"><div class="label">⚠ Quando usar async</div>Use async para <span class="highlight">operações de I/O</span>: banco de dados, APIs externas, leitura de arquivos. Para operações <span class="highlight">CPU-intensivas</span> (processamento de imagem, ML), async não ajuda — use multiprocessing ou workers separados.</div>
+
+  <div class="unit-title">Otimização de Queries — N+1 Problem</div>
+  <div class="code"># PROBLEMA N+1 — faz 1 query + N queries (uma por usuário)
+usuarios = db.query(Usuario).all()
+for u in usuarios:
+    print(u.pedidos)  # gera 1 query por usuario!
+
+# SOLUÇÃO — eager loading (1 query com JOIN)
+usuarios = db.query(Usuario).options(
+    joinedload(Usuario.pedidos)
+).all()
+# Agora: 1 query só
+
+# Paginação — nunca retorne tudo!
+@app.get("/usuarios")
+async def listar(pagina: int = 1, limite: int = 20):
+    offset = (pagina - 1) * limite
+    return db.query(Usuario).offset(offset).limit(limite).all()
+
+# Índices — essencial para queries rápidas
+# No SQLAlchemy:
+class Usuario(Base):
+    email = Column(String, index=True)  # cria índice automaticamente</div>
+
+  <div class="ex-block"><div class="q">Exercício 2: O que é o problema N+1 e como resolver?</div><div class="ans">→ N+1 ocorre quando se faz <span class="highlight">1 query para listar + N queries para buscar detalhes</span> de cada item. Resolver com eager loading (JOIN na query principal).</div><div class="why">100 usuários com pedidos = 1 + 100 = 101 queries. Com joinedload = 1 query com JOIN. A diferença pode ser de milissegundos vs segundos em produção.</div></div>
+</div>
+
+<div id="m3" class="page">
+  <div class="mod-title">Cache e Filas de Mensagens</div>
+  <div class="unit-title">Cache com Redis</div>
+  <p class="body-text"><span class="highlight">Cache</span> armazena resultados computados para evitar reprocessamento. Redis é o cache mais usado — in-memory, extremamente rápido (sub-milissegundo).</p>
+  <div class="code">pip install redis
+
+import redis
+import json
+
+r = redis.Redis(host='localhost', port=6379, db=0)
+
+# Cache simples
+def buscar_produto(produto_id: int):
+    cache_key = f"produto:{produto_id}"
+
+    # Tentar do cache primeiro
+    cached = r.get(cache_key)
+    if cached:
+        return json.loads(cached)  # cache hit!
+
+    # Cache miss — busca do banco
+    produto = db.query(Produto).get(produto_id)
+    if produto:
+        # Salva no cache por 5 minutos
+        r.setex(cache_key, 300, json.dumps(produto.dict()))
+    return produto
+
+# Decorator de cache (mais elegante)
+from functools import wraps
+
+def cache(expira_em=300):
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            key = f"{func.__name__}:{args}:{kwargs}"
+            cached = r.get(key)
+            if cached: return json.loads(cached)
+            resultado = await func(*args, **kwargs)
+            r.setex(key, expira_em, json.dumps(resultado))
+            return resultado
+        return wrapper
+    return decorator
+
+@cache(expira_em=600)
+async def ranking_produtos():
+    return await db.fetch("SELECT * FROM produtos ORDER BY vendas DESC LIMIT 10")</div>
+
+  <div class="unit-title">Filas com Celery + Redis</div>
+  <p class="body-text"><span class="highlight">Filas de mensagens</span> processam tarefas pesadas em background sem bloquear a resposta da API. Ex: enviar email, gerar PDF, processar imagem — o usuário não espera.</p>
+  <div class="code">pip install celery redis
+
+# celery_app.py
+from celery import Celery
+
+app = Celery('tasks', broker='redis://localhost:6379/0')
+
+@app.task
+def enviar_email(destinatario: str, assunto: str, corpo: str):
+    # lógica de envio de email
+    smtp.send(destinatario, assunto, corpo)
+    print(f"Email enviado para {destinatario}")
+
+@app.task
+def gerar_relatorio(usuario_id: int):
+    dados = buscar_dados(usuario_id)
+    pdf = criar_pdf(dados)
+    salvar_s3(pdf)
+
+# Na API — não bloqueia a resposta!
+@app.post("/usuarios/{id}/relatorio")
+async def solicitar_relatorio(id: int):
+    gerar_relatorio.delay(id)  # enfileira a tarefa
+    return {"mensagem": "Relatório sendo gerado, você receberá por email"}
+
+# Rodar worker em outro terminal:
+# celery -A celery_app worker --loglevel=info</div>
+
+  <div class="table-wrap"><table>
+    <tr><th>Tecnologia</th><th>Uso</th><th>Quando usar</th></tr>
+    <tr><td class="green">Redis (cache)</td><td>Armazenar resultados temporários</td><td>Queries lentas, dados que não mudam muito</td></tr>
+    <tr><td class="orange">Celery + Redis</td><td>Processar tarefas em background</td><td>Email, PDF, processamento de imagem</td></tr>
+    <tr><td class="highlight">RabbitMQ</td><td>Fila de mensagens robusta</td><td>Integração entre sistemas, alta confiabilidade</td></tr>
+    <tr><td class="aqua">Kafka</td><td>Stream de eventos em alta escala</td><td>Logs, analytics em tempo real, big data</td></tr>
+  </table></div>
+
+  <div class="ex-block"><div class="q">Exercício 3: Por que usar fila para envio de email e não fazer direto na API?</div><div class="ans">→ Envio de email é lento (rede, SMTP) e pode falhar. Com fila, a <span class="highlight">API responde imediatamente</span> e o email é enviado em background com retry automático.</div><div class="why">Sem fila: usuário espera 2-3 segundos pela resposta da API enquanto o email é enviado. Se falhar, o usuário recebe erro. Com Celery: API responde em ms, Celery tenta enviar o email e, se falhar, tenta novamente automaticamente.</div></div>
+</div>
+
+<div id="m4" class="page">
+  <div class="mod-title">Microsserviços e Comunicação</div>
+  <div class="unit-title">Quando migrar para Microsserviços</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Sinais que o monolito está no limite</div><div class="cbody">Deploy demora muito e afeta tudo.<br>Times diferentes editam os mesmos arquivos.<br>Um módulo lento afeta toda a aplicação.<br>Precisam de tecnologias diferentes por módulo.</div></div>
+    <div class="card"><div class="ctitle">Benefícios dos microsserviços</div><div class="cbody">Deploy independente por serviço.<br>Escala só o que precisa (ex: só o serviço de busca).<br>Times autônomos com tecnologias diferentes.<br>Falha isolada — um serviço cai sem derrubar tudo.</div></div>
+  </div>
+
+  <div class="unit-title">Comunicação entre Microsserviços</div>
+  <div class="table-wrap"><table>
+    <tr><th>Tipo</th><th>Como</th><th>Quando usar</th><th>Problema</th></tr>
+    <tr><td class="green">Síncrona (REST/gRPC)</td><td>Serviço A chama API do B e espera</td><td>Resultado imediato necessário</td><td>Acoplamento, se B cair, A falha</td></tr>
+    <tr><td class="orange">Assíncrona (Mensagens)</td><td>Publica evento na fila, B consome depois</td><td>Operações que podem ser atrasadas</td><td>Consistência eventual</td></tr>
+  </table></div>
+
+  <div class="code"># API Gateway — ponto de entrada único
+# Nginx como gateway simples
+
+upstream servico_usuarios {
+    server usuarios-api:8001;
+}
+upstream servico_pedidos {
+    server pedidos-api:8002;
+}
+
+server {
+    location /api/usuarios { proxy_pass http://servico_usuarios; }
+    location /api/pedidos  { proxy_pass http://servico_pedidos; }
+}
+
+# gRPC — comunicação eficiente entre serviços internos
+# Proto file: usuario.proto
+syntax = "proto3";
+service UsuarioService {
+    rpc BuscarUsuario (UsuarioRequest) returns (UsuarioResponse);
+}
+message UsuarioRequest { int32 id = 1; }
+message UsuarioResponse { string nome = 1; string email = 2; }</div>
+
+  <div class="unit-title">Observabilidade — Saber o que está acontecendo</div>
+  <div class="code">import logging
+import time
+from opentelemetry import trace
+
+# Logging estruturado
+logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s')
+logger = logging.getLogger(__name__)
+
+@app.middleware("http")
+async def log_requests(request, call_next):
+    inicio = time.time()
+    response = await call_next(request)
+    duracao = time.time() - inicio
+    logger.info(f"method={request.method} path={request.url.path} "
+                f"status={response.status_code} duration={duracao:.3f}s")
+    return response
+
+# Métricas com Prometheus
+from prometheus_client import Counter, Histogram
+requisicoes = Counter('http_requests_total', 'Total de requisições', ['method', 'path'])
+latencia = Histogram('http_request_duration_seconds', 'Latência das requisições')</div>
+
+  <div class="important"><div class="label">⚠ Os 3 pilares de Observabilidade</div><span class="highlight">Logs:</span> o que aconteceu (eventos). <span class="highlight">Métricas:</span> quantas vezes, quanto tempo (números). <span class="highlight">Traces:</span> o caminho de uma requisição entre serviços. Ferramentas: ELK Stack, Prometheus+Grafana, Jaeger.</div>
+</div>
+
+<div id="cola" class="page">
+  <div class="mod-title">&#128221; Cola — Técnicas Avançadas</div>
+  <div class="unit-title">Arquitetura em Camadas</div>
+  <div class="code">Routes → Services → Repositories → Database
+(entrada)  (negócio)  (dados)      (persistência)</div>
+  <div class="unit-title">Async vs Sync</div>
+  <div class="table-wrap"><table>
+    <tr><th>Situação</th><th>Use</th></tr>
+    <tr><td>I/O: banco, API externa, arquivo</td><td class="green">async/await</td></tr>
+    <tr><td>CPU: ML, processamento de imagem</td><td class="orange">multiprocessing / worker</td></tr>
+    <tr><td>Múltiplas operações independentes</td><td class="green">asyncio.gather()</td></tr>
+  </table></div>
+  <div class="unit-title" style="margin-top:1rem;">&#11088; Regras de Ouro</div>
+  <div style="display:grid;gap:8px;margin-top:.5rem;">
+    <div class="important"><div class="label">Regra</div>Comece com <span class="highlight">monolito bem estruturado</span> — microsserviços são complexidade, não bala de prata</div>
+    <div class="important"><div class="label">Regra</div>N+1: sempre use <span class="highlight">eager loading</span> em relações. Nunca query dentro de loop</div>
+    <div class="important"><div class="label">Regra</div>Cache: leia do Redis primeiro. Se miss, busca do banco e <span class="highlight">salva no cache</span></div>
+    <div class="important"><div class="label">Regra</div">Tarefas lentas (email, PDF) → <span class="highlight">fila Celery</span>. API responde imediatamente</div>
+    <div class="important"><div class="label">Regra</div">Service não conhece o banco. Repository não conhece regra de negócio</div>
+    <div class="important"><div class="label">Regra</div>Observabilidade: <span class="highlight">logs + métricas + traces</span> — sem isso você voa cego em produção</div>
+  </div>
+</div>
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>{if(b.getAttribute('onclick')===`show('${id}')`)b.classList.add('active');});
+}
+</script>
+</body>
+</html>
