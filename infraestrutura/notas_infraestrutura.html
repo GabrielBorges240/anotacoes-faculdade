@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Infraestrutura para Sistemas de Software</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;}
+.root{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;padding:1.5rem;min-height:100vh;}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.nav button{background:#3c3836;border:1px solid #504945;color:#a89984;font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:monospace;}
+.nav button.active{background:#504945;color:#fabd2f;border-color:#fabd2f;}
+.page{display:none;}.page.active{display:block;}
+.mod-title{color:#fabd2f;font-size:17px;font-weight:700;border-bottom:2px solid #fabd2f;padding-bottom:6px;margin-bottom:1rem;}
+.unit-title{color:#fe8019;font-size:14px;font-weight:700;margin:1.2rem 0 .6rem;}
+.body-text{color:#ebdbb2;font-size:13px;line-height:1.7;margin-bottom:.4rem;}
+.example{background:#32302f;border-left:3px solid #b8bb26;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#ebdbb2;font-size:13px;line-height:1.6;}
+.example .label{color:#b8bb26;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.important{background:#3c2b2b;border-left:3px solid #fb4934;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#fabd2f;font-size:13px;line-height:1.6;}
+.important .label{color:#fb4934;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.ex-block{background:#2d3b3b;border-left:3px solid #8ec07c;border-radius:0 4px 4px 0;padding:10px 14px;margin:.6rem 0;}
+.ex-block .q{color:#8ec07c;font-size:13px;font-weight:700;margin-bottom:4px;}
+.ex-block .ans{color:#fabd2f;font-size:13px;margin-bottom:3px;}
+.ex-block .why{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{border-collapse:collapse;width:100%;font-size:12px;}
+th{background:#3c3836;color:#fabd2f;padding:6px 10px;border:1px solid #504945;text-align:left;}
+td{padding:5px 10px;border:1px solid #504945;color:#ebdbb2;}
+tr:nth-child(even) td{background:#32302f;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.6rem 0;}
+.card{background:#32302f;border:1px solid #504945;border-radius:6px;padding:12px;}
+.card .ctitle{color:#fe8019;font-size:12px;font-weight:700;margin-bottom:6px;}
+.card .cbody{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.highlight{color:#fabd2f;font-weight:700;}
+.green{color:#b8bb26;}.red{color:#fb4934;}.orange{color:#fe8019;}.aqua{color:#8ec07c;}
+.section-sep{border:0;border-top:1px solid #504945;margin:1.2rem 0;}
+.code{background:#1d2021;border:1px solid #504945;border-radius:4px;padding:8px 12px;font-family:monospace;font-size:12px;color:#b8bb26;margin:.4rem 0;white-space:pre-wrap;}
+@media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="root">
+<h2 style="color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;">&#127968; Infraestrutura para Sistemas de Software</h2>
+<p style="color:#665c54;font-size:10px;margin-bottom:1rem;">Linux &nbsp;|&nbsp; Docker &nbsp;|&nbsp; Cloud &nbsp;|&nbsp; Redes &nbsp;|&nbsp; CI/CD</p>
+<div class="nav">
+  <button class="active" onclick="show('m1')">Linux Essencial</button>
+  <button onclick="show('m2')">Docker e Containers</button>
+  <button onclick="show('m3')">Redes e Protocolos</button>
+  <button onclick="show('m4')">Cloud e Deploy</button>
+  <button onclick="show('cola')">&#128221; Cola</button>
+</div>
+
+<div id="m1" class="page active">
+  <div class="mod-title">Linux Essencial para Backend</div>
+  <p class="body-text">Linux é o sistema operacional de <span class="highlight">99% dos servidores</span>. Como backend developer, você vai rodar sua aplicação em Linux — entender o terminal é obrigatório.</p>
+  <div class="unit-title">Comandos Essenciais</div>
+  <div class="code"># Navegação
+pwd                    # diretório atual
+ls -la                 # listar arquivos (incluindo ocultos)
+cd /caminho/para/pasta # entrar na pasta
+cd ..                  # voltar um nível
+cd ~                   # ir para home
+
+# Arquivos e pastas
+mkdir minha-pasta      # criar pasta
+touch arquivo.txt      # criar arquivo vazio
+cp origem destino      # copiar
+mv origem destino      # mover / renomear
+rm arquivo.txt         # remover arquivo
+rm -rf pasta/          # remover pasta (cuidado!)
+cat arquivo.txt        # ler arquivo
+less arquivo.txt       # ler paginado
+grep "texto" arq.txt   # buscar texto no arquivo
+grep -r "texto" .      # buscar em todos os arquivos do dir
+
+# Permissões
+chmod 755 script.sh    # rwxr-xr-x
+chmod +x script.sh     # dar permissão de execução
+chown user:group arq   # mudar dono do arquivo
+ls -la                 # ver permissões: drwxrwxrwx</div>
+
+  <div class="unit-title">Processos e Serviços</div>
+  <div class="code"># Processos
+ps aux                 # listar todos os processos
+top / htop             # monitor de processos em tempo real
+kill 1234              # matar processo pelo PID
+kill -9 1234           # forçar matar (SIGKILL)
+pkill python           # matar pelo nome
+
+# Rodar em background
+python app.py &        # roda em background
+nohup python app.py &  # roda mesmo após fechar o terminal
+jobs                   # listar jobs em background
+fg                     # trazer para foreground
+
+# Systemd — gerenciar serviços
+systemctl start nginx     # iniciar serviço
+systemctl stop nginx      # parar
+systemctl restart nginx   # reiniciar
+systemctl enable nginx    # iniciar com o sistema
+systemctl status nginx    # ver status
+journalctl -u nginx -f    # ver logs em tempo real</div>
+
+  <div class="unit-title">Variáveis de Ambiente e Shell Script</div>
+  <div class="code"># Variáveis de ambiente
+export DATABASE_URL="postgresql://user:pass@localhost/db"
+export SECRET_KEY="minha-chave-secreta"
+echo $DATABASE_URL      # ler variável
+
+# Arquivo .env (python-dotenv carrega automaticamente)
+# .env
+DATABASE_URL=postgresql://user:pass@localhost/db
+SECRET_KEY=minha-chave
+
+# Shell script básico
+#!/bin/bash
+set -e  # para ao primeiro erro
+
+echo "Iniciando deploy..."
+git pull origin main
+pip install -r requirements.txt
+python manage.py migrate
+systemctl restart myapp
+echo "Deploy concluído!"</div>
+
+  <div class="important"><div class="label">⚠ Nunca commite .env</div>Adicione <span class="highlight">.env</span> ao .gitignore. Variáveis de ambiente guardam segredos (senhas, tokens, chaves) — nunca devem ir para o repositório. Em produção, configure via painel do servidor ou secrets do CI/CD.</div>
+
+  <div class="ex-block"><div class="q">Exercício 1: Como ver os logs de uma aplicação Python rodando como serviço systemd?</div><div class="ans">→ <span class="highlight">journalctl -u nome-do-servico -f</span> — o -f segue os logs em tempo real.</div><div class="why">journalctl lê os logs do systemd. -u filtra por unidade (serviço). -f funciona como tail -f — atualiza conforme novos logs chegam. Essencial para debugar aplicações em produção.</div></div>
+</div>
+
+<div id="m2" class="page">
+  <div class="mod-title">Docker e Containers</div>
+  <p class="body-text"><span class="highlight">Docker</span> empacota a aplicação e todas as suas dependências em um <span class="highlight">container</span> — ambiente isolado e reproduzível. "Funciona na minha máquina" deixa de existir.</p>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Container vs VM</div><div class="cbody"><span class="highlight">VM:</span> virtualiza hardware inteiro — SO completo, pesada (GBs).<br><span class="green">Container:</span> compartilha o kernel do host — leve (MBs), inicia em segundos.</div></div>
+    <div class="card"><div class="ctitle">Conceitos Docker</div><div class="cbody"><span class="highlight">Image:</span> template imutável (receita).<br><span class="highlight">Container:</span> instância rodando da image.<br><span class="highlight">Dockerfile:</span> instruções para build da image.<br><span class="highlight">Registry:</span> repositório de images (Docker Hub).</div></div>
+  </div>
+
+  <div class="unit-title">Comandos Docker Essenciais</div>
+  <div class="code"># Images
+docker pull python:3.11        # baixar image
+docker images                  # listar images locais
+docker rmi python:3.11         # remover image
+docker build -t minha-app .    # build da image (usa Dockerfile)
+
+# Containers
+docker run -p 8000:8000 minha-app          # rodar container
+docker run -d -p 8000:8000 minha-app       # em background
+docker run -e DATABASE_URL=... minha-app   # com variável de ambiente
+docker run -v $(pwd):/app minha-app        # montar volume local
+docker ps                                  # containers rodando
+docker ps -a                               # todos (incluindo parados)
+docker stop container_id                   # parar container
+docker rm container_id                     # remover container
+docker logs -f container_id                # ver logs
+docker exec -it container_id bash          # entrar no container</div>
+
+  <div class="unit-title">Dockerfile para FastAPI</div>
+  <div class="code"># Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copiar requirements primeiro (cache de layers)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar código
+COPY . .
+
+# Expor porta
+EXPOSE 8000
+
+# Comando de inicialização
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# Build e run:
+# docker build -t minha-api .
+# docker run -p 8000:8000 minha-api</div>
+
+  <div class="unit-title">Docker Compose — múltiplos serviços</div>
+  <div class="code"># docker-compose.yml
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user:pass@db:5432/mydb
+      - SECRET_KEY=minha-chave
+    depends_on:
+      - db
+    volumes:
+      - .:/app  # hot reload em dev
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=mydb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+
+volumes:
+  postgres_data:
+
+# Comandos:
+# docker-compose up -d        # subir todos
+# docker-compose down         # parar todos
+# docker-compose logs -f api  # logs do serviço api
+# docker-compose exec api bash # entrar no container api</div>
+
+  <div class="important"><div class="label">⚠ Docker em produção</div>Containers são <span class="highlight">efêmeros</span> — dados dentro do container somem ao removê-lo. Use <span class="highlight">volumes</span> para persistir dados do banco. Em produção, use <span class="highlight">Kubernetes</span> ou serviços gerenciados (Railway, Render, ECS) para orquestrar containers.</div>
+
+  <div class="ex-block"><div class="q">Exercício 2: Por que copiar requirements.txt antes do código no Dockerfile?</div><div class="ans">→ Para aproveitar o <span class="highlight">cache de layers</span> do Docker — dependências mudam menos que o código.</div><div class="why">Docker cria uma camada por instrução. Se o requirements.txt não mudou, o Docker reutiliza a camada do pip install sem reinstalar. Se o código mudar (COPY . .), só as camadas abaixo são reconstruídas. Reduz o tempo de build drasticamente.</div></div>
+</div>
+
+<div id="m3" class="page">
+  <div class="mod-title">Redes e Protocolos</div>
+  <div class="unit-title">Modelo TCP/IP</div>
+  <div class="table-wrap"><table>
+    <tr><th>Camada</th><th>Protocolos</th><th>O que faz</th></tr>
+    <tr><td class="green">Aplicação</td><td>HTTP, HTTPS, DNS, FTP, SMTP</td><td>Protocolos que aplicações usam</td></tr>
+    <tr><td class="orange">Transporte</td><td>TCP, UDP</td><td>Controle de conexão e entrega</td></tr>
+    <tr><td class="highlight">Internet</td><td>IP, ICMP</td><td>Endereçamento e roteamento</td></tr>
+    <tr><td class="aqua">Acesso à Rede</td><td>Ethernet, Wi-Fi</td><td>Transmissão física dos dados</td></tr>
+  </table></div>
+
+  <div class="grid2">
+    <div class="card"><div class="ctitle">TCP vs UDP</div><div class="cbody"><span class="highlight">TCP:</span> confiável, orientado a conexão, garante entrega e ordem. Usado em HTTP, APIs, banco de dados.<br><br><span class="orange">UDP:</span> rápido, sem garantia de entrega. Usado em streaming, jogos, DNS.</div></div>
+    <div class="card"><div class="ctitle">Portas importantes</div><div class="cbody"><span class="green">22</span> — SSH<br><span class="green">80</span> — HTTP<br><span class="green">443</span> — HTTPS<br><span class="orange">5432</span> — PostgreSQL<br><span class="orange">3306</span> — MySQL<br><span class="orange">6379</span> — Redis<br><span class="highlight">8000/8080</span> — APIs Python</div></div>
+  </div>
+
+  <div class="unit-title">DNS — Domain Name System</div>
+  <div class="code"># DNS resolve nomes para IPs
+# gabrielborges240.github.io → 185.199.108.153
+
+# Ferramentas de diagnóstico de rede
+ping google.com              # testa conectividade
+nslookup meusite.com         # resolve DNS
+dig meusite.com              # DNS detalhado
+curl -I https://meusite.com  # headers da resposta HTTP
+traceroute google.com        # rota dos pacotes
+netstat -tlnp                # portas abertas no sistema
+ss -tlnp                     # alternativa ao netstat
+lsof -i :8000                # processo usando porta 8000</div>
+
+  <div class="unit-title">HTTPS e TLS/SSL</div>
+  <p class="body-text">HTTPS = HTTP + <span class="highlight">TLS</span> (Transport Layer Security). Criptografa a comunicação entre cliente e servidor. Em produção, <span class="highlight">toda API deve usar HTTPS</span> — nunca HTTP puro.</p>
+  <div class="code"># Nginx como proxy reverso com HTTPS (Certbot/Let's Encrypt grátis)
+server {
+    listen 443 ssl;
+    server_name minha-api.com;
+
+    ssl_certificate /etc/letsencrypt/live/minha-api.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/minha-api.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:8000;  # sua API Python
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+# Certificado gratuito com Certbot
+certbot --nginx -d minha-api.com</div>
+
+  <div class="ex-block"><div class="q">Exercício 3: Qual a diferença entre TCP e UDP?</div><div class="ans">→ TCP é <span class="highlight">confiável</span> (garante entrega e ordem). UDP é <span class="highlight">rápido</span> (sem garantias).</div><div class="why">APIs REST usam TCP (HTTP) — cada request/response deve chegar completo. Streaming de vídeo usa UDP — um frame perdido é tolerável, mas atraso não.</div></div>
+</div>
+
+<div id="m4" class="page">
+  <div class="mod-title">Cloud e Deploy</div>
+  <div class="unit-title">Opções de Deploy para Backend Python</div>
+  <div class="table-wrap"><table>
+    <tr><th>Opção</th><th>Facilidade</th><th>Controle</th><th>Custo</th><th>Quando usar</th></tr>
+    <tr><td class="green">Railway / Render</td><td class="green">Muito fácil</td><td class="red">Baixo</td><td class="orange">Médio</td><td>Projetos pessoais, portfólio</td></tr>
+    <tr><td class="orange">Heroku</td><td class="green">Fácil</td><td class="orange">Médio</td><td class="red">Alto</td><td>Startups, protótipos</td></tr>
+    <tr><td class="highlight">VPS (DigitalOcean, Linode)</td><td class="orange">Médio</td><td class="green">Total</td><td class="green">Baixo</td><td>Controle total, custo baixo</td></tr>
+    <tr><td class="aqua">AWS / GCP / Azure</td><td class="red">Difícil</td><td class="green">Total</td><td>Variável</td><td>Produção empresarial, escala</td></tr>
+  </table></div>
+
+  <div class="unit-title">Deploy no Railway (mais simples)</div>
+  <div class="code"># 1. Instalar Railway CLI
+npm install -g @railway/cli
+
+# 2. Login e deploy
+railway login
+railway init         # inicializa projeto
+railway up           # faz deploy
+
+# 3. Adicionar variáveis de ambiente
+railway variables set DATABASE_URL=postgresql://...
+railway variables set SECRET_KEY=minha-chave
+
+# 4. Ver logs
+railway logs</div>
+
+  <div class="unit-title">Deploy em VPS (Ubuntu) — Fluxo Completo</div>
+  <div class="code"># 1. Conectar via SSH
+ssh root@ip-do-servidor
+
+# 2. Criar usuário não-root
+adduser deploy
+usermod -aG sudo deploy
+
+# 3. Instalar dependências
+apt update && apt upgrade -y
+apt install python3-pip python3-venv nginx git -y
+
+# 4. Clonar e configurar aplicação
+git clone https://github.com/usuario/minha-api.git /app
+cd /app
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# 5. Criar serviço systemd
+# /etc/systemd/system/minha-api.service
+[Unit]
+Description=Minha API FastAPI
+After=network.target
+
+[Service]
+User=deploy
+WorkingDirectory=/app
+Environment="DATABASE_URL=postgresql://..."
+ExecStart=/app/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+# 6. Ativar serviço
+systemctl enable minha-api
+systemctl start minha-api
+
+# 7. Configurar Nginx como proxy reverso
+# (aponta porta 80/443 para 8000)</div>
+
+  <div class="unit-title">Serviços AWS mais usados em Backend</div>
+  <div class="table-wrap"><table>
+    <tr><th>Serviço AWS</th><th>O que é</th><th>Equivalente simples</th></tr>
+    <tr><td class="green">EC2</td><td>Servidor virtual na nuvem</td><td>VPS</td></tr>
+    <tr><td class="orange">RDS</td><td>Banco de dados gerenciado</td><td>PostgreSQL hospedado</td></tr>
+    <tr><td class="highlight">S3</td><td>Armazenamento de arquivos</td><td>Google Drive via API</td></tr>
+    <tr><td class="aqua">Lambda</td><td>Funções serverless</td><td>Código que roda sob demanda</td></tr>
+    <tr><td class="red">ECS/EKS</td><td>Orquestração de containers</td><td>Docker em escala</td></tr>
+    <tr><td class="green">CloudFront</td><td>CDN global</td><td>Cache distribuído</td></tr>
+  </table></div>
+
+  <div class="important"><div class="label">⚠ Segurança em servidores</div>Sempre: desabilitar login root por SSH, usar chave SSH (não senha), firewall ativo (ufw allow 22,80,443), atualizar pacotes regularmente. Porta 8000 da API deve ser acessada só pelo Nginx, não exposta diretamente.</div>
+</div>
+
+<div id="cola" class="page">
+  <div class="mod-title">&#128221; Cola — Infraestrutura</div>
+  <div class="unit-title">Comandos Linux mais usados</div>
+  <div class="code">ls -la | grep -r | chmod +x | ps aux | kill -9
+systemctl start/stop/status/enable
+journalctl -u servico -f
+lsof -i :8000 | netstat -tlnp</div>
+  <div class="unit-title">Docker — Fluxo básico</div>
+  <div class="code">docker build -t app .
+docker run -d -p 8000:8000 --env-file .env app
+docker-compose up -d
+docker logs -f container_id
+docker exec -it container_id bash</div>
+  <div class="unit-title">Portas importantes</div>
+  <div class="table-wrap"><table>
+    <tr><th>Porta</th><th>Serviço</th></tr>
+    <tr><td class="green">22</td><td>SSH</td></tr>
+    <tr><td class="green">80 / 443</td><td>HTTP / HTTPS</td></tr>
+    <tr><td class="orange">5432</td><td>PostgreSQL</td></tr>
+    <tr><td class="orange">6379</td><td>Redis</td></tr>
+    <tr><td class="highlight">8000</td><td>FastAPI/Uvicorn</td></tr>
+  </table></div>
+  <div class="unit-title" style="margin-top:1rem;">&#11088; Regras de Ouro</div>
+  <div style="display:grid;gap:8px;margin-top:.5rem;">
+    <div class="important"><div class="label">Regra</div>Nunca commite <span class="highlight">.env</span> — adicione ao .gitignore</div>
+    <div class="important"><div class="label">Regra</div>Copie requirements.txt antes do código no Dockerfile — aproveita <span class="highlight">cache de layers</span></div>
+    <div class="important"><div class="label">Regra</div>Container é efêmero — dados do banco precisam de <span class="highlight">volume</span></div>
+    <div class="important"><div class="label">Regra</div>Nunca exponha a API diretamente — use <span class="highlight">Nginx</span> como proxy reverso</div>
+    <div class="important"><div class="label">Regra</div>Em produção: HTTPS obrigatório, login root desabilitado, firewall ativo</div>
+  </div>
+</div>
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>{if(b.getAttribute('onclick')===`show('${id}')`)b.classList.add('active');});
+}
+</script>
+</body>
+</html>
