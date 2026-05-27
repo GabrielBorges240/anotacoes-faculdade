@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verificação, Validação e Teste de Software</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#282828;}
+.root{background:#282828;color:#ebdbb2;font-family:monospace,sans-serif;padding:1.5rem;min-height:100vh;}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+.nav button{background:#3c3836;border:1px solid #504945;color:#a89984;font-size:12px;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:monospace;}
+.nav button.active{background:#504945;color:#fabd2f;border-color:#fabd2f;}
+.page{display:none;}.page.active{display:block;}
+.mod-title{color:#fabd2f;font-size:17px;font-weight:700;border-bottom:2px solid #fabd2f;padding-bottom:6px;margin-bottom:1rem;}
+.unit-title{color:#fe8019;font-size:14px;font-weight:700;margin:1.2rem 0 .6rem;}
+.body-text{color:#ebdbb2;font-size:13px;line-height:1.7;margin-bottom:.4rem;}
+.example{background:#32302f;border-left:3px solid #b8bb26;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#ebdbb2;font-size:13px;line-height:1.6;}
+.example .label{color:#b8bb26;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.important{background:#3c2b2b;border-left:3px solid #fb4934;border-radius:0 4px 4px 0;padding:8px 12px;margin:.4rem 0;color:#fabd2f;font-size:13px;line-height:1.6;}
+.important .label{color:#fb4934;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:3px;}
+.ex-block{background:#2d3b3b;border-left:3px solid #8ec07c;border-radius:0 4px 4px 0;padding:10px 14px;margin:.6rem 0;}
+.ex-block .q{color:#8ec07c;font-size:13px;font-weight:700;margin-bottom:4px;}
+.ex-block .ans{color:#fabd2f;font-size:13px;margin-bottom:3px;}
+.ex-block .why{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.table-wrap{overflow-x:auto;margin:.8rem 0;}
+table{border-collapse:collapse;width:100%;font-size:12px;}
+th{background:#3c3836;color:#fabd2f;padding:6px 10px;border:1px solid #504945;text-align:left;}
+td{padding:5px 10px;border:1px solid #504945;color:#ebdbb2;}
+tr:nth-child(even) td{background:#32302f;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.6rem 0;}
+.card{background:#32302f;border:1px solid #504945;border-radius:6px;padding:12px;}
+.card .ctitle{color:#fe8019;font-size:12px;font-weight:700;margin-bottom:6px;}
+.card .cbody{color:#ebdbb2;font-size:12px;line-height:1.6;}
+.highlight{color:#fabd2f;font-weight:700;}
+.green{color:#b8bb26;}.red{color:#fb4934;}.orange{color:#fe8019;}.aqua{color:#8ec07c;}
+.section-sep{border:0;border-top:1px solid #504945;margin:1.2rem 0;}
+.code{background:#1d2021;border:1px solid #504945;border-radius:4px;padding:8px 12px;font-family:monospace;font-size:12px;color:#b8bb26;margin:.4rem 0;white-space:pre-wrap;}
+@media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="root">
+<h2 style="color:#a89984;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem;">&#9989; Verificação, Validação e Teste de Software</h2>
+<p style="color:#665c54;font-size:10px;margin-bottom:1rem;">pytest &nbsp;|&nbsp; TDD &nbsp;|&nbsp; Cobertura &nbsp;|&nbsp; Integração &nbsp;|&nbsp; Performance</p>
+<div class="nav">
+  <button class="active" onclick="show('m1')">V&V e Tipos de Teste</button>
+  <button onclick="show('m2')">pytest Avançado</button>
+  <button onclick="show('m3')">Testes de API e Integração</button>
+  <button onclick="show('m4')">Performance e Qualidade</button>
+  <button onclick="show('cola')">&#128221; Cola</button>
+</div>
+
+<div id="m1" class="page active">
+  <div class="mod-title">Verificação, Validação e Tipos de Teste</div>
+  <div class="grid2">
+    <div class="card"><div class="ctitle">Verificação</div><div class="cbody">"Estamos <span class="highlight">construindo certo</span> o produto?"<br><br>Checa se o software segue as especificações. Ex: code review, inspeção, análise estática.</div></div>
+    <div class="card"><div class="ctitle">Validação</div><div class="cbody">"Estamos construindo <span class="highlight">o produto certo</span>?"<br><br>Checa se o software atende às necessidades do usuário. Ex: testes de aceitação, UAT.</div></div>
+  </div>
+
+  <div class="unit-title">Técnicas de Teste</div>
+  <div class="table-wrap"><table>
+    <tr><th>Técnica</th><th>O que testa</th><th>Conhece o código?</th></tr>
+    <tr><td class="green">Caixa Branca (White Box)</td><td>Estrutura interna, caminhos de execução, cobertura de código</td><td class="green">Sim</td></tr>
+    <tr><td class="orange">Caixa Preta (Black Box)</td><td>Comportamento externo — entrada e saída, sem ver o código</td><td class="red">Não</td></tr>
+    <tr><td class="highlight">Caixa Cinza (Gray Box)</td><td>Combina os dois — conhece parte da estrutura</td><td class="orange">Parcialmente</td></tr>
+  </table></div>
+
+  <div class="unit-title">Critérios de Cobertura</div>
+  <div class="code"># Cobertura de código com pytest-cov
+pip install pytest-cov
+
+pytest --cov=app --cov-report=html tests/
+# Gera relatório HTML mostrando quais linhas foram executadas
+
+# Tipos de cobertura:
+# Statement coverage: % de linhas executadas
+# Branch coverage:    % de desvios (if/else) testados
+# Path coverage:      % de caminhos possíveis (muito difícil 100%)
+
+# Cobertura mínima recomendada: 80% para projetos sérios</div>
+
+  <div class="unit-title">Estratégias de Teste</div>
+  <div class="table-wrap"><table>
+    <tr><th>Estratégia</th><th>Quando escrever o teste</th><th>Benefício</th></tr>
+    <tr><td class="green">TDD</td><td>Antes do código (Red→Green→Refactor)</td><td>Design emergente, cobertura garantida</td></tr>
+    <tr><td class="orange">BDD</td><td>Baseado em comportamento (Given/When/Then)</td><td>Linguagem compartilhada com negócio</td></tr>
+    <tr><td class="highlight">Test-after</td><td>Após implementar</td><td>Mais comum — valida o que foi feito</td></tr>
+  </table></div>
+
+  <div class="example"><div class="label">BDD — Given/When/Then</div>
+Given: um usuário autenticado com saldo R$100<br>
+When: ele tenta sacar R$150<br>
+Then: deve receber erro "Saldo insuficiente" e saldo permanece R$100</div>
+
+  <div class="ex-block"><div class="q">Exercício 1: Qual a diferença entre verificação e validação?</div><div class="ans">→ Verificação: <span class="highlight">construímos certo</span> (spec)? Validação: construímos <span class="highlight">o certo</span> (necessidade)?</div><div class="why">Você pode verificar que o software faz exatamente o que foi especificado (verificação OK) mas a especificação estar errada — o usuário queria outra coisa (validação falhou). Ambas são necessárias.</div></div>
+</div>
+
+<div id="m2" class="page">
+  <div class="mod-title">pytest Avançado</div>
+  <div class="unit-title">Fixtures — Reutilizar setup de testes</div>
+  <div class="code">import pytest
+from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from main import app, get_db, Base
+
+# Banco de teste em memória
+SQLALCHEMY_TEST_URL = "sqlite:///./test.db"
+engine_test = create_engine(SQLALCHEMY_TEST_URL)
+TestSession = sessionmaker(bind=engine_test)
+
+@pytest.fixture(scope="session")
+def db():
+    """Cria banco de teste uma vez por sessão"""
+    Base.metadata.create_all(bind=engine_test)
+    yield
+    Base.metadata.drop_all(bind=engine_test)
+
+@pytest.fixture
+def session(db):
+    """Nova sessão por teste — rollback ao final"""
+    connection = engine_test.connect()
+    transaction = connection.begin()
+    session = TestSession(bind=connection)
+    yield session
+    session.close()
+    transaction.rollback()  # desfaz alterações do teste
+
+@pytest.fixture
+def client(session):
+    """Cliente HTTP com banco de teste injetado"""
+    def override_db():
+        yield session
+    app.dependency_overrides[get_db] = override_db
+    yield TestClient(app)
+    app.dependency_overrides.clear()
+
+@pytest.fixture
+def usuario_token(client):
+    """Cria usuário e retorna token de autenticação"""
+    client.post("/usuarios", json={"nome": "Ana", "email": "ana@test.com", "senha": "123456"})
+    r = client.post("/auth/login", json={"email": "ana@test.com", "senha": "123456"})
+    return r.json()["access_token"]</div>
+
+  <div class="unit-title">Mocks e Patches</div>
+  <div class="code">from unittest.mock import patch, MagicMock
+import pytest
+
+# Mock de serviço externo (email, pagamento, etc.)
+def test_criar_usuario_envia_email():
+    with patch("services.email.enviar_boas_vindas") as mock_email:
+        # Chama a função que deveria enviar email
+        criar_usuario("Ana", "ana@test.com")
+        # Verifica que o email foi chamado com os dados certos
+        mock_email.assert_called_once_with("ana@test.com", "Ana")
+
+# Mock de resposta de API externa
+def test_buscar_cep():
+    mock_response = MagicMock()
+    mock_response.json.return_value = {"cidade": "Campo Grande", "uf": "MS"}
+    mock_response.status_code = 200
+
+    with patch("httpx.get", return_value=mock_response):
+        resultado = buscar_cep("79000-000")
+        assert resultado["cidade"] == "Campo Grande"
+
+# Parametrize — testar múltiplos casos
+@pytest.mark.parametrize("email,valido", [
+    ("ana@exemplo.com", True),
+    ("nao-e-um-email", False),
+    ("faltou@dominio", False),
+    ("", False),
+])
+def test_validar_email(email, valido):
+    assert validar_email(email) == valido</div>
+
+  <div class="unit-title">Organização dos testes</div>
+  <div class="code">projeto/
+├── app/
+│   ├── main.py
+│   ├── services/
+│   └── repositories/
+└── tests/
+    ├── conftest.py          # fixtures compartilhadas
+    ├── unit/
+    │   ├── test_services.py
+    │   └── test_utils.py
+    ├── integration/
+    │   ├── test_api_usuarios.py
+    │   └── test_api_pedidos.py
+    └── e2e/
+        └── test_fluxo_compra.py
+
+# Rodar só unitários (rápido)
+pytest tests/unit/ -v
+
+# Rodar tudo com cobertura
+pytest --cov=app --cov-report=term-missing</div>
+
+  <div class="ex-block"><div class="q">Exercício 2: Por que usar rollback nas fixtures de teste de banco?</div><div class="ans">→ Garante que cada teste começa com o banco <span class="highlight">limpo</span>, sem dados de outros testes.</div><div class="why">Sem rollback, um teste que cria um usuário "ana@test.com" pode fazer outro teste falhar porque o email já existe. Com rollback, cada teste é isolado e independente — pode rodar em qualquer ordem.</div></div>
+</div>
+
+<div id="m3" class="page">
+  <div class="mod-title">Testes de API e Integração</div>
+  <div class="unit-title">Testes de API com TestClient (FastAPI)</div>
+  <div class="code">from fastapi.testclient import TestClient
+from main import app
+
+client = TestClient(app)
+
+# Teste de criação de usuário
+def test_criar_usuario(client):
+    response = client.post("/usuarios", json={
+        "nome": "Ana Silva",
+        "email": "ana@teste.com",
+        "senha": "senha123"
+    })
+    assert response.status_code == 201
+    data = response.json()
+    assert data["email"] == "ana@teste.com"
+    assert "id" in data
+    assert "senha" not in data  # senha nunca na resposta!
+
+# Teste de autenticação
+def test_login_correto(client):
+    # Criar usuário primeiro
+    client.post("/usuarios", json={"nome": "Ana", "email": "ana@t.com", "senha": "123"})
+    # Fazer login
+    r = client.post("/auth/login", json={"email": "ana@t.com", "senha": "123"})
+    assert r.status_code == 200
+    assert "access_token" in r.json()
+
+def test_login_senha_errada(client):
+    r = client.post("/auth/login", json={"email": "ana@t.com", "senha": "errada"})
+    assert r.status_code == 401
+
+# Teste de rota protegida
+def test_rota_sem_token(client):
+    r = client.get("/perfil")
+    assert r.status_code == 401
+
+def test_rota_com_token(client, usuario_token):
+    r = client.get("/perfil",
+        headers={"Authorization": f"Bearer {usuario_token}"})
+    assert r.status_code == 200
+
+# Teste de BOLA
+def test_nao_acessa_pedido_alheio(client, usuario_token):
+    # Cria pedido de outro usuário
+    outro_pedido_id = criar_pedido_outro_usuario()
+    r = client.get(f"/pedidos/{outro_pedido_id}",
+        headers={"Authorization": f"Bearer {usuario_token}"})
+    assert r.status_code == 403  # Acesso negado!</div>
+
+  <div class="unit-title">Contract Testing — APIs entre serviços</div>
+  <div class="code">pip install pact-python
+
+# Consumer (quem chama a API) define o contrato esperado
+from pact import Consumer, Provider
+
+pact = Consumer("UsuarioService").has_pact_with(Provider("PedidoService"))
+
+def test_buscar_pedidos_usuario():
+    pact.given("usuário 42 tem pedidos").upon_receiving(
+        "requisição de pedidos"
+    ).with_request(
+        method="GET", path="/pedidos", query={"usuario_id": "42"}
+    ).will_respond_with(200, body=[
+        {"id": 1, "total": 150.0, "status": "entregue"}
+    ])
+
+    with pact:
+        resultado = buscar_pedidos_usuario(42)
+        assert len(resultado) > 0</div>
+
+  <div class="ex-block"><div class="q">Exercício 3: Por que testar que a senha não aparece na resposta da API?</div><div class="ans">→ Confirma que o serializer está correto e nunca expõe dados sensíveis, mesmo que o modelo tenha o campo.</div><div class="why">Se o Pydantic response_model não excluir corretamente o campo senha, o hash vai aparecer na resposta. O teste assert "senha" not in data garante isso em toda atualização do código.</div></div>
+</div>
+
+<div id="m4" class="page">
+  <div class="mod-title">Testes de Performance e Qualidade de Código</div>
+  <div class="unit-title">Testes de Performance com Locust</div>
+  <div class="code">pip install locust
+
+# locustfile.py
+from locust import HttpUser, task, between
+
+class UsuarioSimulado(HttpUser):
+    wait_time = between(1, 3)  # espera 1-3s entre requests
+    token = None
+
+    def on_start(self):
+        """Executado uma vez por usuário virtual — faz login"""
+        r = self.client.post("/auth/login",
+            json={"email": "teste@teste.com", "senha": "123456"})
+        self.token = r.json()["access_token"]
+
+    @task(3)  # peso 3 — executado 3x mais que peso 1
+    def listar_produtos(self):
+        self.client.get("/produtos",
+            headers={"Authorization": f"Bearer {self.token}"})
+
+    @task(1)
+    def criar_pedido(self):
+        self.client.post("/pedidos",
+            json={"produto_id": 1, "quantidade": 2},
+            headers={"Authorization": f"Bearer {self.token}"})
+
+# Rodar: locust -f locustfile.py
+# Interface web: http://localhost:8089
+# Define: usuários simultâneos (ex: 100) e ramp-up (ex: 10/s)</div>
+
+  <div class="unit-title">Métricas de Performance</div>
+  <div class="table-wrap"><table>
+    <tr><th>Métrica</th><th>O que mede</th><th>Meta típica para API</th></tr>
+    <tr><td class="green">Latência (p50)</td><td>Tempo de resposta para 50% das requisições</td><td>p50 &lt; 100ms</td></tr>
+    <tr><td class="orange">Latência (p99)</td><td>Tempo de resposta para 99% das requisições</td><td>p99 &lt; 1000ms</td></tr>
+    <tr><td class="highlight">Throughput (RPS)</td><td>Requisições por segundo suportadas</td><td>Depende do sistema</td></tr>
+    <tr><td class="aqua">Taxa de erro</td><td>% de requisições com erro</td><td>&lt; 0.1% em produção</td></tr>
+    <tr><td class="red">Apdex Score</td><td>Satisfação do usuário com a performance</td><td>&gt; 0.9 (excelente)</td></tr>
+  </table></div>
+
+  <div class="unit-title">Qualidade de Código — Análise Estática</div>
+  <div class="code">pip install ruff mypy bandit
+
+# ruff — linter e formatter ultrarrápido (substitui flake8+black+isort)
+ruff check .          # verificar problemas
+ruff check . --fix    # corrigir automaticamente
+ruff format .         # formatar código
+
+# mypy — verificação de tipos estáticos
+mypy app/
+# Exemplos de erros que o mypy detecta:
+def soma(a: int, b: int) -> int:
+    return a + b
+soma("texto", 2)  # mypy detecta: error: Argument 1 has incompatible type "str"; expected "int"
+
+# bandit — análise de segurança estática
+bandit -r app/
+# Detecta: senhas hardcoded, uso de MD5, SQL injection potencial
+
+# pre-commit — roda automaticamente antes de cada commit
+pip install pre-commit
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    hooks:
+      - id: ruff
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    hooks:
+      - id: mypy</div>
+
+  <div class="important"><div class="label">⚠ Automatize qualidade com CI</div>No GitHub Actions, rode automaticamente a cada push: <span class="highlight">ruff + mypy + bandit + pytest + coverage</span>. Se qualquer um falhar, o PR não pode ser mergeado. Qualidade de código vira obrigatória, não opcional.</div>
+</div>
+
+<div id="cola" class="page">
+  <div class="mod-title">&#128221; Cola — VVT</div>
+  <div class="unit-title">Verificação vs Validação</div>
+  <div class="table-wrap"><table>
+    <tr><th></th><th>Verificação</th><th>Validação</th></tr>
+    <tr><td>Pergunta</td><td class="green">Construímos CERTO?</td><td class="orange">Construímos O CERTO?</td></tr>
+    <tr><td>Foco</td><td>Especificação técnica</td><td>Necessidade do usuário</td></tr>
+    <tr><td>Exemplo</td><td>Code review, análise estática</td><td>Teste de aceitação, UAT</td></tr>
+  </table></div>
+  <div class="unit-title">Pirâmide de Testes</div>
+  <div class="table-wrap"><table>
+    <tr><th>Tipo</th><th>Qtd</th><th>Ferramenta</th><th>Velocidade</th></tr>
+    <tr><td class="green">Unitários</td><td>Muitos</td><td>pytest</td><td class="green">ms</td></tr>
+    <tr><td class="orange">Integração / API</td><td>Médios</td><td>TestClient</td><td class="orange">segundos</td></tr>
+    <tr><td class="red">E2E / Performance</td><td>Poucos</td><td>Locust</td><td class="red">minutos</td></tr>
+  </table></div>
+  <div class="unit-title" style="margin-top:1rem;">&#11088; Regras de Ouro</div>
+  <div style="display:grid;gap:8px;margin-top:.5rem;">
+    <div class="important"><div class="label">Regra</div>Rollback em fixtures de banco — cada teste começa <span class="highlight">limpo e isolado</span></div>
+    <div class="important"><div class="label">Regra</div>Mock serviços externos — teste não deve depender de <span class="highlight">internet ou APIs reais</span></div>
+    <div class="important"><div class="label">Regra</div">Sempre testar: criação, autenticação, <span class="highlight">403 no BOLA</span> e 401 sem token</div>
+    <div class="important"><div class="label">Regra</div>Cobertura mínima: <span class="highlight">80%</span> de statements. 100% de branches nas regras de negócio críticas</div>
+    <div class="important"><div class="label">Regra</div">ruff + mypy + bandit no pre-commit — qualidade automática antes de commitar</div>
+    <div class="important"><div class="label">Regra</div">Performance: p99 &lt; 1s. Taxa de erro &lt; 0.1%. Monitore sempre em produção</div>
+  </div>
+</div>
+</div>
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>{if(b.getAttribute('onclick')===`show('${id}')`)b.classList.add('active');});
+}
+</script>
+</body>
+</html>
