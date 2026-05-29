@@ -56,6 +56,6 @@ Especialização em **Engenharia de Backend** e **Inteligência Artificial** com
 
 ---
 
-## 👨‍💻 Autor
+##   Autor
 
 **Gabriel Borges** — [@GabrielBorges240](https://github.com/GabrielBorges240)
