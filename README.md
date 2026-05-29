@@ -1,12 +1,12 @@
-# 📚 Anotações da Faculdade
+#   Anotações da Faculdade
 
 Notas de aula organizadas por período e disciplina, com foco em **Backend Python** e **Inteligência Artificial**.
 
-🔗 **Acesse online:** [gabrielborges240.github.io/anotacoes-faculdade](https://gabrielborges240.github.io/anotacoes-faculdade/)
+  **Acesse online:** [gabrielborges240.github.io/anotacoes-faculdade](https://gabrielborges240.github.io/anotacoes-faculdade/)
 
 ---
 
-## 📂 Estrutura
+##   Estrutura
 
 ### 2º Período
 | Disciplina | Conteúdo |
@@ -40,7 +40,7 @@ Notas de aula organizadas por período e disciplina, com foco em **Backend Pytho
 
 ---
 
-## 🚀 Projetos
+##   Projetos
 
 | Projeto | Tecnologias | Link |
 |---------|------------|------|
@@ -48,7 +48,7 @@ Notas de aula organizadas por período e disciplina, com foco em **Backend Pytho
 
 ---
 
-## 🎯 Foco
+##   Foco
 
 Curso de **Ciência da Computação — UFMS**
 
